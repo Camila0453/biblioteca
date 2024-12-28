@@ -1,0 +1,12 @@
+Options -Indexes
+RewriteEngine On
+RewriteRule ^([a-zA-Z]+)$ index.php?controlador=$1
+RewriteRule ^([a-zA-Z]+)/([a-zA-Z]+)$ index.php?controlador=$1&accion=$2
+RewriteRule ^([a-zA-Z]+)/([a-zA-Z]+)/([a-zA-Z0-9]+)$ index.php?controlador=$1&accion=$2&data=$3
+
+
+# controlador/accion/id
+# cliente/delete/34
+# cliente/save
+# cliente
+# cliente/index
