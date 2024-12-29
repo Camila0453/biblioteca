@@ -10,7 +10,7 @@ interface InterfaceDAO{
      * @return Cliente El objeto cliente correspondiente.
      */
     public function load($id);
-    /**
+    /**,m,,
      * Guarda el cliente como un nuevo registro en la base de datos.
      * @param $cliente Nuevo cliente
      * @return void
