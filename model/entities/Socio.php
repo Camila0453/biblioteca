@@ -27,11 +27,11 @@ final class Socio{
         $this->tipoSocio = 0;
         $this->estado = 1; //el socio por defecto cuando se crea tiene estado 1 porque esta activo
         $this->idUsuario= 0;
-        $this->frenteDni = 0;
-        $this->dorsoDni= 0;
+        $this->frenteDni = "";
+        $this->dorsoDni= "";
     }
 
-    // Getters y Setters
+    // Getters
     
     public function getApellido(): string{
         return $this->apellido;
@@ -71,6 +71,9 @@ final class Socio{
  public function setProvincia($provincia): void{
      $this->provincia = ( is_string($provincia) && (strlen(trim($provincia)) <=45)) ? trim($provincia) : "";
  }
+ public function getLocalidad():string{
+    return $this->localidad;
+ }
  public function setLocalidad($localidad): void{
     $this->localidad = ( is_string($localidad) && (strlen(trim($localidad)) <=45)) ? trim($localidad) : "";
  }
@@ -85,7 +88,7 @@ final class Socio{
  }
  public function setCorreo($correo): void{
     $correo=trim($correo);
-    if(preg_match('"/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/"',$correo)){
+    if(preg_match('/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/',$correo)){
        $this->correo=$correo;
 
 
@@ -98,13 +101,19 @@ final class Socio{
   
    $this->estado=($estado===0 || $estado===1)? trim($estado):0;
  }
- public function setIdUsuario($idUsuario){
-    //VER
+ public function getEstado():int{
+    return $this->estado;
  }
-  public function getLocalidad(): string{
-        return $this->localidad;
-    }
+ public function setIdUsuario($idUsuario){
+    $idUsuario=trim($idUsuario);
+    $this->idUsuario=  is_numeric($idUsuario ) && ($idUsuario>=1) ? (int)$idUsuario:0; //verquepasacon0
 
+    //VER
+ } 
+
+ public function getIdUsuario():int{
+    return $this->idUsuario;
+ }
      public function getTelefono(): string{
         return $this->telefono;
     }
@@ -112,10 +121,6 @@ final class Socio{
     public function getCorreo(): string{
         return $this->correo;
     }
-    public function getEstado():int{
-        return $this->estado;
-    }
-
     public function getFechaAlta(): string{
         return $this->fechaAlta;
     }
@@ -128,6 +133,28 @@ final class Socio{
             ) ? trim($fecha) : "";
     }
 
+    public function getFrenteDni():string{
+        return $this->frenteDni;
+    }
+
+    public function setFrenteDni($frente): void{
+        $this->frenteDni = ( is_string($frente) && (strlen(trim($frente)) <=255)) ? trim($frente) : "";
+    }
+    public function getDorsoDni():string{
+        return $this->dorsoDni;
+    }
+    public function setDorsoDni($dorso): void{
+        $this->dorsoDni= ( is_string($dorso) && (strlen(trim($dorso)) <=255)) ? trim($dorso) : "";
+    }
+
+    public function getTipoSocio():int{
+        return $this->tipoSocio;
+    }
+    public function setTipoSocio($tipoSocio){
+        $tipoSocio=trim($tipoSocio);
+        $this->tipoSocio=  is_numeric($tipoSocio ) && ($tipoSocio>=1) ? (int)$tipoSocio:0; //verquepasacon0
+    }
+
     // falta el resto de getters y setters
 
     //Métodos públicos
@@ -135,17 +162,21 @@ final class Socio{
     public function toJson(): object{
         $json = json_decode('{}');
 
-        $json->{"id"} = $this->getId();
+       
         $json->{"apellido"} = $this->getApellido();
         $json->{"nombres"} = $this->getNombres();
         $json->{"dni"} = $this->getDni();
         $json->{"domicilio"}=$this->getDomicilio();
         $json->{"localidad"}=$this->getLocalidad();
         $json->{"provincia"}=$this->getProvincia();
-        $json->{"codPostal"}=$this->getCodPostal();
         $json->{"telefono"}=$this->getTelefono();
         $json->{"correo"}=$this->getCorreo();
         $json->{"fechaAlta"} = $this->getFechaAlta();
+        $json->{"estado"} = $this->getEstado();
+        $json->{"frenteDni"} = $this->getFrenteDni();
+        $json->{"dorsoDni"} = $this->getDorsoDni();
+        $json->{"tipoSocio"} = $this->getTipoSocio();
+        $json->{"idUsuario"} = $this->getIdUsuario();
         return $json;        
     }
 }
