@@ -161,8 +161,6 @@ final class Socio{
 
     public function toJson(): object{
         $json = json_decode('{}');
-
-       
         $json->{"apellido"} = $this->getApellido();
         $json->{"nombres"} = $this->getNombres();
         $json->{"dni"} = $this->getDni();
