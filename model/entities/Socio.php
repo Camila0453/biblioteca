@@ -3,14 +3,14 @@ namespace model\entities;
 
 
 
-final class Socio{
+final class Socio{ //TERMINADA
     //Atributos
     //Se deben corresponder con los de la tabla CLIENTES
     private $dni, $apellido, $nombres,  $domicilio,$tipoSocio,$estado,$idUsuario,$fechaAlta;
     private $provincia, $localidad, $frenteDni,$dorsoDni, $telefono, $correo; //14
 
     /**
-     * Constructor de la clase
+     * Constructor de la clase 
      */
     function __construct()
     {
