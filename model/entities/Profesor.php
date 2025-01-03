@@ -17,7 +17,9 @@ final class Profesor{
 
     }
 
-    
+    function setSocio($idSocio){
+        $this->idSocio=$idSocio;
+    }
 
 
 }
