@@ -27,7 +27,7 @@ final class Profesor{
         return $this->materias;
     }
  
-    public function setSocio($idSocio):void{
+    public function setIdSocio($idSocio):void{
         $this->idSocio = (is_integer($idSocio) && ($idSocio > 0)) ? $idSocio : 0;        
     }
     function aggMateria($materia){
