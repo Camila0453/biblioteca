@@ -17,9 +17,29 @@ final class Profesor{
 
     }
 
-    function setSocio($idSocio){
-        $this->idSocio=$idSocio;
+    function getIdSocio():int{
+        return $this->idSocio;
+    }
+    function getId():int{
+        return $this->id;
+    }
+    function getMaterias():array{
+        return $this->materias;
+    }
+ 
+    public function setSocio($idSocio):void{
+        $this->idSocio = (is_integer($idSocio) && ($idSocio > 0)) ? $idSocio : 0;        
+    }
+    function aggMateria($materia){
+        array_push($this->materias,$materia);
     }
 
-
+    public function toJson(): object{
+        $json = json_decode('{}');
+        $json->{"id"} = $this->getId();
+        $json->{"idSocio"} = $this->getIdSocio();
+        $json->{"materias"} = $this->getMaterias();
+        
+        return $json;        
+    }
 }
