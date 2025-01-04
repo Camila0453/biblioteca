@@ -3,7 +3,7 @@ namespace model\entities;
 
 
 final class Prestamo{
-private $id,$idSocio,$fechaInicio,$fechaVen,$tipo;
+private $id,$idSocio,$fechaInicio,$fechaVen,$tipo,$ejemplares;
 
 function __construct($idSocio){
     $this->id=0;
@@ -11,6 +11,7 @@ function __construct($idSocio){
     $this->fechaInicio="";
     $this->fechaVen="";
     $this->tipo=0;
+    $this->ejemplares= [];
 
   }
   function getId():int{
