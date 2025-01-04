@@ -35,4 +35,12 @@ private $idLibro,$codigo,$observacion, $id;
 
         $this->observacion= ((is_string($obs))&&(strlen(trim($obs)) <= 45)) ? trim($obs) : "";
     }
+    public function toJson(): object{
+        $json = json_decode('{}');
+        $json->{"id"} = $this->getId();
+        $json->{"idLibro"} = $this->getIdLibro();
+        $json->{"codigo"} = $this->getCodigo();
+        $json->{"observacion"} = $this->getObs();
+        return $json;        
+    }
 }
