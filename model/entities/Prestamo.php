@@ -29,6 +29,24 @@ function __construct($idSocio){
  function getTipo():int{
     return $this->tipo;
  }
+ function getEjemplares():array{
+   return $this->ejemplares;
+}
+function setEjemplares($idEjem):bool{
+   if( (count($this->ejemplares)>3)){
+          array_push($this->ejemplares,$idEjem);
+          return true;
+   }
+   else{
+      return false;
+   }
+}
+private function existeEjem($ejem):bool{
+   foreach($this->ejemplares  as $ejem ){
+       
+   }
+  
+}
 
  function setIdSocio($idSocio){
     $this->idSocio = (is_integer($idSocio) && ($idSocio > 0)) ? $idSocio : 0;  
