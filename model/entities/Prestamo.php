@@ -32,20 +32,26 @@ function __construct($idSocio){
  function getEjemplares():array{
    return $this->ejemplares;
 }
-function setEjemplares($idEjem):bool{
-   if( (count($this->ejemplares)>3)){
-          array_push($this->ejemplares,$idEjem);
-          return true;
+function setEjemplares(int $idEjem):bool{
+   if( (count($this->ejemplares)>=3) || $this->existeEjem($idEjem)){
+      return false;  
    }
-   else{
-      return false;
-   }
+  //VER QUE PASA SI ID ES 0 O MENOS
+      
+      array_push($this->ejemplares,$idEjem);
+      return true;
 }
 private function existeEjem($ejem):bool{
-   foreach($this->ejemplares  as $ejem ){
-       
+   $i=0;
+   $encontrado=false;
+
+   while($i<count($this->ejemplares) && $encontrado==false){
+        if($ejem== $this->ejemplares[$i]){
+         $encontrado==true;
+        }
+        $i++;
    }
-  
+  return $encontrado;
 }
 
  function setIdSocio($idSocio){
