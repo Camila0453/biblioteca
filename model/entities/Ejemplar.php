@@ -3,7 +3,7 @@ namespace model\entities;
 
 
 final class Ejemplar{
-private $idLibro,$codigo,$observacion, $id;
+private $idLibro,$codigo,$observacion, $id; //estado es obs??
     function __construct($idLibro){
         $this->idLibro= $idLibro;
         $this->id=0;
