@@ -26,7 +26,7 @@ private $idLibro,$codigo,$observacion, $id;
     }
     
     public function setIdLibro($idLibro):void{
-        $this->idLibro = (is_integer($idLibro) && ($idLibro > 0)) ? $idLibro : 0;        
+        $this->idLibro = $idLibro; //ES ISBN        
     }
     public function setCodigo($codigo){
         $this->codigo= (is_integer($codigo) && ($codigo >=1 && $codigo<=9999)) ? $codigo: 0;
