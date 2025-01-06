@@ -5,7 +5,7 @@ namespace model\entities;
 final class Prestamo{
 private $id,$idSocio,$fechaInicio,$fechaVen,$tipo,$ejemplares;
 
-function __construct($idSocio){
+function __construct(){
     $this->id=0;
     $this->idSocio=0;
     $this->fechaInicio="";
