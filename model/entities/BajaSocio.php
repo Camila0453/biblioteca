@@ -30,7 +30,9 @@ function getIdUsuario():int{
 function getMotivo():string{
     return $this->motivo;
 }
-
+function setFechaHora($fechaHora){
+    $this->fechaHora=$fechaHora;
+}
 function setIdSocio($idSocio){
     $this->idSocio = (is_integer($idSocio) && ($idSocio > 0)) ? $idSocio : 0; 
 }
