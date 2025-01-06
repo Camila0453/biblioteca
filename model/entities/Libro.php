@@ -10,7 +10,7 @@ final class Libro{
         $this->edicion=0;
         $this->editorial=0;
         $this->cantEjemplares=0;
-        $this->estado=0;
+        $this->estado=1;
     
      }
     function getISBN():int{

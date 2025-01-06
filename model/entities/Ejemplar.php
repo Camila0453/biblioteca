@@ -3,12 +3,13 @@ namespace model\entities;
 
 
 final class Ejemplar{
-private $idLibro,$codigo,$observacion, $id; //estado es obs??
+private $idLibro,$codigo,$observacion, $id,$estado; //estado es obs??
     function __construct($idLibro){
         $this->idLibro= $idLibro;
         $this->id=0;
         $this->codigo=0;
         $this->observacion="";
+        $this->estado=1;
   
       }
     
@@ -24,7 +25,14 @@ private $idLibro,$codigo,$observacion, $id; //estado es obs??
     function getObs():string{
         return $this->observacion;
     }
-    
+    function getEstado():int{
+        return $this->estado;
+    }
+    public function setEstado($estado){
+  
+        $this->estado=($estado===0 || $estado===1)? trim($estado):0;
+      }
+
     public function setIdLibro($idLibro):void{
         $this->idLibro = $idLibro; //ES ISBN        
     }
