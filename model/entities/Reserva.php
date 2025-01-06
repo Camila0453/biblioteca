@@ -4,7 +4,7 @@ namespace model\entities;
 
 
 final class Prestamo{
-private $id,$idSocio,$fechaInicio,$fechaVen,$motivoCan,$fechaCan;
+private $id,$idSocio,$fechaInicio,$fechaVen,$motivoCan,$fechaCan,$ejemplares;
 
 
 function __construct(){
@@ -14,6 +14,7 @@ function __construct(){
     $this->fechaVen="";
     $this->motivoCan="";
     $this->fechaCan="";
+    $this->ejemplares=[];
 }
 
 function getId():int{
@@ -35,7 +36,31 @@ function getMotivoCan():string{
 function getFechaCan():string{
     return $this->fechaCan;
 }
-
+function getEjemplares():array{
+    return $this->ejemplares;
+ }
+ function setEjemplares(int $idEjem):bool{
+    if( (count($this->ejemplares)>=3) || $this->existeEjem($idEjem)){
+       return false;  
+    }
+   //VER QUE PASA SI ID ES 0 O MENOS
+       
+       array_push($this->ejemplares,$idEjem);
+       return true;
+ }
+ private function existeEjem($ejem):bool{
+    $i=0;
+    $encontrado=false;
+ 
+    while($i<count($this->ejemplares) && $encontrado==false){
+         if($ejem== $this->ejemplares[$i]){
+          $encontrado==true;
+         }
+         $i++;
+    }
+   return $encontrado;
+ }
+ 
 function setIdSocio($idSocio){
     $this->idSocio = (is_integer($idSocio) && ($idSocio > 0)) ? $idSocio : 0; 
 }
