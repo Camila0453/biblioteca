@@ -41,5 +41,15 @@ function setMotivoCan($motivo){
     $this->motivo= ((is_string($motivo))&&(strlen(trim($motivo)) <= 250)) ? trim($motivo) : "";
    
 }
+public function toJson(): object{
+    $json = json_decode('{}');
+    $json->{"id"} = $this->getId();
+    $json->{"idSocio"} = $this->getIdSocio();
+    $json->{"fechaHora"} = $this->getFechaHora();
+    $json->{"idUsuario"} = $this->getIdUsuario();
+    $json->{"motivo"} = $this->getMotivo();
 
+    
+    return $json;        
+}
 }
