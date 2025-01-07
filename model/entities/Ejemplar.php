@@ -49,6 +49,7 @@ private $idLibro,$codigo,$observacion, $id,$estado; //estado es obs??
         $json->{"idLibro"} = $this->getIdLibro();
         $json->{"codigo"} = $this->getCodigo();
         $json->{"observacion"} = $this->getObs();
+        $json->{"estado"} = $this->getEstado();
         return $json;        
     }
 }
