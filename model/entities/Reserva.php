@@ -3,7 +3,7 @@
 namespace model\entities;
 
 
-final class Prestamo{
+final class Reserva{
 private $id,$idSocio,$fechaInicio,$fechaVen,$motivoCan,$fechaCan,$ejemplares;
 
 

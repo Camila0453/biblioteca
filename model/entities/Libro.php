@@ -3,7 +3,7 @@ namespace model\entities;
 
 
 final class Libro{
-    private $ISBN,$titulo,$edicion,$cantEjemplares,$editorial, $estado;
+    private $ISBN,$titulo,$edicion,$cantEjemplares,$editorial, $estado,$idAutor,$idDisciplina;
     function __construct($idSocio){
         $this->ISBN=0;
         $this->titulo="";
@@ -11,6 +11,8 @@ final class Libro{
         $this->editorial=0;
         $this->cantEjemplares=0;
         $this->estado=1;
+        $this->idAutor=0;
+        $this->idDisciplina=0;
     
      }
     function getISBN():int{
@@ -18,6 +20,12 @@ final class Libro{
     }
     function getTitulo():string{
          return $this->titulo;
+    }
+    function getIdAutor():int{
+        return $this->idAutor;
+    }
+    function getIdDis():int{
+        return $this->idDisciplina;
     }
 
     function getEdicion():int{
@@ -31,6 +39,12 @@ final class Libro{
     }
     function getEstado():int{
         return $this->estado;
+    }
+    function setAutor( int $id){
+        $this->idAutor= ($id>=1) ? $id:0;
+    }
+    function setDis( int $id){
+        $this->idDisciplina= ($id>=1) ? $id:0;
     }
     function setISBN($isbn){
         $this->ISBN= $isbn; //VALIDAR ISBN 13
@@ -60,6 +74,8 @@ final class Libro{
         $json->{"editorial"} = $this->getEditorial();
         $json->{"cantEjem"} = $this->getCantEjemplares();
         $json->{"estado"} = $this->getEstado();
+        $json->{"disciplina"} = $this->getIdDis();
+        $json->{"autor"} = $this->getIdAutor();
         
         return $json;        
     }
