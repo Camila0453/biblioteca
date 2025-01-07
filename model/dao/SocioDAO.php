@@ -178,30 +178,6 @@ final class SocioDAO extends DAO implements InterfaceDAO{
             throw new \Exception("El dorso del dni es obligatorio");
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     
     public function delete($id){
         $sql= "DELETE FROM clientes WHERE id= '$id'";
