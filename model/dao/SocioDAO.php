@@ -180,7 +180,7 @@ final class SocioDAO extends DAO implements InterfaceDAO{
     }
     
     public function delete($id){
-        $sql= "DELETE FROM clientes WHERE id= '$id'";
+        $sql= "DELETE FROM socios WHERE id= '$id'";
         $stmt = $this->conn->prepare($sql);
         if(!$stmt->execute()){
             throw new \Exception("No se pudo eliminar");
@@ -188,19 +188,25 @@ final class SocioDAO extends DAO implements InterfaceDAO{
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
     }
-    public function update($cliente){
-       $ap= $cliente->getApellido();
-       $nom= $cliente->getNombres();
-       $dni= $cliente->getDni();
-       $dom= $cliente->getDomicilio();
-       $localidad=$cliente->getLocalidad();
-       $prov= $cliente->getProvincia();
-       $cod=$cliente->getCodPostal();
-       $tel=$cliente->getTelefono();
-       $correo=$cliente->getCorreo();
-       $id=$cliente->getId();
+    public function update($socio){
+       $ap= $socio->getApellido();
+       $nom= $socio->getNombres();
+       $dni= $socio->getDni();
+       $dom= $socio->getDomicilio();
+       $localidad=$socio->getLocalidad();
+       $prov= $socio->getProvincia();
+       $tel=$socio->getTelefono();
+       $correo=$socio->getCorreo();
+       $id=$socio->getId();
+       $fechaAlta=$socio->getFechaAlta();
+       $estado=$socio->getEstado();
+       $frenteDni=$socio->getFrenteDni();
+       $dorsoDni=$socio->getDorsoDni();
+       $tipoSocio=$socio->getTipoSocio();
+       $idUsuario=$socio->getIdUsuario();
 
-        $sql= "UPDATE `clientes` SET `apellido` = '$ap', `nombres` = '$nom',  `dni` = '$dni',`domicilio` = '$dom',`localidad` = '$localidad',`provincia` = '$prov',`codPostal` = '$cod',`telefono` = '$tel',`correo` = '$correo' WHERE `clientes`.`id` = '$id'";
+
+        $sql= "UPDATE `clientes` SET `apellido` = '$ap', `nombres` = '$nom',  `dni` = '$dni',`domicilio` = '$dom',`localidad` = '$localidad',`provincia` = '$prov',`telefono` = '$tel',`correo` = '$correo' WHERE `clientes`.`id` = '$id'";
         $stmt = $this->conn->prepare($sql);
         if(!$stmt->execute()){
             throw new \Exception("No se pudo eliminar");
