@@ -198,7 +198,7 @@ final class SocioDAO extends DAO implements InterfaceDAO{
        $tel=$socio->getTelefono();
        $correo=$socio->getCorreo();
        $id=$socio->getId();
-       $fechaAlta=$socio->getFechaAlta();
+       //$fechaAlta=$socio->getFechaAlta();
        $estado=$socio->getEstado();
        $frenteDni=$socio->getFrenteDni();
        $dorsoDni=$socio->getDorsoDni();
@@ -206,7 +206,7 @@ final class SocioDAO extends DAO implements InterfaceDAO{
        $idUsuario=$socio->getIdUsuario();
 
 
-        $sql= "UPDATE `clientes` SET `apellido` = '$ap', `nombres` = '$nom',  `dni` = '$dni',`domicilio` = '$dom',`localidad` = '$localidad',`provincia` = '$prov',`telefono` = '$tel',`correo` = '$correo' WHERE `clientes`.`id` = '$id'";
+        $sql= "UPDATE `clientes` SET `frenteDni`='$frenteDni',`dorsoDni`='$dorsoDni',`tipoSocio`='$tipoSocio',`usuario`='$idUsuario,`apellido` = '$ap', `nombres` = '$nom',  `dni` = '$dni',`domicilio` = '$dom',`localidad` = '$localidad',`provincia` = '$prov',`telefono` = '$tel',`correo` = '$correo',`estado`='$estado' WHERE `clientes`.`id` = '$id'";
         $stmt = $this->conn->prepare($sql);
         if(!$stmt->execute()){
             throw new \Exception("No se pudo eliminar");
@@ -216,7 +216,7 @@ final class SocioDAO extends DAO implements InterfaceDAO{
     }
     public function list($filtros){
       
-        $sql = "SELECT * ,DATE_FORMAT(fechaAlta,'%d-%m-%Y') as fechaAltaFormat FROM clientes ORDER BY apellido ASC, nombres ASC";
+        $sql = "SELECT * ,DATE_FORMAT(fechaAlta,'%d-%m-%Y') as fechaAltaFormat FROM socios ORDER BY apellido ASC, nombre ASC";
         $stmt = $this->conn->prepare($sql);
         if(!$stmt->execute()){
             throw new \Exception("No se pudo ejecutar la consulta de LISTAR");
