@@ -159,9 +159,9 @@ final class SocioDAO extends DAO implements InterfaceDAO{
         if($socio->getCorreo() === ""){
             throw new \Exception("El correo es obligatorio");
         }
-        if($socio->getEstado() === 0){
-            throw new \Exception("El estado es obligatorio");
-        }
+       // if($socio->getEstado() === 0){
+           // throw new \Exception("El estado es obligatorio");
+       // }VER
         if($socio->getFechaAlta() === ""){
             throw new \Exception("La fecha alta es obligatoria");
         }
