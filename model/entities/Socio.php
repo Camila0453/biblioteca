@@ -154,6 +154,13 @@ final class Socio{ //TERMINADA
         $tipoSocio=trim($tipoSocio);
         $this->tipoSocio=  is_numeric($tipoSocio ) && ($tipoSocio>=1) ? (int)$tipoSocio:0; //verquepasacon0
     }
+  
+    public function setId($id){
+        $id=trim($id);
+        $this->id=  is_numeric($id ) && ($id>=1) ? (int)$id:0; //verquepasacon0
+    
+        //VER
+     } 
 
     // falta el resto de getters y setters
 

@@ -51,7 +51,7 @@ final class SocioDAO extends DAO implements InterfaceDAO{
     public function save($socio):void{
         $this->validate($socio);
         $this->validateDNI($socio);
-        $sql = "INSERT INTO socios VALUES( :apell, :nomb, :dni, :dom, :prov, :loc, :tel, :correo, NOW(),:estado,:tipoSocio,:idUsuario,:frenteDni,:dorsoDni)";
+        $sql = "INSERT INTO socios VALUES( DEFAULT,:apell, :nomb, :dni, :dom, :prov, :loc, :tel, :correo, NOW(),:estado,:tipoSocio,:idUsuario,:frenteDni,:dorsoDni)";
         $stm = $this->conn->prepare($sql);
         $stm->execute(array(
             "apell" => $socio->getApellido(),
