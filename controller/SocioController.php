@@ -10,7 +10,7 @@ final class SocioController{
     public function index($controller, $action, $data){
         
         //require_once("../public/view/cliente/index.php");
-       
+       echo"hola";
 
     }
     public function showSave($controller, $action, $data){
