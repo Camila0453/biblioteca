@@ -1,11 +1,16 @@
 <?php
 namespace controller;
 require_once "../model/entities/Socio.php";
+require_once "../model/entities/Profesor.php";
+require_once "../model/entities/Alumno.php";
+use model\entities\Profesor;
+use model\entities\Alumno;
 use model\entities\Socio;
 require_once "../model/dao/SocioDAO.php";
 use model\dao\SocioDAO;
 require_once "../model/dao/Conexion.php";
 use model\dao\Conexion;
+
 final class SocioController{
     public function index($controller, $action, $data){
         
@@ -68,6 +73,15 @@ final class SocioController{
         $socio->setFrenteDni($data->{"frenteDni"});
         $socio->setDorsoDni($data->{"dorsoDni"});
        
+        if ($socio->getTipoSocio()===1){
+            $profe= new Profesor($socio->getDni());
+            //AGREGAR MATERIAS CORRESPONDIENTES Y CARGAR EN PROFESORES
+        }
+
+        if ($socio->getTipoSocio()===2){
+            $alum= new Alumno($socio->getDni());
+            //AGREGAR CARRERAS CORRESPONDIENTES Y CARGAR EN ALUMNOS
+        }
     
         try{
             $conexion = Conexion::establecer();
