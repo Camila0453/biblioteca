@@ -5,7 +5,7 @@
       require_once("../includes/head.php");
       
    ?>
-  <!-- <script defer type="text/javascript" src="view/cliente/js/cliente1.js"></script> -->
+   <script defer type="text/javascript" src="js/socio1.js"></script> 
 </head>
 <header>
 <?php

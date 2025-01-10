@@ -4,7 +4,7 @@
    <?php
       // require_once "../public/view/includes/head.php";
    ?>
-    <script defer type="text/javascript" src="view/cliente/js/cliente1.js"></script>  
+    <script defer type="text/javascript" src="js/socio.js"></script>  
       
 </head>
 <header>
@@ -53,16 +53,12 @@
             <input  maxlength="30" minlength="8" required pattern="[a-zA-ZÀ-ÿ\s]{5,30}" type="text" name="datoProvincia" id="datoProvincia">
         </div>
         <div class=" col-sm-2">
-            <label for="">Codigo postal</label>
-            <input  maxlength="4" minlength="4" required pattern="[0-9]{4,4}" type="text" name="datoPostal" id="datoPostal">
-        </div>
-        <div class=" col-sm-2">
             <label for="">Telefono</label>
             <input  maxlength="45" minlength="13" required  pattern="\d{13,45}" type="text" name="datoTelefono" id="datoTelefono">
         </div>
         <div class=" col-sm-2">
             <label for="">Correo</label>
-            <input  minlength="15" maxlength="255" required type="text" name="datoCorreo" id="datoCorreo">
+            <input type="mail" minlength="15" maxlength="255" required type="text" name="datoCorreo" id="datoCorreo">
         </div>
    
     

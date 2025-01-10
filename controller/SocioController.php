@@ -20,8 +20,11 @@ final class SocioController{
     }
     public function showSave($controller, $action, $data){
 
-        $headTitle="Alta de clientes";
-       // require_once("../public/view/cliente/cliente_alta.php");
+        //$headTitle="Alta de clientes";
+       echo"hOla soy showsave";
+       // require_once("agregar.php");
+      
+        require_once("../public/view/socio/agregar.php");
     }
     public function showDelete($controller, $action, $data){
         $cl= $this->load($controller,$action,$data);
