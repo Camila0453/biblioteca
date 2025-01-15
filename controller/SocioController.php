@@ -14,8 +14,8 @@ use model\dao\Conexion;
 final class SocioController{
     public function index($controller, $action, $data){
         
-        //require_once("../public/view/cliente/index.php");
-       echo"hola";
+        require_once("view/socio/index.php");
+       
 
     }
     public function showSave($controller, $action, $data){
@@ -24,7 +24,7 @@ final class SocioController{
        echo"hOla soy showsave";
        // require_once("agregar.php");
       
-        require_once("../public/view/socio/agregar.php");
+        require_once"../public/view/socio/agregar.php";
     }
     public function showDelete($controller, $action, $data){
         $cl= $this->load($controller,$action,$data);

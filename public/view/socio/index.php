@@ -2,14 +2,14 @@
 <html lang="es">
 <head>
 <?php
-      require_once("../includes/head.php");
+      require_once("../public/view/includes/head.php");
       
    ?>
-   <script defer type="text/javascript" src="js/socio1.js"></script> 
+   <script defer type="text/javascript" src="../public/view/socio/js/socio1.js"></script> 
 </head>
 <header>
 <?php
-    require_once ("../includes/header.php");
+    require_once ("../public/view/includes/header.php");
      ?>
     </header>
 <body>
@@ -76,7 +76,7 @@
 </body>
 <footer>
 <?php
-       require_once ("../includes/footer.php");
+       require_once ("../public/view/includes/footer.php");
    ?>
 </footer>
 </html>
