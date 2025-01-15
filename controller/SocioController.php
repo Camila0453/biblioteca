@@ -15,14 +15,11 @@ final class SocioController{
     public function index($controller, $action, $data){
         
         require_once("view/socio/index.php");
+    $_SESSION["xd"]=1;
        
 
     }
     public function showSave($controller, $action, $data){
-
-        //$headTitle="Alta de clientes";
-       echo"hOla soy showsave";
-       // require_once("agregar.php");
       
         require_once"../public/view/socio/agregar.php";
     }

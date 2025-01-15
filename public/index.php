@@ -20,17 +20,14 @@
         $data = $_GET["data"];
     }
 
-
+  
     session_start();
-
    
-          
-                $controller = 'socio'; 
-                $action = 'index';
-                $data = 0;
-            
-       
     
+     
+   
+     
+     echo"controlador es",$controller;
     
 
 

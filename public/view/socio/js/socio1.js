@@ -1,7 +1,7 @@
 console.log("hola soy el js")
 const showSave = ()=>{
   
-  // alert("hola")
+console.log("hola soy showsave")
 
   
    window.location.href = "socio/showSave";
