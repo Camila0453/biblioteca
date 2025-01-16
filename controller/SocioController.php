@@ -15,12 +15,12 @@ final class SocioController{
     public function index($controller, $action, $data){
         
         require_once("view/socio/index.php");
-    $_SESSION["xd"]=1;
+   // $_SESSION["xd"]=1;
        
 
     }
     public function showSave($controller, $action, $data){
-      
+     
         require_once"../public/view/socio/agregar.php";
     }
     public function showDelete($controller, $action, $data){
@@ -99,7 +99,7 @@ final class SocioController{
         echo json_encode($response);
     }
     public function list($controller, $action, $data){
-
+echo"hola soy list de controller";
         $response = json_decode('{"result":[],"controller":"", "action":"","error":""}');
         $response->{"controller"} = $controller;
         $response->{"action"} = $action;

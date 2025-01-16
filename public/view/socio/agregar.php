@@ -4,7 +4,7 @@
    <?php
        require_once "../public/view/includes/head.php";
    ?>
-    <script defer type="text/javascript" src="js/socio.js"></script>  
+    <script defer type="text/javascript" src="../public/view/socio/js/socio.js"></script>  
       
 </head>
 <header>
@@ -59,6 +59,16 @@
         <div class=" col-sm-2">
             <label for="">Correo</label>
             <input type="mail" minlength="15" maxlength="255" required type="text" name="datoCorreo" id="datoCorreo">
+        </div>
+        <div class=" col-sm-2">
+        <label for="">Tipo Socio</label>
+           <select class="form-select" aria-label="Default select example">
+           <option selected>Seleccione el socio</option>
+           <option value="1">One</option>
+           <option value="2">Two</option>
+           <option value="3">Three</option>
+</select>
+
         </div>
    
     
