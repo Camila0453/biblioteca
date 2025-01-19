@@ -30,13 +30,11 @@
     </center>
     <br>
     <br>
+    <div class="">
 
     <table id= "tablaClientes" style="width: 60%; margin-left: auto; margin-right: auto;" class="table text-dark">
                         <thead>
                         <tr>
-
-                          
-                          
                             <th> id</th>                
                            <th>Nombres </th> 
                            <th>Apellido </th> 
@@ -45,11 +43,9 @@
                            <th>Localidad</th> 
                            <th>Provincia</th> 
                            <th>Telefono</th> 
-                           <th></th> 
-                           <th>Correo</th> 
+                           <th>Correo(Usuario)</th> 
                            <th>Fecha Alta</th> 
                            <th>Estado</th> 
-                           <th>Usuario</th> 
                            <th>Tipo Socio</th> 
                            <th>Materia/Carrera</th> 
                            <th >Frente Dni</th> 
@@ -61,13 +57,8 @@
                      
                        
                    </tbody>
-                     
-                
-                
-                
-                
-                
                     </table>
+                    </div>
                     <br>
 <br>
 <br>

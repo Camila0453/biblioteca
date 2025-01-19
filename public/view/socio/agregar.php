@@ -3,8 +3,9 @@
 <head>
    <?php
        require_once "../public/view/includes/head.php";
+      
    ?>
-    <script defer type="text/javascript" src="../public/view/socio/js/socio.js"></script>  
+    <script defer type="text/javascript" src="../view/socio/js/socio1.js"></script>  
       
 </head>
 <header>
@@ -16,50 +17,81 @@
     <br>
     <center> 
 
-     <h1>Alta de clientes</h1>
-    <br>
+     <h1>Alta de socios</h1>
     
+    
+  <form id="formAlta" class="form-label" id="formAltaU" method="POST" action="usuario/save">
   <div class="form-group row">
-    <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">Email</label>
-    <div class="col-sm-4">
-      <input type="email" class="form-control form-control-sm" id="colFormLabelSm" placeholder="col-form-label-sm">
-    </div>
-    <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">Email</label>
-    <div class="col-sm-4">
-      <input type="email" class="form-control form-control-sm" id="colFormLabelSm" placeholder="col-form-label-sm">
-    </div>
+      <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">Nombre</label>
+      <div class="col-sm-4">
+          <input required type="text" class="form-control form-control-sm" id="datoNombre" name="datoNombre" placeholder="Juan">
+      </div>
+      <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">Apellido</label>
+      <div class="col-sm-4">
+           <input required type="text" class="form-control form-control-sm" id="datoApellido" name="datoApellido" placeholder="Perez">
+      </div>
   </div>
   <div class="form-group row">
-  <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">Email</label>
-    <div class="col-sm-4">
-      <input type="email" class="form-control form-control-sm" id="colFormLabelSm" placeholder="col-form-label-sm">
-    </div>
-    <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">Email</label>
-    <div class="col-sm-4">
-      <input type="email" class="form-control form-control-sm" id="colFormLabelSm" placeholder="col-form-label-sm">
-    </div>
-  </div>
-  <div class="form-group row">
-  <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">Email</label>
-    <div class="col-sm-4">
-      <input type="email" class="form-control form-control-sm" id="colFormLabelSm" placeholder="col-form-label-sm">
-    </div>
-    <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">Email</label>
-    <div class="col-sm-4">
-      <input type="email" class="form-control form-control-sm" id="colFormLabelSm" placeholder="col-form-label-sm">
-    </div>
-    </div>
+      <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">DNI</label>
+      <div class="col-sm-4">
+          <input required type="text" class="form-control form-control-sm" id="datoDni" name="datoDni" placeholder="42711312">
+      </div>
+      <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">Correo</label>
+      <div class="col-sm-4">
+           <input required type="email" class="form-control form-control-sm" id="datoCorreo" name="datoCorreo" placeholder="aballaycamila4@gmail.com">
+      </div>
   </div>
 
-   
-    
-       
-        <button id="guardarCliente"  name="guardarCliente" onclick="sendNewClient()" type="button" class="btn btn-success my-4"  >Registrar </button>
-        <button id="limp" type="button" class="btn btn-success my-4" onclick="limpiar(formAlta)" >Limpiar</button>
-    </form>
-    <a href="cliente/index">Volver a la página de inicio</a>
-    <br>
-    </center>
+  <div class="form-group row">
+      <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">Domicilio</label>
+      <div class="col-sm-4">
+          <input  required type="text" class="form-control form-control-sm" id="datoDomicilio" name="datoDomicilio" placeholder="Koluel Kaike 1276">
+      </div>
+      <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">Localidad</label>
+      <div class="col-sm-4">
+          <input required type="text" class="form-control form-control-sm" id="datoLocalidad" name="datoLocalidad" placeholder="Caleta Olivia">
+      </div>
+      
+  </div>
+  <div class="form-group row">
+      <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">Provincia</label>
+      <div class="col-sm-4">
+          <input required type="text" class="form-control form-control-sm" id="datoProvincia" name="datoProvincia" placeholder="Santa Cruz">
+      </div>
+      <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">Tipo Socio</label>
+      <div class="col-sm-4">
+          <select required class="form-control" id="datoTipoUsuario" name="datoTipoUsuario">
+                <?php
+                require_once "../model/dao/Conexion.php";
+                use model\dao\Conexion;
+                $conexion = Conexion::establecer();
+                 $sql= "SELECT id,nombre FROM tipossocio";
+                 $stmt= $conexion->prepare($sql);
+                 $stmt->execute();
+                 $tipossocios= $stmt->fetchAll(PDO::FETCH_ASSOC);
+                 foreach ($tipossocios as $tipo): ?>
+                   <option value="<?= $tipo['id']?>"><?= $tipo['nombre']?></option>
+                 <?php endforeach; ?>
+          </select>
+    </div>
+ </div>
+ <div class="form-group row">
+     <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">Frente DNI</label>
+     <div class="col-sm-4">
+        <input required type="file" class="form-control form-control-sm" id="datoFrenteDni" name="datoFrenteDni" placeholder="col-form-label-sm">
+    </div>
+    <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">Dorso DNI</label>
+    <div class="col-sm-4">
+        <input required type="file" class="form-control form-control-sm" id="datoDorsoDni" name="datoDorsoDni" placeholder="col-form-label-sm">
+    </div>
+  </div>
+  <button id="guardarCliente"  name="guardarCliente" onclick="sendNewClient()" type="button" class="btn btn-success my-4"  >Registrar </button>
+  <button id="limp" type="button" class="btn btn-success my-4" onclick="limpiar(formAlta)" >Limpiar</button>
+  </form>
+
+  <a href="cliente/index">Volver a la página de inicio</a>
+  
+  </center>
 </body>
 <footer>
 <?php

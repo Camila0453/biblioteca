@@ -216,7 +216,7 @@ final class SocioDAO extends DAO implements InterfaceDAO{
     }
     public function list($filtros){
       
-        $sql = "SELECT * ,DATE_FORMAT(fechaAlta,'%d-%m-%Y') as fechaAltaFormat FROM socios ORDER BY apellido ASC, nombre ASC";
+        $sql = "SELECT socios.nombre as nombreSocio, socios.apellido,socios.dni,socios.telefono,socios.correo,socios.domicilio,socios.localidad,socios.provincia,socios.usuario,socios.estado ,DATE_FORMAT(fechaAlta,'%d-%m-%Y') as fechaAlta, tipossocio.nombre as tsn FROM socios INNER JOIN tipossocio ON socios.tipoSocio=tipossocio.id ORDER BY socios.apellido ASC, socios.nombre ASC";
         $stmt = $this->conn->prepare($sql);
         if(!$stmt->execute()){
             throw new \Exception("No se pudo ejecutar la consulta de LISTAR");

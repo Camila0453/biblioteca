@@ -24,7 +24,7 @@
 
     session_start();
     //Guardamos una copia del controller
-    echo "el controlador es  ",$controller;
+   
     $inputController = $controller;
     //Invocar el controlador y accion correspondiente.
     require_once '../controller/'.ucfirst($controller).'Controller.php';

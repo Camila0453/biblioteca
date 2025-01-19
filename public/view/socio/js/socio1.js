@@ -1,20 +1,16 @@
-
+let cont=1;
 const showSave = ()=>{
   
 window.location.href = "showSave";
  };
 
  document.addEventListener("DOMContentLoaded",()=>{
-   console.log("hola");
-  
-   list();
-   
+   list()
        });
        
 
 function list(){
-   console.log("hola");
-   let cont=0;
+   let cont=1;
          fetch("list",{"method":"POST", "headers":{"Content-Type":"application/json"}, "body": JSON.stringify()})
          .then(response => response.json())
          .then(data => {
@@ -25,92 +21,63 @@ function list(){
              if(data.result == ''){
                  alert("No hay clientes para mostrar")
              }
-     
-     
-             
              //procesar data.result en una tabla (mostrar los clientes)
              let socios = data.result;
-        
-     
-          
-     
-      if(cont== 0 ){
-     
-             clientes.forEach((so)=>{
+            socios.forEach((so)=>{
                         
-                 let html= '<tr  id= "'+so.id+'" class="">';
-                 html += '<td id="inden">' +  so.id+ '</td>';
-                 html += '<td id="">' +  so.apellido+ '</td>';
-                 html += '<td id="">' + so.nombres + '</td>';
+                 let html= '<tr  id= "'+so.dni+'" class="">';
+                 html += '<td id="inden">' +  cont+ '</td>';
+                 html += '<td id="">' +  so.nombreSocio+ '</td>';
+                 html += '<td id="">' + so.apellido + '</td>';
                  html += '<td>'+ + so.dni + '</td>';
                  html += '<td id="">' + so.domicilio+ '</td>';
                  html += '<td id="">'+so.localidad+ '</td>';
                  html += '<td id="">'+so.provincia+ '</td>';
                  html += '<td id="">'+so.telefono+ '</td>';
-                 html += '<td id="">'+ so.codPostal+ '</td>';
                  html += '<td id="">'+ so.correo+ '</td>';
-               
+                 html += '<td id="">'+ so.fechaAlta+ '</td>';
+                 html += '<td id="">'+ so.estado+ '</td>';
+                 html += '<td id="">'+ so.tsn+ '</td>';
+                 html += '<td id="">'+  '</td>';
+                 html += '<td id="">'+  '</td>';
+                 html += '<td id="">'+  '</td>';
                  html += '<td id=""><a  href="socio/showUpdate/'+so.id+'" >Modificar</a></td>';
-     
                  html += '<td id=""><a  href="socio/showDelete/'+so.id+'" >Eliminar</a></td>';
      
                  html += '</tr>';
        
          document.getElementById("tablaProductos").insertAdjacentHTML("beforeend",html);
-     cont= 1;
+     cont= cont+1;
              });
-         }
+         
          });
          
          
      
      };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*const sendNewClient = ()=>{
-   alert("hola soy js")
+const sendNewClient = ()=>{
+  
  
     let form = document.forms["formAlta"];
     
   if(form.reportValidity()){
-   
+    alert("hola soy js")
     let request = {};
     request.datoApellido = form.datoApellido.value;
-    request.datoNombres = form.datoNombres.value;
-    request.datoDNI = form.datoDNI.value;
+    request.datoNombres = form.datoNombre.value;
+    request.datoDNI = form.datoDni.value;
     request.datoDomicilio= form.datoDomicilio.value;
     request.datoLocalidad=form.datoLocalidad.value;
     request.datoProvincia=form.datoProvincia.value;
-    request.datoPostal=form.datoPostal.value;
     request.datoTelefono=form.datoTelefono.value;
     request.datoCorreo=form.datoCorreo.value;
- 
+    request.datoCorreo=form.datoTipoSocio.value;
+    request.datoCorreo=form.datoFrenteDni.value;
+    request.datoCorreo=form.datoDorsoDni.value;
     
-
-    fetch("cliente/save",{"method":"POST", "headers":{"Content-Type":"application/json"}, "body": JSON.stringify(request)})
+    console.log("hola el nombre es", request.datoNombres)
+    fetch("socio/save",{"method":"POST", "headers":{"Content-Type":"application/json"}, "body": JSON.stringify(request)})
     .then(response => response.json())
     .then(data => {
         if(data.error !== ""){
@@ -119,7 +86,7 @@ function list(){
         }
         
             alert("Se registro el cliente: " +  data.apellido);
-            window.location.href="cliente/index";
+            window.location.href="socio/index";
     
       
     })
@@ -127,4 +94,4 @@ function list(){
 
    form.reset();
 }
-   }*/
+   }

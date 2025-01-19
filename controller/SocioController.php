@@ -99,7 +99,7 @@ final class SocioController{
         echo json_encode($response);
     }
     public function list($controller, $action, $data){
-echo"hola soy list de controller";
+
         $response = json_decode('{"result":[],"controller":"", "action":"","error":""}');
         $response->{"controller"} = $controller;
         $response->{"action"} = $action;
@@ -116,7 +116,7 @@ echo"hola soy list de controller";
         catch(\Exception $ex){
             $response->{"error"} = $ex->getMessage();
         }
-
+    
         echo json_encode($response);
     }
     /**
