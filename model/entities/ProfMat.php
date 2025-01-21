@@ -10,9 +10,9 @@ final class ProfMat{
     /**
      * Constructor de la clase
      */
-    function __construct($idSocio,$idMateria){
+    function __construct($idSocio){
       $this->idSocio= $idSocio;
-      $this->idMateria=$idMateria;
+      $this->idMateria=0;
 
     }
 

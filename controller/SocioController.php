@@ -1,13 +1,17 @@
 <?php
 namespace controller;
 require_once "../model/entities/Socio.php";
-require_once "../model/entities/Profesor.php";
-require_once "../model/entities/Alumno.php";
-use model\entities\Profesor;
-use model\entities\Alumno;
+require_once "../model/entities/ProfMat.php";
+require_once "../model/entities/AlumCar.php";
+use model\entities\ProfMat;
+use model\entities\AlumCar;
 use model\entities\Socio;
 require_once "../model/dao/SocioDAO.php";
 use model\dao\SocioDAO;
+require_once "../model/dao/AlumCarDAO.php";
+use model\dao\AlumCarDAO;
+require_once "../model/dao/ProfMatDAO.php";
+use model\dao\ProfMatDAO;
 require_once "../model/dao/Conexion.php";
 use model\dao\Conexion;
 use PDO;
@@ -77,10 +81,13 @@ final class SocioController{
 
        
         if ($socio->getTipoSocio()===1){
-            $profe= new Profesor($socio->getDni());
+            $profe= new ProfMat($socio->getDni());
             $materias= $data->{"datoMateriaCarrera"};
             foreach($materias as $mat){
-                $profe->aggMateria($mat);
+                $profe->setIdMateria($mat);
+                $dao = new ProfMatDAO($conexion);
+                $dao->save($profe);
+
 
             }
     
@@ -88,10 +95,12 @@ final class SocioController{
         
 
         if ($socio->getTipoSocio()===2){
-            $alum= new Alumno($socio->getDni());
+            $alum= new AlumCar($socio->getDni());
             $carreras= $data->{"datoMateriaCarrera"};
             foreach($carreras as $car){
-                $alum->aggCarreras($car);
+                $alum->setIdCarrera($mat);
+                $dao = new AlumCarDAO($conexion);
+                $dao->save($alum);
 
             }
             //AGREGAR CARRERAS CORRESPONDIENTES Y CARGAR EN ALUMNOS

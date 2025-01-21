@@ -6,9 +6,9 @@ final class AlumCar{
  private $idSocio, $idCarrera;
 
 
- function __construct($idSocio,$idCarrera){
+ function __construct($idSocio){
     $this->idSocio= $idSocio;
-    $this->idCarrera=$idCarrera;
+    $this->idCarrera=0;
 
  }
 
@@ -22,7 +22,7 @@ function getIdCarrera():int{
 public function setSocio($idSocio):void{
     $this->idSocio = (is_integer($idSocio) && ($idSocio > 0)) ? $idSocio : 0;        
 }
-public function setCarrera($idSocio):void{
+public function setIdCarrera($idSocio):void{
     $this->idSocio = (is_integer($idSocio) && ($idSocio > 0)) ? $idSocio : 0;        
 }
 
