@@ -16,7 +16,7 @@ final class AlumCarDAO extends DAO implements InterfaceDAO{
     }
     public function load($id): AlumCar{
     
-    $alumCar= new AlumCar($id,$id);
+    $alumCar= new AlumCar($id);
     
      return $alumCar;
     

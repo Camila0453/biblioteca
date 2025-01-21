@@ -16,7 +16,7 @@ final class ProfMatDAO extends DAO implements InterfaceDAO{
     }
     public function load($id): ProfMat{
     
-    $profMat= new ProfMat($id,$id);
+    $profMat= new ProfMat($id);
     
      return $profMat;
     
