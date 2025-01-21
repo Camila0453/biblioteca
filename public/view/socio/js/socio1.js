@@ -5,7 +5,8 @@ window.location.href = "showSave";
  };
 
  document.addEventListener("DOMContentLoaded",()=>{
-   list()
+  //list()
+
        });
        
 
@@ -62,7 +63,7 @@ const sendNewClient = ()=>{
     let form = document.forms["formAlta"];
     
   if(form.reportValidity()){
-    alert("hola soy js")
+    let selecs= Array.from(document.getElementById("datoMateriaCarrera").selectedOptions);
     let request = {};
     request.datoApellido = form.datoApellido.value;
     request.datoNombres = form.datoNombre.value;
@@ -72,12 +73,11 @@ const sendNewClient = ()=>{
     request.datoProvincia=form.datoProvincia.value;
     request.datoTelefono=form.datoTelefono.value;
     request.datoCorreo=form.datoCorreo.value;
-    request.datoCorreo=form.datoTipoSocio.value;
-    request.datoCorreo=form.datoFrenteDni.value;
-    request.datoCorreo=form.datoDorsoDni.value;
-    
-    console.log("hola el nombre es", request.datoNombres)
-    fetch("socio/save",{"method":"POST", "headers":{"Content-Type":"application/json"}, "body": JSON.stringify(request)})
+    request.datoTipoSocio=form.datoTipoSocio.value;
+    request.datoFrenteDni=form.datoFrenteDni.value;
+    request.datoDorsoDni=form.datoDorsoDni.value;
+    request.datoMateriaCarrera= selecs;
+    fetch("save",{"method":"POST", "headers":{"Content-Type":"application/json"}, "body": JSON.stringify(request)})
     .then(response => response.json())
     .then(data => {
         if(data.error !== ""){
@@ -86,7 +86,7 @@ const sendNewClient = ()=>{
         }
         
             alert("Se registro el cliente: " +  data.apellido);
-            window.location.href="socio/index";
+            window.location.href="index";
     
       
     })
@@ -95,3 +95,55 @@ const sendNewClient = ()=>{
    form.reset();
 }
    }
+
+function materiaOcarrera(){
+   let selectTipoSocio= document.getElementById("datoTipoSocio").value;
+   let seleccion;
+   console.log(selectTipoSocio);
+   if(selectTipoSocio==1){
+       seleccion='obtenerMaterias';}
+   else{
+    seleccion='obtenerCarreras';
+   
+   }
+   fetch(seleccion)
+    .then(response => response.json())
+    .then(data => {
+        if(data.error !== ""){
+           alert(data.error);
+            return;
+        }
+       
+        let selectMatCar= document.getElementById("datoMateriaCarrera");
+        selectMatCar.innerHTML="";
+        let resuls=data.result;
+        
+   
+        resuls.forEach((elem)=>{
+            const op= document.createElement('option');
+            op.value=elem.codigo;
+            op.textContent=elem.nombre;
+            selectMatCar.appendChild(op);
+        })
+        
+        selectMatCar.addEventListener('change',()=>{
+            const seleccionados= selectMatCar.selectedOptions;
+            if(seleccionados.length>3 && datoTipoSocio!=1){
+               alert("Solo puede seleccionar 3 carreras por alumno.")
+            }
+        })
+
+    
+      
+    })
+    .catch(error=>alert("error al cargar materias/carreras"));
+
+ 
+}
+   
+
+
+
+
+
+

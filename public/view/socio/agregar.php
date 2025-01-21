@@ -11,6 +11,9 @@
 <header>
 <?php
        require_once "../public/view/includes/header.php";
+       require_once "../model/dao/Conexion.php";
+       use model\dao\Conexion;
+       $conexion = Conexion::establecer();
    ?>
     </header>
 <body>
@@ -43,28 +46,35 @@
   </div>
 
   <div class="form-group row">
+      <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">Telefono</label>
+      <div class="col-sm-4">
+          <input  required type="text" class="form-control form-control-sm" id="datoTelefono" name="datoTelefono" placeholder="2975165695">
+      </div>
       <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">Domicilio</label>
       <div class="col-sm-4">
-          <input  required type="text" class="form-control form-control-sm" id="datoDomicilio" name="datoDomicilio" placeholder="Koluel Kaike 1276">
-      </div>
-      <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">Localidad</label>
-      <div class="col-sm-4">
-          <input required type="text" class="form-control form-control-sm" id="datoLocalidad" name="datoLocalidad" placeholder="Caleta Olivia">
+          <input required type="text" class="form-control form-control-sm" id="datoDomicilio" name="datoDomicilio" placeholder="Koluel kaike 1276">
       </div>
       
   </div>
   <div class="form-group row">
+      <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">Localidad</label>
+      <div class="col-sm-4">
+          <input required type="text" class="form-control form-control-sm" id="datoLocalidad" name="datoLocalidad" placeholder="Caleta Olivia">
+      </div>
       <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">Provincia</label>
       <div class="col-sm-4">
           <input required type="text" class="form-control form-control-sm" id="datoProvincia" name="datoProvincia" placeholder="Santa Cruz">
       </div>
-      <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">Tipo Socio</label>
-      <div class="col-sm-4">
-          <select required class="form-control" id="datoTipoUsuario" name="datoTipoUsuario">
+    
+    
+ </div>
+ <div class="form-group row">
+     <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">Tipo Socio</label>
+     <div class="col-sm-4">
+        <select required class="form-control" id="datoTipoSocio" name="datoTipoSocio" onchange="materiaOcarrera()" >
+            <option value="">Seleccione el tipo de socio</option>
                 <?php
-                require_once "../model/dao/Conexion.php";
-                use model\dao\Conexion;
-                $conexion = Conexion::establecer();
+               
                  $sql= "SELECT id,nombre FROM tipossocio";
                  $stmt= $conexion->prepare($sql);
                  $stmt->execute();
@@ -74,15 +84,21 @@
                  <?php endforeach; ?>
           </select>
     </div>
- </div>
- <div class="form-group row">
-     <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">Frente DNI</label>
+    <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">Frente DNI</label>
      <div class="col-sm-4">
         <input required type="file" class="form-control form-control-sm" id="datoFrenteDni" name="datoFrenteDni" placeholder="col-form-label-sm">
     </div>
+  </div>
+  <div class="form-group row">
     <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">Dorso DNI</label>
     <div class="col-sm-4">
         <input required type="file" class="form-control form-control-sm" id="datoDorsoDni" name="datoDorsoDni" placeholder="col-form-label-sm">
+    </div>
+    <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">Materias/carreras</label>
+    <div class="col-sm-4">
+    <select multiple required class="form-control" id="datoMateriaCarrera" name="datoMateriaCarrera" >
+        <option value="">Seleccione materia o carrera según corrresponda</option>
+    </select>
     </div>
   </div>
   <button id="guardarCliente"  name="guardarCliente" onclick="sendNewClient()" type="button" class="btn btn-success my-4"  >Registrar </button>

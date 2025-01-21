@@ -2,39 +2,34 @@
 namespace model\entities;
 
 
-final class Alumno{
- private $idSocio,$id,  $carreras;
+final class AlumCar{
+ private $idSocio, $idCarrera;
 
 
- function __construct($idSocio){
+ function __construct($idSocio,$idCarrera){
     $this->idSocio= $idSocio;
-    $this->id=0;
-    $this->carreras=[];
+    $this->idCarrera=$idCarrera;
 
  }
 
  function getIdSocio():int{
     return $this->idSocio;
 }
-function getId():int{
-    return $this->id;
-}
-function getCarreras():array{
-    return $this->carreras;
+function getIdCarrera():int{
+    return $this->idCarrera;
 }
 
 public function setSocio($idSocio):void{
     $this->idSocio = (is_integer($idSocio) && ($idSocio > 0)) ? $idSocio : 0;        
 }
-function aggCarreras($materia){
-    array_push($this->carreras,$materia);
+public function setCarrera($idSocio):void{
+    $this->idSocio = (is_integer($idSocio) && ($idSocio > 0)) ? $idSocio : 0;        
 }
 
 public function toJson(): object{
     $json = json_decode('{}');
-    $json->{"id"} = $this->getId();
     $json->{"idSocio"} = $this->getIdSocio();
-    $json->{"carreras"} = $this->getCarreras();
+    $json->{"idCarrera"} = $this->getIdCarrera();
     
     return $json;        
 }

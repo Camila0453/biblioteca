@@ -10,6 +10,8 @@ require_once "../model/dao/SocioDAO.php";
 use model\dao\SocioDAO;
 require_once "../model/dao/Conexion.php";
 use model\dao\Conexion;
+use PDO;
+use PDOException;
 
 final class SocioController{
     public function index($controller, $action, $data){
@@ -72,14 +74,26 @@ final class SocioController{
         $socio->setIdUsuario($data->{"idUsuario"});
         $socio->setFrenteDni($data->{"frenteDni"});
         $socio->setDorsoDni($data->{"dorsoDni"});
+
        
         if ($socio->getTipoSocio()===1){
             $profe= new Profesor($socio->getDni());
+            $materias= $data->{"datoMateriaCarrera"};
+            foreach($materias as $mat){
+                $profe->aggMateria($mat);
+
+            }
+    
             //AGREGAR MATERIAS CORRESPONDIENTES Y CARGAR EN PROFESORES
-        }
+        
 
         if ($socio->getTipoSocio()===2){
             $alum= new Alumno($socio->getDni());
+            $carreras= $data->{"datoMateriaCarrera"};
+            foreach($carreras as $car){
+                $alum->aggCarreras($car);
+
+            }
             //AGREGAR CARRERAS CORRESPONDIENTES Y CARGAR EN ALUMNOS
         }
     
@@ -97,7 +111,7 @@ final class SocioController{
         }
         
         echo json_encode($response);
-    }
+    }}
     public function list($controller, $action, $data){
 
         $response = json_decode('{"result":[],"controller":"", "action":"","error":""}');
@@ -197,7 +211,7 @@ final class SocioController{
             $response->{"result"} = $socio->toJson();
             
         }
-        catch(\PDOException $ex){
+        catch(PDOException $ex){
             $response->{"error"} = "Error en base de datos: " . $ex->getMessage();
         }
         catch(\Exception $ex){
@@ -206,6 +220,54 @@ final class SocioController{
 
         echo json_encode($response);
     }
+
+
+public function obtenerCarreras($controller,$action,$data){
+    $response = json_decode('{"result":[],"controller":"", "action":"","error":""}');
+    $response->{"controller"} = $controller;
+    $response->{"action"} = $action;
+  
+    try{
+        $conexion = Conexion::establecer();
+        $sql= "SELECT codigo,nombre FROM carreras";
+        $stmt=$conexion->prepare($sql);
+        $stmt->execute();
+        $carreras=$stmt->fetchAll(PDO::FETCH_ASSOC);
+        $response->result=$carreras;
+    }
+    catch(PDOException $ex){
+        $response->{"error"} = "Error en base de datos: " . $ex->getMessage();
+    }
+    catch(\Exception $ex){
+        $response->{"error"} = $ex->getMessage();
+    }
+
+    echo json_encode($response);
+
+}
+public function obtenerMaterias($controller,$action,$data){
+    $response = json_decode('{"result":[],"controller":"", "action":"","error":""}');
+    $response->{"controller"} = $controller;
+    $response->{"action"} = $action;
+  
+    try{
+        $conexion = Conexion::establecer();
+        $sql= "SELECT codigo,nombre FROM materias";
+        $stmt=$conexion->prepare($sql);
+        $stmt->execute();
+        $materias=$stmt->fetchAll(PDO::FETCH_ASSOC);
+        $response->result=$materias;
+    }
+    catch(PDOException $ex){
+        $response->{"error"} = "Error en base de datos: " . $ex->getMessage();
+    }
+    catch(\Exception $ex){
+        $response->{"error"} = $ex->getMessage();
+    }
+
+    echo json_encode($response);
+
+}
  public function report($controller,$action,$data){
         //require_once("../report/clientes.php");
        

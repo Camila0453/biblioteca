@@ -2,43 +2,39 @@
 namespace model\entities;
 
 
-final class Profesor{
+final class ProfMat{
     //Atributos
     //Se deben corresponder con los de la tabla 
-    private $idSocio,$id, $materias;
+    private $idSocio, $idMateria;
 
     /**
      * Constructor de la clase
      */
-    function __construct($idSocio){
+    function __construct($idSocio,$idMateria){
       $this->idSocio= $idSocio;
-      $this->id=0;
-      $this->materias=[];
+      $this->idMateria=$idMateria;
 
     }
 
     function getIdSocio():int{
         return $this->idSocio;
     }
-    function getId():int{
-        return $this->id;
-    }
-    function getMaterias():array{
-        return $this->materias;
+    function getIdMateria():int{
+        return $this->idMateria;
     }
  
     public function setIdSocio($idSocio):void{
         $this->idSocio = (is_integer($idSocio) && ($idSocio > 0)) ? $idSocio : 0;        
     }
-    function aggMateria($materia){
-        array_push($this->materias,$materia);
+    public function setIdMateria($idSocio):void{
+        $this->idSocio = (is_integer($idSocio) && ($idSocio > 0)) ? $idSocio : 0;        
     }
 
     public function toJson(): object{
         $json = json_decode('{}');
-        $json->{"id"} = $this->getId();
+        
         $json->{"idSocio"} = $this->getIdSocio();
-        $json->{"materias"} = $this->getMaterias();
+        $json->{"idMateria"} = $this->getIdMateria();
         
         return $json;        
     }
