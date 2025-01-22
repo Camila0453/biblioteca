@@ -46,7 +46,7 @@ final class SocioController{
             $response->{"result"} = $c->toJson();
             
         }
-        catch(\PDOException $ex){
+        catch(PDOException $ex){
             $response->{"error"} = "Error en base de datos: " . $ex->getMessage();
         }
         catch(\Exception $ex){
@@ -67,60 +67,58 @@ final class SocioController{
         
         $socio = new Socio();
         $socio->setApellido($data->{"datoApellido"});
-        $socio->setNombres($data->{"datoNombre"});
+        $socio->setNombres($data->{"datoNombres"});
         $socio->setDni($data->{"datoDNI"});
         $socio->setDomicilio($data->{"datoDomicilio"});
         $socio->setProvincia($data->{"datoProvincia"});
         $socio->setLocalidad($data->{"datoLocalidad"});
-        $socio->setTipoSocio($data->{"tipoSocio"});
+        $socio->setTipoSocio($data->{"datoTipoSocio"});
         $socio->setTelefono($data->{"datoTelefono"});
         $socio->setCorreo($data->{"datoCorreo"});
-        $socio->setIdUsuario($data->{"idUsuario"});
-        $socio->setFrenteDni($data->{"frenteDni"});
-        $socio->setDorsoDni($data->{"dorsoDni"});
-
-       
-        if ($socio->getTipoSocio()===1){
-            $profe= new ProfMat($socio->getDni());
-            $materias= $data->{"datoMateriaCarrera"};
-            foreach($materias as $mat){
-                $profe->setIdMateria($mat);
-                $dao = new ProfMatDAO($conexion);
-                $dao->save($profe);
-
-
-            }
-    
-            //AGREGAR MATERIAS CORRESPONDIENTES Y CARGAR EN PROFESORES
-        
-
-        if ($socio->getTipoSocio()===2){
-            $alum= new AlumCar($socio->getDni());
-            $carreras= $data->{"datoMateriaCarrera"};
-            foreach($carreras as $car){
-                $alum->setIdCarrera($mat);
-                $dao = new AlumCarDAO($conexion);
-                $dao->save($alum);
-
-            }
-            //AGREGAR CARRERAS CORRESPONDIENTES Y CARGAR EN ALUMNOS
-        }
+       // $socio->setIdUsuario($data->{"idUsuario"});
+        $socio->setFrenteDni($data->{"datoFrenteDni"});
+        $socio->setDorsoDni($data->{"datoDorsoDni"});
     
         try{
+
             $conexion = Conexion::establecer();
-            $dao = new SocioDAO($conexion);
-            $dao->save($socio);
+
+            $daoSocio = new SocioDAO($conexion);
+            $daoSocio->save($socio);
             $response->{"result"} = $socio->toJson();
+
+             if ($socio->getTipoSocio()==1){
+                    $materias= $data->{"datoMateriaCarrera"};
+                    $daoProfe = new ProfMatDAO($conexion);
+                    foreach($materias as $mat){
+                        $profe= new ProfMat($socio->getDni(),$mat);
+                        echo"GET DNISOCIO ES",$socio->getDni() ;
+                        echo"idsocio en profmat es",$profe->getIdSocio() ;
+                        $daoProfe->save($profe);
+                        echo"ñaja";
+        
+                    }} 
+    
+            if ($socio->getTipoSocio()==2){
+                $carreras= $data->{"datoMateriaCarrera"};
+                $daoAlum = new AlumCarDAO($conexion);
+                foreach($carreras as $car){
+                    $alum= new AlumCar($socio->getDni());
+                    $alum->setIdCarrera($car);
+                    $daoAlum->save($alum);
+    
+                }} 
         }
-        catch(\PDOException $ex){
+        catch(PDOException $ex){
             $response->{"error"} = $ex->getMessage();
         }
         catch(\Exception $ex){
             $response->{"error"} = $ex->getMessage();
         }
+       
         
         echo json_encode($response);
-    }}
+    }
     public function list($controller, $action, $data){
 
         $response = json_decode('{"result":[],"controller":"", "action":"","error":""}');
@@ -133,7 +131,7 @@ final class SocioController{
             //Por ahora, si hubieran filtros, vendrían en $data
             $response->{"result"} = $dao->list($data);
         }
-        catch(\PDOException $ex){
+        catch(PDOException $ex){
             $response->{"error"} = "Error en base de datos: " . $ex->getMessage();
         }
         catch(\Exception $ex){
@@ -189,7 +187,7 @@ final class SocioController{
             //Por ahora, si hubieran filtros, vendrían en $data
             $response->{"result"} = $socio->toJson();
         }
-        catch(\PDOException $ex){
+        catch(PDOException $ex){
             $response->{"error"} = "Error en base de datosxdxd: " . $ex->getMessage();
         }
         catch(\Exception $ex){

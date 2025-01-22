@@ -63,11 +63,12 @@ const sendNewClient = ()=>{
     let form = document.forms["formAlta"];
     
   if(form.reportValidity()){
-    let selecs= Array.from(document.getElementById("datoMateriaCarrera").selectedOptions);
+    let selecs= Array.from(document.getElementById("datoMateriaCarrera").selectedOptions).map(option =>parseInt(option.value));
+
     let request = {};
     request.datoApellido = form.datoApellido.value;
     request.datoNombres = form.datoNombre.value;
-    request.datoDNI = form.datoDni.value;
+    request.datoDNI = parseInt(form.datoDni.value);
     request.datoDomicilio= form.datoDomicilio.value;
     request.datoLocalidad=form.datoLocalidad.value;
     request.datoProvincia=form.datoProvincia.value;
@@ -76,7 +77,8 @@ const sendNewClient = ()=>{
     request.datoTipoSocio=form.datoTipoSocio.value;
     request.datoFrenteDni=form.datoFrenteDni.value;
     request.datoDorsoDni=form.datoDorsoDni.value;
-    request.datoMateriaCarrera= selecs;
+    request.datoMateriaCarrera=selecs;
+    
     fetch("save",{"method":"POST", "headers":{"Content-Type":"application/json"}, "body": JSON.stringify(request)})
     .then(response => response.json())
     .then(data => {
@@ -92,14 +94,12 @@ const sendNewClient = ()=>{
     })
     .catch(()=>{});
 
-   form.reset();
 }
    }
 
 function materiaOcarrera(){
    let selectTipoSocio= document.getElementById("datoTipoSocio").value;
    let seleccion;
-   console.log(selectTipoSocio);
    if(selectTipoSocio==1){
        seleccion='obtenerMaterias';}
    else{
@@ -122,16 +122,17 @@ function materiaOcarrera(){
         resuls.forEach((elem)=>{
             const op= document.createElement('option');
             op.value=elem.codigo;
+            console.log("hola el codigo de la mat es",elem.codigo);
             op.textContent=elem.nombre;
             selectMatCar.appendChild(op);
         })
         
-        selectMatCar.addEventListener('change',()=>{
+        /*selectMatCar.addEventListener('change',()=>{
             const seleccionados= selectMatCar.selectedOptions;
             if(seleccionados.length>3 && datoTipoSocio!=1){
                alert("Solo puede seleccionar 3 carreras por alumno.")
-            }
-        })
+            }*/
+        
 
     
       

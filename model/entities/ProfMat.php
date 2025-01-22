@@ -10,9 +10,9 @@ final class ProfMat{
     /**
      * Constructor de la clase
      */
-    function __construct($idSocio){
-      $this->idSocio= $idSocio;
-      $this->idMateria=0;
+    function __construct($idSocio,$idMateria){
+      $this->idSocio= (is_numeric($idSocio) && (int)$idSocio > 0) ? (int)$idSocio :0 ;
+      $this->idMateria= is_integer($idMateria)? $idMateria : 0;
 
     }
 
@@ -26,8 +26,8 @@ final class ProfMat{
     public function setIdSocio($idSocio):void{
         $this->idSocio = (is_integer($idSocio) && ($idSocio > 0)) ? $idSocio : 0;        
     }
-    public function setIdMateria($idSocio):void{
-        $this->idSocio = (is_integer($idSocio) && ($idSocio > 0)) ? $idSocio : 0;        
+    public function setIdMateria($idMateria):void{
+        $this->$idMateria= is_integer($idMateria)? $idMateria : 0;        
     }
 
     public function toJson(): object{

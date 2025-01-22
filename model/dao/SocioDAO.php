@@ -54,7 +54,7 @@ final class SocioDAO extends DAO implements InterfaceDAO{
         $this->validateCorreo($socio);
         $this->validateTelefono($socio);
         $this->validateDorsoFrente($socio);
-        $sql = "INSERT INTO socios VALUES( DEFAULT,:apell, :nomb, :dni, :dom, :prov, :loc, :tel, :correo, NOW(),:estado,:tipoSocio,:idUsuario,:frenteDni,:dorsoDni)";
+        $sql = "INSERT INTO socios VALUES( :dni,:nomb, :apell,  :dom,:loc, :prov,  :tel, :correo,:frenteDni,:dorsoDni, NOW(),:estado,:tipoSocio,:idUsuario)";
         $stm = $this->conn->prepare($sql);
         $stm->execute(array(
             "apell" => $socio->getApellido(),
@@ -165,15 +165,12 @@ final class SocioDAO extends DAO implements InterfaceDAO{
        // if($socio->getEstado() === 0){
            // throw new \Exception("El estado es obligatorio");
        // }VER
-        if($socio->getFechaAlta() === ""){
-            throw new \Exception("La fecha alta es obligatoria");
-        }
         if($socio->getTipoSocio() === 0){
             throw new \Exception("El tipo socio es obligatorio");
         }
-        if($socio->getIdUsuario() === 0){
+        /*if($socio->getIdUsuario() === 0){
             throw new \Exception("El Usuario es obligatorio");
-        }
+        }*/
         if($socio->getFrenteDni() === ""){
             throw new \Exception("El frente del dni es obligatorio.");
         }

@@ -26,7 +26,7 @@ final class Socio{ //TERMINADA
         $this->fechaAlta = "";
         $this->tipoSocio = 0;
         $this->estado = 1; //el socio por defecto cuando se crea tiene estado 1 porque esta activo
-        $this->idUsuario= 0;
+        $this->idUsuario= 3;
         $this->frenteDni = "";
         $this->dorsoDni= "";
     }
@@ -83,7 +83,7 @@ final class Socio{ //TERMINADA
           $this->telefono=$telefono;
     }
     else{
-        $this->telefono="";
+        $this->telefono="dddd";
     }
  }
  public function setCorreo($correo): void{

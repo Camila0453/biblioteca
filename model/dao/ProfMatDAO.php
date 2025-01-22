@@ -23,11 +23,11 @@ final class ProfMatDAO extends DAO implements InterfaceDAO{
 }
     public function save($profe):void{
       
-        $sql = "INSERT INTO profmat VALUES( DEFAULT,:idSocio, :idMateria)";
+        $sql = "INSERT INTO profmat VALUES( DEFAULT,:materia, :profesor)";
         $stm = $this->conn->prepare($sql);
         $stm->execute(array(
-            "idSocio" => $profe->getIdSocio(),
-            "idMateria" => $profe->getIdMateria(),
+            "profesor" => $profe->getIdSocio(),
+            "materia" => $profe->getIdMateria(),
             
         ));
      
