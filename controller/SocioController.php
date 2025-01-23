@@ -1,13 +1,17 @@
 <?php
 namespace controller;
 require_once "../model/entities/Socio.php";
+require_once "../model/entities/Usuario.php";
 require_once "../model/entities/ProfMat.php";
 require_once "../model/entities/AlumCar.php";
 use model\entities\ProfMat;
 use model\entities\AlumCar;
 use model\entities\Socio;
+use model\entities\Usuario;
 require_once "../model/dao/SocioDAO.php";
 use model\dao\SocioDAO;
+require_once "../model/dao/UsuarioDAO.php";
+use model\dao\UsuarioDAO;
 require_once "../model/dao/AlumCarDAO.php";
 use model\dao\AlumCarDAO;
 require_once "../model/dao/ProfMatDAO.php";
@@ -78,13 +82,18 @@ final class SocioController{
        // $socio->setIdUsuario($data->{"idUsuario"});
         $socio->setFrenteDni($data->{"datoFrenteDni"});
         $socio->setDorsoDni($data->{"datoDorsoDni"});
+        $usuario= new Usuario($socio->getDni(),$socio->getCorreo(),5);
     
         try{
 
             $conexion = Conexion::establecer();
-
+            $daoUsuario= new UsuarioDAO($conexion);
+            $daoUsuario->save($usuario);
+            $idUser= $daoUsuario->load($usuario->getNombre());
+            $socio->setIdUsuario( $idUser->getId());
             $daoSocio = new SocioDAO($conexion);
             $daoSocio->save($socio);
+           
             $response->{"result"} = $socio->toJson();
 
              if ($socio->getTipoSocio()==1){
@@ -92,10 +101,8 @@ final class SocioController{
                     $daoProfe = new ProfMatDAO($conexion);
                     foreach($materias as $mat){
                         $profe= new ProfMat($socio->getDni(),$mat);
-                        echo"GET DNISOCIO ES",$socio->getDni() ;
-                        echo"idsocio en profmat es",$profe->getIdSocio() ;
                         $daoProfe->save($profe);
-                        echo"ñaja";
+                     
         
                     }} 
     
@@ -103,8 +110,7 @@ final class SocioController{
                 $carreras= $data->{"datoMateriaCarrera"};
                 $daoAlum = new AlumCarDAO($conexion);
                 foreach($carreras as $car){
-                    $alum= new AlumCar($socio->getDni());
-                    $alum->setIdCarrera($car);
+                    $alum= new AlumCar($socio->getDni(),$car);
                     $daoAlum->save($alum);
     
                 }} 

@@ -2,11 +2,11 @@
 namespace model\entities;
 
 
-final class Ejemplar{
+final class Usuario{
     private $id,$nombre,$clave,$idTipoUsuario,$estado;
     function __construct($clave,$usuario,$tipo){
         $this->id=0;
-        $this->nombre="";
+        $this->nombre=$usuario;
         $this->clave=$clave;
         $this->idTipoUsuario=$tipo;
         $this->estado=1;
@@ -23,7 +23,7 @@ function getClave():string{
     return $this->clave;
 }
 function getIdTipoUsuario():int{
-    return $this->getIdTipoUsuario();
+    return $this->idTipoUsuario;
 }
 function getEstado():int{
     return $this->estado;
@@ -32,9 +32,13 @@ public function setEstado($estado){
   
     $this->estado=($estado===0 || $estado===1)? trim($estado):0;
   }
+ public function setId($id){
+  
+    $this->id=$id;
+  }
 
   function setNombre($nombre){
-    $this->nombre= ((is_string($nombre))&&(strlen(trim($nombre)) <= 45)) ? trim($nombre) : "";
+    $this->nombre= ((is_string($nombre))&&(strlen(trim($nombre)) <= 255)) ? trim($nombre) : "m";
 }
 
 function setTipoUsuario( int $id){

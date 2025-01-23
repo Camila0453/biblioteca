@@ -16,21 +16,21 @@ final class AlumCarDAO extends DAO implements InterfaceDAO{
     }
     public function load($id): AlumCar{
     
-    $alumCar= new AlumCar($id);
+    $alumCar= new AlumCar($id,);
     
      return $alumCar;
     
 }
     public function save($alum):void{
       
-        $sql = "INSERT INTO alumcar VALUES( DEFAULT,:idSocio, :idCarrera)";
+        $sql = "INSERT INTO alumcar VALUES( DEFAULT,:idCarrera, :idSocio)";
         $stm = $this->conn->prepare($sql);
         $stm->execute(array(
             "idSocio" => $alum->getIdSocio(),
-            "idCarrera" => $alum->getIdMateria(),
+            "idCarrera" => $alum->getIdCarrera(),
             
         ));
-     
+ 
     }
 
     public function delete($id){

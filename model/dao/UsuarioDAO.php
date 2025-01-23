@@ -15,43 +15,25 @@ final class UsuarioDAO extends DAO implements InterfaceDAO{
         parent::__construct($conn);
     }
 
-    public function load($id){
-
-    //consultar para buscar el registro con el id=$id
-   
-   /* $sql= "SELECT * FROM usuarios WHERE id = :id";
-    //preparar la consulta
-    
-    $stm = $this->conn->prepare($sql);
-    $stm->execute(array(
-        "id"=> $id)
+    public function load($nombre){
+      $sql= "SELECT * FROM usuarios WHERE nombre = :nombre";
+      $stm = $this->conn->prepare($sql);
+      $stm->execute(array(
+        "nombre"=> $nombre)
 
     );
-        
-
-    //cuando haga el select preguntar cuantos registros devolvió la consulta
     if($stm->rowCount() != 1){
-        throw new \Exception("No se encontro el usuario con el id". $id );
+        throw new \Exception("No se encontro el usuario con el id");
 
     }
-   
         $result = $stm->fetch();
-       $usuario= new Usuario();
-       //hacer todos los setters 
+       $usuario= new Usuario($result->clave,$result->nombre,$result->tipoUsuario);
        $usuario->setId($result->id);
-       $usuario->setApellido($result->apellido);
-       $usuario->setNombre($result->nombre);
-       $usuario->setCorreo($result->correo);// tiene que coincidir
-       $usuario->setCuenta($result->cuenta);
-       $usuario->setclave($result->clave);
-       $usuario->setPerfilId($result->perfilId);
        $usuario->setEstado($result->estado);
-       $usuario->setHoraEntrada($result->horaEntrada);
-       $usuario->setHoraSalida($result->horaSalida);
-       $usuario->setFechaAlta($result->fechaAlta);
-       $usuario->setReseteoClave($result->reseteoClave);
+       
+       
    
-       return $usuario;*/
+       return $usuario;
 
 
     //si es distinto de uno, excepcion("no se encontró el cliente con el id $x")
@@ -102,26 +84,27 @@ public function loadCuenta($id){
 }
     
     public function save($usuario){
-       /* $this->validate($usuario);
-      //  $this->validateDNI($cliente);
-
-        $sql = "INSERT INTO `usuarios` (`id`, `nombre`, `apellido`, `correo`, `cuenta`, `clave`, `perfilId`, `estado`, `horaEntrada`, `horaSalida`, `fechaAlta`, `reseteoClave`) VALUES(DEFAULT, :nomb, :apell, :cor, :cuenta, :clave, :perfilId, :estado, :hE, :hS,NOW(),:rC)";
+        $this->validateUser($usuario);
+        $sql = "INSERT INTO `usuarios` VALUES(DEFAULT, :nomb,  :clave, :tipo, :estado)";
         $stm = $this->conn->prepare($sql);
         $stm->execute(array(
-            "apell" => $usuario->getApellido(),
+            
             "nomb" => $usuario->getNombre(),
-            "cor" => $usuario->getCorreo(),
-            "cuenta" => $usuario->getCuenta(),
             "clave" => $usuario->getClave(),
-           "perfilId" => $usuario->getPerfilId(),
+           "tipo" => $usuario->getIdTipoUsuario(),
             "estado" => $usuario->getEstado(),
-            "hE" => $usuario->getHoraEntrada(),
-            "hS" => $usuario->getHoraSalida(),
-            "rC" => $usuario->getReseteoClave()
         ));
-     
-    
-    */
+    }
+    private function validateUser($usuario){
+        $sql = "SELECT COUNT(*) AS total FROM usuarios WHERE nombre = :nombre";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(array(
+            "nombre" => $usuario->getNombre()
+        ));
+        $result = $stmt->fetch();
+        if(((int)$result->total) > 0){
+            throw new \Exception("El socio ya se encuentra registrado.");
+        }
     }
     /**
      * Verifica si el DNI del cliente actual o nuevo, existe para otro cliente.
@@ -223,34 +206,7 @@ $_SESSION["perfil"]=1;}
         //eliminar la sesión 
     }
     private function validate($cliente): void{
-        if($cliente->getApellido() === ""){
         
-            throw new \Exception("El APELLIDO es obligatorio???");
-        }
-        if($cliente->getCorreo() === ""){
-            throw new \Exception("El correo es obligatorio");
-        }
-        if($cliente->getCuenta() === ""){
-            throw new \Exception("La cuenta obligatorio.");
-        }
-        if($cliente->getClave() === ""){
-            throw new \Exception("La clave es obligatoria,clave es ".$cliente->getNombre());
-        }
-        if($cliente->getPerfilId() === ""){
-            throw new \Exception("El perfil id es obligatorio");
-        }
-        if($cliente->getEstado() === ""){
-            throw new \Exception("El estado es obligatorio");
-        }
-        if($cliente->getHoraEntrada() === ""){
-            throw new \Exception("La hora de entrada  es obligatorio");
-        }
-        if($cliente->getHoraSalida() === ""){
-            throw new \Exception("La hora de salida es obligatorio");
-        }
-        if($cliente->getReseteoClave() === ""){
-            throw new \Exception("El reseteo de clave es obligatorio");
-        }
         
     }
         

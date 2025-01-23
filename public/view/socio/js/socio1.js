@@ -5,7 +5,7 @@ window.location.href = "showSave";
  };
 
  document.addEventListener("DOMContentLoaded",()=>{
-  //list()
+  list()
 
        });
        
@@ -93,6 +93,7 @@ const sendNewClient = ()=>{
       
     })
     .catch(()=>{});
+    form.reset();
 
 }
    }

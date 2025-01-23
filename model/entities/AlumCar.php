@@ -6,9 +6,9 @@ final class AlumCar{
  private $idSocio, $idCarrera;
 
 
- function __construct($idSocio){
-    $this->idSocio= $idSocio;
-    $this->idCarrera=0;
+ function __construct($idSocio,$idCarrera){
+    $this->idSocio= (is_numeric($idSocio) && (int)$idSocio > 0) ? (int)$idSocio :0 ;
+    $this->idCarrera=is_integer($idCarrera)? $idCarrera : 0;
 
  }
 
@@ -22,8 +22,8 @@ function getIdCarrera():int{
 public function setSocio($idSocio):void{
     $this->idSocio = (is_integer($idSocio) && ($idSocio > 0)) ? $idSocio : 0;        
 }
-public function setIdCarrera($idSocio):void{
-    $this->idSocio = (is_integer($idSocio) && ($idSocio > 0)) ? $idSocio : 0;        
+public function setIdCarrera($idCarrera):void{
+    $this->idCarrera = (is_integer($idCarrera) && ($idCarrera > 0)) ? $idCarrera : 0;        
 }
 
 public function toJson(): object{

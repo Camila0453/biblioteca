@@ -49,6 +49,7 @@ final class SocioDAO extends DAO implements InterfaceDAO{
     //crear una entidad nueva, setear los campos y devolver la entidad
 }
     public function save($socio):void{
+        echo"hola soy save de socio dao";
         $this->validate($socio);
         $this->validateDNI($socio);
         $this->validateCorreo($socio);

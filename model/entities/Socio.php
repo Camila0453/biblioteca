@@ -26,7 +26,7 @@ final class Socio{ //TERMINADA
         $this->fechaAlta = "";
         $this->tipoSocio = 0;
         $this->estado = 1; //el socio por defecto cuando se crea tiene estado 1 porque esta activo
-        $this->idUsuario= 3;
+        $this->idUsuario= 0;
         $this->frenteDni = "";
         $this->dorsoDni= "";
     }
@@ -79,7 +79,7 @@ final class Socio{ //TERMINADA
  }
   public function setTelefono($telefono): void{
     $telefono= trim($telefono);
-    if(preg_match('/^549\d{9}$/',$telefono)){
+    if(preg_match('/^549\d{10}$/',$telefono)){
           $this->telefono=$telefono;
     }
     else{
