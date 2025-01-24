@@ -5,7 +5,7 @@
       require_once("../public/view/includes/head.php");
       
    ?>
-   <script defer type="text/javascript" src="../view/socio/js/socio1.js"></script> 
+   <script defer type="text/javascript" src="../view/usuario/js/usuario.js"></script> 
 </head>
 <header>
 <?php

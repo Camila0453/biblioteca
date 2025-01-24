@@ -230,7 +230,7 @@ public function buscarPerfil($id){
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
 }
     public function list($filtros){
-    $sql = "SELECT *  FROM usuarios_perfiles INNER JOIN usuarios ON usuarios_perfiles.id = usuarios.perfilId";
+    $sql = "SELECT usuarios.id, usuarios.nombre as nomUser,usuarios.estado,usuarios.tipoUsuario,tiposusuario.nombre as tipoUsuario, usuarios.reseteoClave FROM usuarios INNER JOIN tiposusuario ON tiposusuario.id = usuarios.tipoUsuario";
   //   $sql = "SELECT * FROM usuarios";
         $stmt = $this->conn->prepare($sql);
         if(!$stmt->execute()){
