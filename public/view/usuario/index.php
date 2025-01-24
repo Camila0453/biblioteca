@@ -15,13 +15,13 @@
 <body>
     <br>
     
-    <center> <h2>Gestión de Socios</h2> 
+    <center> <h2>Gestión de Usuarios</h2> 
    <!-- <p> bienvenido <?= $_SESSION["usuario"] ?></p>-->
     <br>
     <div id="botones" >
 
     
-    <button type="button" class="btn btn-primary ms-3" onclick="showSave()">Agregar Cliente </button>
+    <button type="button" class="btn btn-primary ms-3" onclick="showSave()">Agregar Usuario </button>
     <br>
     <br>
     <?php  //if($_SESSION["perfil"] == 1){ echo '<a href="usuario/admin">Volver atrás </a>';}?>
@@ -36,22 +36,11 @@
                         <thead>
                         <tr>
                             <th> id</th>                
-                           <th>Nombres </th> 
-                           <th>Apellido </th> 
-                           <th>DNI</th> 
-                           <th>Domicilio</th> 
-                           <th>Localidad</th> 
-                           <th>Provincia</th> 
-                           <th>Telefono</th> 
-                           <th>Correo(Usuario)</th> 
-                           <th>Fecha Alta</th> 
-                           <th>Estado</th> 
-                           <th>Tipo Socio</th> 
-                           <th>Materia/Carrera</th> 
-                           <th >Frente Dni</th> 
-                           <th >Dorso Dni</th> 
-                           <th >Reseteo Clave</th> 
-                           <th >Opción</th> 
+                           <th>Nombre </th>  
+                           <th >Tipo Usuario</th> 
+                           <th >Estado</th> 
+                           <th >ReseteoClave</th> 
+                           <th >Opcion</th> 
                         </tr>
                     </thead>
                      <tbody id="tablaProductos">

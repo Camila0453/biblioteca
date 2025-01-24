@@ -16,7 +16,7 @@ final class SocioDAO extends DAO implements InterfaceDAO{
     }
     public function load($id): Socio{
     //consultar para buscar el registro con el id=$id
-    $sql= "SELECT * FROM socios  WHERE id= :id";
+    $sql= "SELECT * FROM socios  WHERE dni= :id";
     //preparar la consulta
     $stm = $this->conn->prepare($sql);
     $stm->execute(array(
@@ -30,7 +30,7 @@ final class SocioDAO extends DAO implements InterfaceDAO{
     $socio= new Socio();
     //hacer todos los setters 
     $socio->setApellido($result->apellido);
-    $socio->setNombres($result->nombres);
+    $socio->setNombres($result->nombre);
     $socio->setDni($result->dni);// tiene que coincidir
     $socio->setDomicilio($result->domicilio);
     $socio->setLocalidad($result->localidad);
@@ -39,7 +39,7 @@ final class SocioDAO extends DAO implements InterfaceDAO{
     $socio->setCorreo($result->correo);
     $socio->setFechaAlta($result->fechaAlta);
     $socio->setEstado($result->estado);
-    $socio->setIdUsuario($result->IdUsuario);
+    $socio->setIdUsuario($result->usuario);
     $socio->setTipoSocio($result->tipoSocio);
     $socio->setFrenteDni($result->frenteDni);
     $socio->setDorsoDni($result->dorsoDni);
@@ -49,7 +49,7 @@ final class SocioDAO extends DAO implements InterfaceDAO{
     //crear una entidad nueva, setear los campos y devolver la entidad
 }
     public function save($socio):void{
-        echo"hola soy save de socio dao";
+   
         $this->validate($socio);
         $this->validateDNI($socio);
         $this->validateCorreo($socio);
@@ -181,7 +181,7 @@ final class SocioDAO extends DAO implements InterfaceDAO{
     }
     
     public function delete($id){
-        $sql= "DELETE FROM socios WHERE id= '$id'";
+        $sql= "DELETE FROM socios WHERE dni= '$id'";
         $stmt = $this->conn->prepare($sql);
         if(!$stmt->execute()){
             throw new \Exception("No se pudo eliminar");
@@ -217,7 +217,7 @@ final class SocioDAO extends DAO implements InterfaceDAO{
     }
     public function list($filtros){
       
-        $sql = "SELECT socios.nombre as nombreSocio, socios.apellido,socios.dni,socios.telefono,socios.correo,socios.domicilio,socios.localidad,socios.provincia,socios.usuario,socios.estado ,DATE_FORMAT(fechaAlta,'%d-%m-%Y') as fechaAlta, tipossocio.nombre as tsn FROM socios INNER JOIN tipossocio ON socios.tipoSocio=tipossocio.id ORDER BY socios.apellido ASC, socios.nombre ASC";
+        $sql = "SELECT socios.nombre as nombreSocio, socios.apellido,socios.dni,socios.telefono,socios.correo,socios.domicilio,socios.localidad,socios.provincia,socios.usuario,socios.estado ,socios.dorsoDni,socios.frenteDni, DATE_FORMAT(fechaAlta,'%d-%m-%Y') as fechaAlta, tipossocio.nombre as tsn FROM socios INNER JOIN tipossocio ON socios.tipoSocio=tipossocio.id ORDER BY socios.apellido ASC, socios.nombre ASC";
         $stmt = $this->conn->prepare($sql);
         if(!$stmt->execute()){
             throw new \Exception("No se pudo ejecutar la consulta de LISTAR");

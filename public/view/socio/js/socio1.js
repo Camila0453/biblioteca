@@ -39,11 +39,12 @@ function list(){
                  html += '<td id="">'+ so.fechaAlta+ '</td>';
                  html += '<td id="">'+ so.estado+ '</td>';
                  html += '<td id="">'+ so.tsn+ '</td>';
-                 html += '<td id="">'+  '</td>';
-                 html += '<td id="">'+  '</td>';
-                 html += '<td id="">'+  '</td>';
+                 html += '<td id=""> </td>';
+                 html += '<td id=""></td>';
+                 html += '<td id=""></td>';
+                 html += '<td id=""></td>';
                  html += '<td id=""><a  href="socio/showUpdate/'+so.id+'" >Modificar</a></td>';
-                 html += '<td id=""><a  href="socio/showDelete/'+so.id+'" >Eliminar</a></td>';
+                 html += '<td id=""><button  onclick="eliminar('+so.dni+')" >Eliminar</button></td>';
      
                  html += '</tr>';
        
@@ -87,7 +88,7 @@ const sendNewClient = ()=>{
             return;
         }
         
-            alert("Se registro el cliente: " +  data.apellido);
+            alert("Se registro el cliente: Su usuario es su correo electrónico y la clave su dni, se le pedirá resetearla");
             window.location.href="index";
     
       
@@ -142,7 +143,25 @@ function materiaOcarrera(){
 
  
 }
+function eliminar(id){
    
+    fetch("delete",{
+      method:'POST',
+      body:id
+    })
+      .then(response => response.json())
+      .then(data => {
+          if(data.error !== ""){
+              alert("ocurrió un error: " + data.error);
+              return;
+          }
+          else{
+              alert("Cliente borrado exitosamente")
+              window.location.href="index";
+          }
+      }
+      )}
+
 
 
 

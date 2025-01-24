@@ -15,7 +15,7 @@ final class UsuarioController{
      */
     public function index($controller, $action, $data){
       //  $headTitle="Sistema";
-        require_once("../public/view/usuario/login.php");
+        require_once("../public/view/usuario/index.php");
        
 
     }

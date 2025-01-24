@@ -83,6 +83,41 @@ final class SocioController{
         $socio->setFrenteDni($data->{"datoFrenteDni"});
         $socio->setDorsoDni($data->{"datoDorsoDni"});
         $usuario= new Usuario($socio->getDni(),$socio->getCorreo(),5);
+        
+       /* $target_dir = "localhost/biblioteca/img";
+        $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+        $uploadOk = 1;
+
+        $frenteimg=$_FILES["datofrenteDni"];
+       $frenteimgNombre= "frentedni".$socio->getDni()."jpg";
+       $frenteimgPath=  $target_dir.$frenteimgNombre;
+       $typefrente=strtolower(pathinfo($frenteimgPath,PATHINFO_EXTENSION));
+        // Check if image file is a actual image or fake image
+        if(isset($_POST["submit"])) {
+          $checkFrente = getimagesize($_FILES(["datoFrenteDni"]["tmp_name"]));
+         if($checkFrente !== false) {
+         echo "File is an image - " . $check["mime"] . ".";
+         $uploadOk = 1;
+       } else {
+          echo "File is not an image.";
+          $uploadOk = 0;
+  }
+}*/
+/*$target_dir = "localhost/biblioteca/img";
+$target_file = $target_dir . basename($_FILES["datoFrenteDni"]["name"]);
+$uploadOk = 1;
+$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+// Check if image file is a actual image or fake image
+if(isset($_POST["submit"])) {
+  $check = getimagesize($_FILES["datoFrenteDni"]["tmp_name"]);
+  if($check !== false) {
+    echo "File is an image - " . $check["mime"] . ".";
+    $uploadOk = 1;
+  } else {
+    echo "File is not an image.";
+    $uploadOk = 0;
+    }}*/
+
     
         try{
 
@@ -174,7 +209,7 @@ final class SocioController{
             $conexion = Conexion::establecer();
             $dao = new SocioDAO($conexion);
           
-            $cliente= $dao->load($id);
+            $socio= $dao->load($id);
            
             $socio->setApellido($data->{"datoApellido"});
             $socio->setNombres($data->{"datoNombre"});
@@ -216,10 +251,10 @@ final class SocioController{
             $conexion = Conexion::establecer();
             $dao = new SocioDAO($conexion);
           
-            $cliente= $dao->load($id);
+            $socio= $dao->load($id);
     
             $dao->delete($id);
-            $Socio->setId(0);
+            $socio->setDni(0);
             //Por ahora, si hubieran filtros, vendrían en $data
             $response->{"result"} = $socio->toJson();
             
