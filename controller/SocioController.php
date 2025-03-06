@@ -4,12 +4,16 @@ require_once "../model/entities/Socio.php";
 require_once "../model/entities/Usuario.php";
 require_once "../model/entities/ProfMat.php";
 require_once "../model/entities/AlumCar.php";
+require_once "../model/entities/BajaSocio.php";
 use model\entities\ProfMat;
 use model\entities\AlumCar;
 use model\entities\Socio;
 use model\entities\Usuario;
+use model\entities\BajaSocio;
 require_once "../model/dao/SocioDAO.php";
 use model\dao\SocioDAO;
+require_once "../model/dao/BajaSocioDAO.php";
+use model\dao\BajaSocioDAO;
 require_once "../model/dao/UsuarioDAO.php";
 use model\dao\UsuarioDAO;
 require_once "../model/dao/AlumCarDAO.php";
@@ -124,11 +128,13 @@ if(isset($_POST["submit"])) {
             $conexion = Conexion::establecer();
             $daoUsuario= new UsuarioDAO($conexion);
             $daoUsuario->save($usuario);
-            $idUser= $daoUsuario->load($usuario->getNombre());
-            $socio->setIdUsuario( $idUser->getId());
+
+            $idUser= $conexion->lastInsertId();
+            $usuario->setId($idUser);
+            $socio->setIdUsuario( $usuario->getId());
             $daoSocio = new SocioDAO($conexion);
             $daoSocio->save($socio);
-           
+            
             $response->{"result"} = $socio->toJson();
 
              if ($socio->getTipoSocio()==1){
@@ -244,17 +250,34 @@ if(isset($_POST["submit"])) {
         $response->{"controller"} = $controller;
         $response->{"action"} = $action;
         $data = json_decode(file_get_contents("php://input"));
-
-        $id=(int ) $data;
+        
+        $id= $data->id;
+     
+        $motivo= $data->motivo;
+      /*echo"id",$id;
+      echo"motivo",$motivo;
+      */
         try{
            
             $conexion = Conexion::establecer();
             $dao = new SocioDAO($conexion);
           
             $socio= $dao->load($id);
-    
-            $dao->delete($id);
-            $socio->setDni(0);
+       
+            $bajaSocio= new BajaSocio();
+            $bajaSocio->setIdSocio($socio->getDni());
+           
+            $bajaSocio->setIdUsuario($socio->getIdUsuario());
+            $bajaSocio->setMotivoCan($motivo);
+           $daoBajaSocio= new BajaSocioDAO($conexion);
+            $daoBajaSocio->save($bajaSocio);
+
+            $daoSocio=new SocioDAO($conexion);
+            $daoSocio->delete($socio->getDni());
+
+            
+
+           // $socio->setDni(0);
             //Por ahora, si hubieran filtros, vendrían en $data
             $response->{"result"} = $socio->toJson();
             

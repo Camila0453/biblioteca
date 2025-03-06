@@ -15,11 +15,12 @@ final class UsuarioDAO extends DAO implements InterfaceDAO{
         parent::__construct($conn);
     }
 
-    public function load($nombre){
-      $sql= "SELECT * FROM usuarios WHERE nombre = :nombre";
+    public function load($id){
+        
+      $sql= "SELECT * FROM usuarios WHERE id = :id";
       $stm = $this->conn->prepare($sql);
       $stm->execute(array(
-        "nombre"=> $nombre)
+        "id"=> $id)
 
     );
     if($stm->rowCount() != 1){
@@ -30,6 +31,7 @@ final class UsuarioDAO extends DAO implements InterfaceDAO{
        $usuario= new Usuario($result->clave,$result->nombre,$result->tipoUsuario);
        $usuario->setId($result->id);
        $usuario->setEstado($result->estado);
+       echo"hola dao load usuario el id es",$usuario->getId();
        
        
    
@@ -85,7 +87,7 @@ public function loadCuenta($id){
     
     public function save($usuario){
         $this->validateUser($usuario);
-        $sql = "INSERT INTO `usuarios` VALUES(DEFAULT, :nomb,  :clave, :tipo, :estado)";
+        $sql = "INSERT INTO `usuarios` VALUES(DEFAULT, :nomb,  :clave, :tipo, :estado,1)";
         $stm = $this->conn->prepare($sql);
         $stm->execute(array(
             
@@ -212,7 +214,8 @@ $_SESSION["perfil"]=1;}
         
 
     public function delete($id){
-        $sql= "DELETE FROM usuarios WHERE id='$id'";
+        
+        $sql= "UPDATE usuarios SET estado=0 WHERE id='$id'";
         $stmt = $this->conn->prepare($sql);
         if(!$stmt->execute()){
             throw new \Exception("No se pudo eliminar");

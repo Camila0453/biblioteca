@@ -11,6 +11,9 @@ window.location.href = "showSave";
        
 
 function list(){
+    let estado="Inactivo";
+    let reseteo="No";
+
    let cont=1;
          fetch("list",{"method":"POST", "headers":{"Content-Type":"application/json"}, "body": JSON.stringify()})
          .then(response => response.json())
@@ -25,6 +28,11 @@ function list(){
              //procesar data.result en una tabla (mostrar los clientes)
              let socios = data.result;
             socios.forEach((so)=>{
+                if(so.estado===1){
+                    estado="Activo";
+
+                }
+
                         
                  let html= '<tr  id= "'+so.dni+'" class="">';
                  html += '<td id="inden">' +  cont+ '</td>';
@@ -37,16 +45,17 @@ function list(){
                  html += '<td id="">'+so.telefono+ '</td>';
                  html += '<td id="">'+ so.correo+ '</td>';
                  html += '<td id="">'+ so.fechaAlta+ '</td>';
-                 html += '<td id="">'+ so.estado+ '</td>';
+                 html += '<td id="">'+ estado+ '</td>';
                  html += '<td id="">'+ so.tsn+ '</td>';
                  html += '<td id=""> </td>';
                  html += '<td id=""></td>';
                  html += '<td id=""></td>';
                  html += '<td id=""></td>';
                  html += '<td id=""><a  href="socio/showUpdate/'+so.id+'" >Modificar</a></td>';
-                 html += '<td id=""><button  onclick="eliminar('+so.dni+')" >Eliminar</button></td>';
-     
+                 html += '<td id=""><button  onclick="eliminar('+so.dni+')" type="button" class="btn btn-primary" id="liveToastBtn">Show live toast</button></td>';
+                 
                  html += '</tr>';
+
        
          document.getElementById("tablaProductos").insertAdjacentHTML("beforeend",html);
      cont= cont+1;
@@ -144,27 +153,97 @@ function materiaOcarrera(){
  
 }
 function eliminar(id){
+    let tostada=`<div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="toastElim" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+
+       <strong class="me-auto">Bootstrap</strong>
+       <small>11 mins ago</small>
+       <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+   </div>
+   <div class="toast-body">
+    ¿Está seguro de que desea dar de baja al usuario?
+   <div class="mt-2 pt-2 border-top">
+     <button type="button" id="btnAceptar" class="btn btn-primary btn-sm">Aceptar/button>
+     <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="toast">Cancelar</button>
+  </div>
+ </div>
+</div>
+</div>`
+
+
+  
+document.body.insertAdjacentHTML('beforeend',tostada);
+btnAceptar=document.getElementById("btnAceptar")
+console.log(btnAceptar)
+const toastLiveExample = document.getElementById('toastElim')
+const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
+ toastBootstrap.show()
+
+btnAceptar.addEventListener('click',()=>{
+    let prompti=`<div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="toastPrompt" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+
+       <strong class="me-auto">Bootstrap</strong>
+       <small>11 mins ago</small>
+       <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+   </div>
+   <div class="toast-body">
+    Ingrese el motivo de la baja
+    <form>
+     <input id="inputMotivo" type= text>
+    </form>
+   <div class="mt-2 pt-2 border-top">
+     <button type="button" id="btnMotivo" class="btn btn-primary btn-sm">Aceptar</button>
+     <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="toast">Cancelar</button>
+  </div>
+ </div>
+</div>
+</div>`
+document.body.insertAdjacentHTML('beforeend',prompti);
+const toast = document.getElementById('toastPrompt')
+const toastBootstrap1 = bootstrap.Toast.getOrCreateInstance(toast)
+ toastBootstrap1.show()
+ let btnMotivo= document.getElementById("btnMotivo")
+ btnMotivo.addEventListener('click',()=>{
+    let motivo= document.getElementById("inputMotivo").value;
+    if(motivo){
+       fetch("delete",{
+       
+           method:'POST',
+           headers:{ 'Content-Type':'application/json'},
+           body:JSON.stringify({id: id,motivo: motivo})
+         })
+           .then(response => response.json())
+           .then(data => {
+               if(data.error !== ""){
+                   alert("ocurrió un error: " + data.error);
+                   return;
+               }
+               else{
+                   alert("Cliente borrado exitosamente")
+                   window.location.href="index";
+
+               }
+           }
+           )
+      
+    }
+      
+     
+            });
+ })
+ 
+  
+}
+  
+  
+    
+    
+      
    
-    fetch("delete",{
-      method:'POST',
-      body:id
-    })
-      .then(response => response.json())
-      .then(data => {
-          if(data.error !== ""){
-              alert("ocurrió un error: " + data.error);
-              return;
-          }
-          else{
-              alert("Cliente borrado exitosamente")
-              window.location.href="index";
-          }
-      }
-      )}
-
-
-
-
+   
 
 
 

@@ -1,16 +1,17 @@
 <?php
 
 namespace model\entities;
+use DateTime;
 
 
-final class Prestamo{
+final class BajaSocio{
 private $id,$idSocio,$fechaHora,$idUsuario,$motivo;
 
 
 function __construct(){
     $this->id=0;
     $this->idSocio=0;
-    $this->fechaHora="";
+    $this->fechaHora= new DateTime();
     $this->idUsuario=0;
     $this->motivo="";
 }
@@ -33,8 +34,9 @@ function getMotivo():string{
 function setFechaHora($fechaHora){
     $this->fechaHora=$fechaHora;
 }
-function setIdSocio($idSocio){
-    $this->idSocio = (is_integer($idSocio) && ($idSocio > 0)) ? $idSocio : 0; 
+public function setIdSocio($dni): void{
+    $dni= trim($dni);
+    $this->idSocio =  is_numeric($dni) &&  strlen($dni)==8 && ctype_digit((string) $dni) ?(int)$dni:0;
 }
 function setIdUsuario($idUsuario){
     $this->idUsuario= (is_integer($idUsuario) && ($idUsuario> 0)) ? $idUsuario : 0; 

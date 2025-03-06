@@ -24,7 +24,7 @@ final class SocioDAO extends DAO implements InterfaceDAO{
     );
     //cuando haga el select preguntar cuantos registros devolvió la consulta
     if($stm->rowCount() != 1){
-        throw new \Exception("No se encontro el socio con el id". $id );
+        throw new \Exception("No se encontro el socio con lhlel id". $id );
     }
     $result = $stm->fetch();
     $socio= new Socio();
@@ -181,7 +181,7 @@ final class SocioDAO extends DAO implements InterfaceDAO{
     }
     
     public function delete($id){
-        $sql= "DELETE FROM socios WHERE dni= '$id'";
+        $sql= "UPDATE socios SET estado=0 WHERE dni='$id'";
         $stmt = $this->conn->prepare($sql);
         if(!$stmt->execute()){
             throw new \Exception("No se pudo eliminar");

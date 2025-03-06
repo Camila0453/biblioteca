@@ -3,6 +3,7 @@
 namespace controller;
 
 require_once "../model/entities/Usuario.php";
+use Exception;
 use model\entities\Usuario;
 require_once "../model/dao/UsuarioDAO.php";
 use model\dao\UsuarioDAO;
@@ -67,25 +68,31 @@ final class UsuarioController{
 }
 
 public function delete($controller, $action, $data){
-   
 
   $response = json_decode('{"result":[],"controller":"", "action":"","error":""}');
   $response->{"controller"} = $controller;
   $response->{"action"} = $action;
-  $data = json_decode(file_get_contents("php://input"));
+  $data = json_decode(file_get_contents("php://input"),true);
+  $id= isset($data['id'])? (int)$data['id']: null;
+  if($id== null){
+    $response->{"error"}="no se proporciono el id????";
+    echo json_encode($response);
+    return;
 
-  $id=(int ) $data;
+  }
   try{
      
       $conexion = Conexion::establecer();
       $dao = new UsuarioDAO($conexion);
     
-      $socio= $dao->load($id);
+      $usuario= $dao->load($id);
+      if($usuario->getEstado()==0){
+        $response->{"error"}=  throw new Exception(("El usuario ya se encuentra desactivado."));}
+      
 
-      $dao->delete($id);
-      $socio->setEstado(0);
+      $dao->delete($usuario->getId());
       //Por ahora, si hubieran filtros, vendrían en $data
-      $response->{"result"} = $socio->toJson();
+      $response->{"result"} = $usuario->toJson();
       
   }
   catch(PDOException $ex){
@@ -96,5 +103,13 @@ public function delete($controller, $action, $data){
   }
 
   echo json_encode($response);
+  //header("Location:biblioteca/public/view/usuario/index");
+  //exit();
+}
+
+public function showSave($controller, $action, $data){
+
+        
+  require_once("../public/view/usuario/agregar.php");
 }
 }
