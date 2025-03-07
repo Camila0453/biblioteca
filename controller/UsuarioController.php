@@ -20,6 +20,60 @@ final class UsuarioController{
        
 
     }
+    public function activar($controller,$action,$data){
+     // echo"SOY USUARIOCONTROLLER",var_dump($data);
+      $response = json_decode('{"result":[],"controller":"", "action":"","error":""}');
+      $response->{"controller"} = $controller;
+      $response->{"action"} = $action;
+      //$data = json_decode(file_get_contents("php://input"));
+      $id= $data;
+     // echo"SOY USUARIOCONTROLLER",var_dump($data);
+     
+      try{
+          $conexion = Conexion::establecer();
+          $dao = new UsuarioDAO($conexion);
+          $user= $dao->load($id);
+        //  echo"USER DE LOAD ES",$user->getNombre();
+         // $user->setEstado(0);
+          $dao->activar($user->getId());
+              //Por ahora, si hubieran filtros, vendrían en $data
+              $response->{"result"} = $user->toJson();
+          }
+          catch(PDOException $ex){
+              $response->{"error"} = "Error en base de datosxdxd: " . $ex->getMessage();
+          }
+          catch(\Exception $ex){
+              $response->{"error"} = $ex->getMessage();
+          }
+          //echo json_encode($response); 
+      }
+    public function desactivar($controller,$action,$data){
+      //echo"SOY USUARIOCONTROLLER",var_dump($data);
+      $response = json_decode('{"result":[],"controller":"", "action":"","error":""}');
+      $response->{"controller"} = $controller;
+      $response->{"action"} = $action;
+      //$data = json_decode(file_get_contents("php://input"));
+      $id= $data;
+      //echo"SOY USUARIOCONTROLLER",var_dump($data);
+     
+      try{
+          $conexion = Conexion::establecer();
+          $dao = new UsuarioDAO($conexion);
+          $user= $dao->load($id);
+          //echo"USER DE LOAD ES",$user->getNombre();
+         // $user->setEstado(0);
+          $dao->desactivar($user->getId());
+              //Por ahora, si hubieran filtros, vendrían en $data
+              $response->{"result"} = $user->toJson();
+          }
+          catch(PDOException $ex){
+              $response->{"error"} = "Error en base de datosxdxd: " . $ex->getMessage();
+          }
+          catch(\Exception $ex){
+              $response->{"error"} = $ex->getMessage();
+          }
+        //  echo json_encode($response); 
+      }
     public function autentication($controller,$action,$data){
     
         //require_once("../public/view/usuario/login.php");

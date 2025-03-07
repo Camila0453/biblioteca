@@ -16,7 +16,7 @@ final class UsuarioDAO extends DAO implements InterfaceDAO{
     }
 
     public function load($id){
-        
+
       $sql= "SELECT * FROM usuarios WHERE id = :id";
       $stm = $this->conn->prepare($sql);
       $stm->execute(array(
@@ -30,10 +30,7 @@ final class UsuarioDAO extends DAO implements InterfaceDAO{
         $result = $stm->fetch();
        $usuario= new Usuario($result->clave,$result->nombre,$result->tipoUsuario);
        $usuario->setId($result->id);
-       $usuario->setEstado($result->estado);
-       echo"hola dao load usuario el id es",$usuario->getId();
-       
-       
+       $usuario->setEstado($result->estado);       
    
        return $usuario;
 
@@ -241,8 +238,8 @@ public function buscarPerfil($id){
         }
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
-public function activate($id){
-    $sql= "UPDATE `usuarios` SET `estado` = '1' WHERE `usuarios`.`id` = '$id'";
+public function activar($id){
+    $sql= "UPDATE `usuarios` SET `estado` =  1 WHERE `usuarios`.`id` = '$id'";
 
     $stmt = $this->conn->prepare($sql);
     if(!$stmt->execute()){
@@ -251,8 +248,9 @@ public function activate($id){
     return $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
 }
-public function inactivate($id){
-    $sql= "UPDATE `usuarios` SET `estado` = '0' WHERE `usuarios`.`id` = '$id'";
+public function desactivar($id){
+   // echo"HOLAA soy desactivar del dao id es",$id;
+    $sql= "UPDATE `usuarios` SET `estado` = 0 WHERE `usuarios`.`id` = '$id'";
 
     $stmt = $this->conn->prepare($sql);
     if(!$stmt->execute()){

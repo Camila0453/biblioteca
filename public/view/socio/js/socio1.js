@@ -11,7 +11,6 @@ window.location.href = "showSave";
        
 
 function list(){
-    let estado="Inactivo";
     let reseteo="No";
 
    let cont=1;
@@ -28,13 +27,18 @@ function list(){
              //procesar data.result en una tabla (mostrar los clientes)
              let socios = data.result;
             socios.forEach((so)=>{
+            let estado= "Inactivo";
+            let botonEstado= 'disabled';
+            let botonAct= '';
                 if(so.estado===1){
                     estado="Activo";
-
-                }
-
-                        
-                 let html= '<tr  id= "'+so.dni+'" class="">';
+                    botonEstado='';
+                    botonAct='hidden';
+              
+                      }
+              
+                        console.log("hola estado es"+ estado)
+                 let html= '<tr  id= "'+so.dni+'" class="'+(so.estado===0 ? 'socio-inactivo' :' ')+'">';
                  html += '<td id="inden">' +  cont+ '</td>';
                  html += '<td id="">' +  so.nombreSocio+ '</td>';
                  html += '<td id="">' + so.apellido + '</td>';
@@ -51,21 +55,21 @@ function list(){
                  html += '<td id=""></td>';
                  html += '<td id=""></td>';
                  html += '<td id=""></td>';
-                 html += '<td id=""><a  href="socio/showUpdate/'+so.id+'" >Modificar</a></td>';
-                 html += '<td id=""><button  onclick="eliminar('+so.dni+')" type="button" class="btn btn-primary" id="liveToastBtn">Show live toast</button></td>';
-                 
+                 html += '<td id=""><button '+botonEstado+' onclick="actualizar('+so.dni+')" type="button" class="btn btn-primary"  id="btnMod">Modificar</button></td>';
+                 html += '<td id=""><button '+botonEstado+' onclick="eliminar('+so.dni+')" type="button" class="btn btn-danger"  id="btnDesactivar">Desactivar</button></td>';
+                 html += '<td id=""><button  onclick="reactivar('+so.dni+')" type="button" class="btn btn-success"  id="btnReactivar">Reactivar</button></td>';
                  html += '</tr>';
 
        
          document.getElementById("tablaProductos").insertAdjacentHTML("beforeend",html);
      cont= cont+1;
              });
-         
-         });
-         
-         
+            }
+         )};
+        
+        
      
-     };
+     
 
 const sendNewClient = ()=>{
   
@@ -153,60 +157,26 @@ function materiaOcarrera(){
  
 }
 function eliminar(id){
-    let tostada=`<div class="toast-container position-fixed bottom-0 end-0 p-3">
-    <div id="toastElim" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-    <div class="toast-header">
-
-       <strong class="me-auto">Bootstrap</strong>
-       <small>11 mins ago</small>
-       <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-   </div>
-   <div class="toast-body">
-    ¿Está seguro de que desea dar de baja al usuario?
-   <div class="mt-2 pt-2 border-top">
-     <button type="button" id="btnAceptar" class="btn btn-primary btn-sm">Aceptar/button>
-     <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="toast">Cancelar</button>
-  </div>
- </div>
-</div>
-</div>`
-
-
-  
-document.body.insertAdjacentHTML('beforeend',tostada);
 btnAceptar=document.getElementById("btnAceptar")
-console.log(btnAceptar)
 const toastLiveExample = document.getElementById('toastElim')
 const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
  toastBootstrap.show()
 
-btnAceptar.addEventListener('click',()=>{
-    let prompti=`<div class="toast-container position-fixed bottom-0 end-0 p-3">
-    <div id="toastPrompt" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-    <div class="toast-header">
 
-       <strong class="me-auto">Bootstrap</strong>
-       <small>11 mins ago</small>
-       <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-   </div>
-   <div class="toast-body">
-    Ingrese el motivo de la baja
-    <form>
-     <input id="inputMotivo" type= text>
-    </form>
-   <div class="mt-2 pt-2 border-top">
-     <button type="button" id="btnMotivo" class="btn btn-primary btn-sm">Aceptar</button>
-     <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="toast">Cancelar</button>
-  </div>
- </div>
-</div>
-</div>`
-document.body.insertAdjacentHTML('beforeend',prompti);
+
+
+btnAceptar.addEventListener('click',()=>{
+    toastBootstrap.hide()
 const toast = document.getElementById('toastPrompt')
 const toastBootstrap1 = bootstrap.Toast.getOrCreateInstance(toast)
  toastBootstrap1.show()
  let btnMotivo= document.getElementById("btnMotivo")
+
+
+
+
  btnMotivo.addEventListener('click',()=>{
+    toastBootstrap1.hide()
     let motivo= document.getElementById("inputMotivo").value;
     if(motivo){
        fetch("delete",{
@@ -217,18 +187,50 @@ const toastBootstrap1 = bootstrap.Toast.getOrCreateInstance(toast)
          })
            .then(response => response.json())
            .then(data => {
+
+            
                if(data.error !== ""){
                    alert("ocurrió un error: " + data.error);
                    return;
                }
                else{
-                   alert("Cliente borrado exitosamente")
-                   window.location.href="index";
+                
+                const ph= document.getElementById("liveAlertPlaceholder");
+                if(ph.querySelector('.alert')){
+                    return;
+                }
+               const appendAlert= (message,type)=>{
+               const wrap= document.createElement("div")
+               wrap.innerHTML=[
+                `<div class="alert alert-${type} alert-dismissible" role="alert">`,
+              `   <div>${message}</div>`,
+             
+                '</div>'
+              ].join('')
 
-               }
-           }
+              ph.append(wrap)
+             return wrap
+               };
+               const wrop= appendAlert('Baja realizada correctamente', 'success')
+              
+               setTimeout(()=>{
+                wrop.remove();
+               },3000);
+
+               
+               
+               
+              //window.location.reload();
+            
+           }}
            )
       
+
+
+
+
+
+
     }
       
      
@@ -237,7 +239,31 @@ const toastBootstrap1 = bootstrap.Toast.getOrCreateInstance(toast)
  
   
 }
-  
+function reactivar(id){
+
+fetch("reactivar",
+    {
+        method:'POST',
+        headers:{ 'Content-Type':'application/json'},
+        body:JSON.stringify({id: id})
+      })
+        .then(response => response.json())
+        .then(data => {
+            if(data.error !== ""){
+                alert("ocurrió un error: " + data.error);
+                return;
+            }
+            else{
+                let socio= document.getElementById(id);
+                socio.querySelector("#btnMod").removeAttribute("disabled");
+                socio.querySelector("#btnDesactivar").removeAttribute("disabled");
+                socio.classList.remove("socio-inactivo");
+            }
+        
+})
+
+   
+}
   
     
     

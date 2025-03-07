@@ -74,6 +74,15 @@ final class SocioDAO extends DAO implements InterfaceDAO{
         ));
      
     }
+    public function reactivar($id){
+        $sql= "UPDATE socios SET estado=1 WHERE dni='$id'";
+        $stmt = $this->conn->prepare($sql);
+        if(!$stmt->execute()){
+            throw new \Exception("No se pudo reactivar");
+        }
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+    }
     private function validateDNI($socio){
         $sql = "SELECT COUNT(*) AS total FROM socios WHERE dni = :dni";
         $stmt = $this->conn->prepare($sql);

@@ -57,3 +57,12 @@ height: 100%;
 
 }
 
+.socio-inactivo{
+    background-color:#d5d8dc  ;
+    color:#808b96 ;
+    
+}
+#tablaClientes td,#tablaClientes th{
+    
+    font-size: 16px;
+}

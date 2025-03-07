@@ -5,6 +5,7 @@ require_once "../model/entities/Usuario.php";
 require_once "../model/entities/ProfMat.php";
 require_once "../model/entities/AlumCar.php";
 require_once "../model/entities/BajaSocio.php";
+require_once "../controller/UsuarioController.php";
 use model\entities\ProfMat;
 use model\entities\AlumCar;
 use model\entities\Socio;
@@ -258,26 +259,20 @@ if(isset($_POST["submit"])) {
       echo"motivo",$motivo;
       */
         try{
-           
             $conexion = Conexion::establecer();
             $dao = new SocioDAO($conexion);
-          
             $socio= $dao->load($id);
-       
             $bajaSocio= new BajaSocio();
             $bajaSocio->setIdSocio($socio->getDni());
-           
             $bajaSocio->setIdUsuario($socio->getIdUsuario());
             $bajaSocio->setMotivoCan($motivo);
-           $daoBajaSocio= new BajaSocioDAO($conexion);
+            $daoBajaSocio= new BajaSocioDAO($conexion);
             $daoBajaSocio->save($bajaSocio);
-
             $daoSocio=new SocioDAO($conexion);
             $daoSocio->delete($socio->getDni());
-
-            
-
-           // $socio->setDni(0);
+           $user= new UsuarioController();
+           //echo"HOLA SOY SOCIOCONTROLLER SOCIO USUARIO ES", var_dump($socio->getIdUsuario());
+            $user->desactivar("Usuario","desactivar",$socio->getIdUsuario());
             //Por ahora, si hubieran filtros, vendrían en $data
             $response->{"result"} = $socio->toJson();
             
@@ -291,7 +286,39 @@ if(isset($_POST["submit"])) {
 
         echo json_encode($response);
     }
+public function reactivar($controller,$action,$data){
+    $response = json_decode('{"result":[],"controller":"", "action":"","error":""}');
+    $response->{"controller"} = $controller;
+    $response->{"action"} = $action;
+    $data = json_decode(file_get_contents("php://input"));
+    $id= $data->id;
+    try{
+        $conexion = Conexion::establecer();
+        $dao = new SocioDAO($conexion);
+        $socio= $dao->load($id);
+        $socio->setEstado(1);
+        $dao->reactivar($socio->getDni());
+        $user= new UsuarioController();
+        //echo"HOLA SOY SOCIOCONTROLLER SOCIO USUARIO ES", var_dump($socio->getIdUsuario());
+         $user->activar("Usuario","activar",$socio->getIdUsuario());
 
+
+            //Por ahora, si hubieran filtros, vendrían en $data
+            $response->{"result"} = $socio->toJson();
+        }
+        catch(PDOException $ex){
+            $response->{"error"} = "Error en base de datos: " . $ex->getMessage();
+        }
+        catch(\Exception $ex){
+            $response->{"error"} = $ex->getMessage();
+        }
+        echo json_encode($response); 
+    }
+        
+
+        
+
+    
 
 public function obtenerCarreras($controller,$action,$data){
     $response = json_decode('{"result":[],"controller":"", "action":"","error":""}');
