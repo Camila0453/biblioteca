@@ -21,19 +21,19 @@ final class UsuarioController{
 
     }
     public function activar($controller,$action,$data){
-     // echo"SOY USUARIOCONTROLLER",var_dump($data);
+    //  echo"SOY USUARIOCONTROLLER",var_dump($data);
       $response = json_decode('{"result":[],"controller":"", "action":"","error":""}');
       $response->{"controller"} = $controller;
       $response->{"action"} = $action;
-      //$data = json_decode(file_get_contents("php://input"));
-      $id= $data;
+      $data = json_decode(file_get_contents("php://input"));
+      $id= $data->id;
      // echo"SOY USUARIOCONTROLLER",var_dump($data);
      
       try{
           $conexion = Conexion::establecer();
           $dao = new UsuarioDAO($conexion);
           $user= $dao->load($id);
-        //  echo"USER DE LOAD ES",$user->getNombre();
+        // echo"USER DE LOAD ES",$user->getNombre();
          // $user->setEstado(0);
           $dao->activar($user->getId());
               //Por ahora, si hubieran filtros, vendrían en $data
@@ -45,7 +45,7 @@ final class UsuarioController{
           catch(\Exception $ex){
               $response->{"error"} = $ex->getMessage();
           }
-          //echo json_encode($response); 
+         echo json_encode($response); 
       }
     public function desactivar($controller,$action,$data){
       //echo"SOY USUARIOCONTROLLER",var_dump($data);
@@ -160,6 +160,33 @@ public function delete($controller, $action, $data){
   //header("Location:biblioteca/public/view/usuario/index");
   //exit();
 }
+public function save($controller, $action, $data){
+  $response = json_decode('{"result":{},"controller":"", "action":"","error":""}');
+  $response->{"controller"} = $controller;
+  $response->{"action"} = $action;
+
+  $data = json_decode(file_get_contents("php://input"));
+  
+  $user = new Usuario($data->datoDni,$data->datoCorreo,$data->datoTipoUsuario);
+  
+  try{
+
+    $conexion = Conexion::establecer();
+    $daoUsuario= new UsuarioDAO($conexion);
+    $daoUsuario->save($usuario);
+}
+catch(PDOException $ex){
+    $response->{"error"} = $ex->getMessage();
+}
+catch(\Exception $ex){
+    $response->{"error"} = $ex->getMessage();
+}
+
+
+echo json_encode($response);
+}
+  
+
 
 public function showSave($controller, $action, $data){
 

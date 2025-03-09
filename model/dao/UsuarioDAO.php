@@ -84,14 +84,15 @@ public function loadCuenta($id){
     
     public function save($usuario){
         $this->validateUser($usuario);
-        $sql = "INSERT INTO `usuarios` VALUES(DEFAULT, :nomb,  :clave, :tipo, :estado,1)";
+        $sql = "INSERT INTO `usuarios` VALUES(DEFAULT, :nomb,  :tipo,:clave,:tipo, 1,:reseteo,:dni)";
         $stm = $this->conn->prepare($sql);
         $stm->execute(array(
             
             "nomb" => $usuario->getNombre(),
             "clave" => $usuario->getClave(),
            "tipo" => $usuario->getIdTipoUsuario(),
-            "estado" => $usuario->getEstado(),
+            "dni"=>$usuario->getDni(),
+            "reseteo"=> $usuario->getReseteo()
         ));
     }
     private function validateUser($usuario){

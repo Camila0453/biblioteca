@@ -24,6 +24,38 @@
 
     session_start();
     //Guardamos una copia del controller
+
+
+   /* if(isset($_SESSION["clave_secreta"]) && ($_SESSION["clave_secreta"] === "lab2023")){
+        //Preguntar por el horario
+       
+        //falta hora de salida y validar el rango horario
+    }
+    else{
+        if(($controller !== "usuario" || $action != "autentication") && ($action!="reseteoClave" && $action!="resetear" ) ){
+          
+                $controller = 'usuario'; 
+                $action = 'login';
+                $data = 0;
+            
+        }
+            
+        }*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    
     $inputController = $controller;
     //Invocar el controlador y accion correspondiente.

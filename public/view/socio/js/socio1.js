@@ -37,7 +37,7 @@ function list(){
               
                       }
               
-                        console.log("hola estado es"+ estado)
+                       
                  let html= '<tr  id= "'+so.dni+'" class="'+(so.estado===0 ? 'socio-inactivo' :' ')+'">';
                  html += '<td id="inden">' +  cont+ '</td>';
                  html += '<td id="">' +  so.nombreSocio+ '</td>';

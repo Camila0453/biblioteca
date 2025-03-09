@@ -25,19 +25,19 @@
     
   <form id="formAlta" class="form-label"  method="POST" action="" enctype="multipart/form-data">
   <div class="form-group row">
-      <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">Correo (usuario)</label>
+       <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">Nombre</label>
       <div class="col-sm-4">
-      <input class="form-control form-control-sm" required maxlength="255" minlength="15" type="mail" name="datoCorreo" id="datoCorreo">
+      <input required type="password" maxlength="15" minlength="8" class="form-control form-control-sm" id="datoNombre" name="datoNombre" placeholder="">
       </div>
-      <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">Clave</label>
+      <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">DNI (clave provisoria)</label>
       <div class="col-sm-4">
-      <input required type="password" maxlength="15" minlength="8" class="form-control form-control-sm" id="datoClave" name="datoClave" placeholder="">
+      <input class="form-control form-control-sm" required maxlength="8" minlength="8" type="mail" name="datoDni" id="datoDni">
       </div>
   </div>
   <div class="form-group row">
-      <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">Vuelva a repetir su clave</label>
+  <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">Correo (usuario)</label>
       <div class="col-sm-4">
-          <input required  maxlength="15" minlength="8" type="password" class="form-control form-control-sm" id="datoClave2" name="datoClave2" placeholder="">
+      <input class="form-control form-control-sm" required maxlength="255" minlength="15" type="mail" name="datoCorreo" id="datoCorreo">
       </div>
       <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">Tipo Usuario</label>
      <div class="col-sm-4">
