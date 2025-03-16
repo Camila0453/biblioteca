@@ -27,7 +27,7 @@
   <div class="form-group row">
        <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">Nombre</label>
       <div class="col-sm-4">
-      <input required type="password" maxlength="15" minlength="8" class="form-control form-control-sm" id="datoNombre" name="datoNombre" placeholder="">
+      <input required type="text" maxlength="45" minlength="8" class="form-control form-control-sm" id="datoNombre" name="datoNombre" placeholder="">
       </div>
       <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">DNI (clave provisoria)</label>
       <div class="col-sm-4">
@@ -62,9 +62,11 @@
   <button id="limp" type="button" class="btn btn-success my-4" onclick="limpiar(formAlta)" >Limpiar</button>
   </form>
 
-  <a href="cliente/index">Volver a la página de inicio</a>
+  <a href="index">Volver a la página de inicio</a>
   
   </center>
+  <div id="liveAlertPlaceholder2" class="toast-container position-fixed bottom-0 end-0 p-3">
+</div>
 </body>
 <footer>
 <?php

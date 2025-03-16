@@ -3,14 +3,15 @@ namespace model\entities;
 
 
 final class Usuario{
-    private $id,$nombre,$clave,$idTipoUsuario,$estado,$dni,$reseteo;
+    private $id,$nombre,$clave,$idTipoUsuario,$estado,$dni,$reseteo,$nombreC;
     function __construct($clave,$usuario,$tipo){
         $this->id=0;
         $this->nombre=$usuario;
+        $this->nombreC="";
         $this->clave=$clave;
         $this->idTipoUsuario=$tipo;
         $this->estado=1;
-        $this->dni=0;
+        $this->dni=$clave;
         $this->reseteo=0;
   
       }
@@ -30,9 +31,14 @@ function getIdTipoUsuario():int{
 function getEstado():int{
     return $this->estado;
 }
+
+function getNombreC():string{
+    return $this->nombreC;
+}
+
 public function setEstado($estado){
   
-    $this->estado=($estado===0 || $estado===1)? trim($estado):0;
+    $this->estado= $estado;
   }
  public function setId($id){
   
@@ -40,10 +46,15 @@ public function setEstado($estado){
   }
 
   function setNombre($nombre){
-    $this->nombre= ((is_string($nombre))&&(strlen(trim($nombre)) <= 255)) ? trim($nombre) : "m";
+   $this->nombre= $nombre;
+    //$this->nombre= ((is_string($nombre))&&(strlen(trim($nombre)) <= 255)) ? trim($nombre) : "m";
 }
 public function getDni(): string{
     return $this->dni;
+}
+public function setNombreC($nombreC): void{
+    $this->nombreC=$nombreC;
+    //$this->nombreC = ((is_string($nombreC))&&(strlen(trim($nombreC)) <= 45)) ? trim($nombreC) : "x";
 }
 public function setDni($dni): void{
     $dni= trim($dni);
@@ -59,7 +70,7 @@ public function setReseteo($reseteo){
     $this->reseteo= $reseteo;
 }
 public function getReseteo():int{
-    return $this->getReseteo();
+    return $this->reseteo;
 }
 
 public function toJson(): object{

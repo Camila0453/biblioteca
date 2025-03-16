@@ -84,7 +84,7 @@ public function loadCuenta($id){
     
     public function save($usuario){
         $this->validateUser($usuario);
-        $sql = "INSERT INTO `usuarios` VALUES(DEFAULT, :nomb,  :tipo,:clave,:tipo, 1,:reseteo,:dni)";
+        $sql = "INSERT INTO `usuarios` VALUES(DEFAULT, :nomb, :clave, :tipo, 1,0,:dni,:nombreC)";
         $stm = $this->conn->prepare($sql);
         $stm->execute(array(
             
@@ -92,7 +92,8 @@ public function loadCuenta($id){
             "clave" => $usuario->getClave(),
            "tipo" => $usuario->getIdTipoUsuario(),
             "dni"=>$usuario->getDni(),
-            "reseteo"=> $usuario->getReseteo()
+            "nombreC"=>$usuario->getNombreC()
+           
         ));
     }
     private function validateUser($usuario){
@@ -141,27 +142,22 @@ public function loadCuenta($id){
    
 
    public function update($usuario){
-   /* $ap= $usuario->getApellido();
     $nom= $usuario->getNombre();
-    $correo= $usuario->getCorreo();
-    $cuenta =$usuario->getCuenta();
-    $perfilId= (int) $usuario->getPerfilId();
-    $perfil= (int) $perfilId;
-    $estado=$usuario->getEstado();
-    $horaEntrada=$usuario->getHoraEntrada();
-    $horaSalida=$usuario->getHoraSalida();
-    $reseteo=$usuario->getReseteoClave();
+    $nomC= $usuario->getNombreC();
+    $dni= $usuario->getDni();
+    $tipo =$usuario->getIdTipoUsuario();
     $id=$usuario->getId();
+    $estado= $usuario->getEstado();
     
   
-    $sql= "UPDATE usuarios SET apellido = '$ap', nombre = '$nom',  correo = '$correo',cuenta = '$cuenta',perfilId = '$perfil',estado = '$estado',horaEntrada = '$horaEntrada',horaSalida = '$horaSalida',reseteoClave = '$reseteo' WHERE id = '$id'";
+    $sql= "UPDATE usuarios SET estado= $estado,nombre = '$nom', nombreCompleto = '$nomC',  dni = '$dni',tipoUsuario = '$tipo' WHERE id = '$id'";
  
      
      $stmt = $this->conn->prepare($sql);
      if(!$stmt->execute()){
          throw new \Exception("No se pudo eliminar");
      }
-     return $stmt->fetchAll(\PDO::FETCH_ASSOC);*/
+     return $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
  }
    
@@ -231,7 +227,7 @@ public function buscarPerfil($id){
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
 }
     public function list($filtros){
-    $sql = "SELECT usuarios.id, usuarios.nombre as nomUser,usuarios.estado,usuarios.tipoUsuario,tiposusuario.nombre as tipoUsuario, usuarios.reseteoClave FROM usuarios INNER JOIN tiposusuario ON tiposusuario.id = usuarios.tipoUsuario";
+    $sql = "SELECT usuarios.id, usuarios.nombre as nomUser,usuarios.estado,usuarios.nombreCompleto,usuarios.dni, usuarios.tipoUsuario AS idTipoUsuario,TRIM(tiposusuario.nombre)  as tipoUsuario, usuarios.reseteoClave FROM usuarios INNER JOIN tiposusuario ON tiposusuario.id = usuarios.tipoUsuario";
   //   $sql = "SELECT * FROM usuarios";
         $stmt = $this->conn->prepare($sql);
         if(!$stmt->execute()){

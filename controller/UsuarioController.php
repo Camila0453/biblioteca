@@ -67,7 +67,7 @@ final class UsuarioController{
               $response->{"result"} = $user->toJson();
           }
           catch(PDOException $ex){
-              $response->{"error"} = "Error en base de datosxdxd: " . $ex->getMessage();
+              $response->{"error"} = "Error en base de datos: " . $ex->getMessage();
           }
           catch(\Exception $ex){
               $response->{"error"} = $ex->getMessage();
@@ -135,7 +135,7 @@ public function delete($controller, $action, $data){
 
   }
   try{
-     
+   
       $conexion = Conexion::establecer();
       $dao = new UsuarioDAO($conexion);
     
@@ -166,14 +166,15 @@ public function save($controller, $action, $data){
   $response->{"action"} = $action;
 
   $data = json_decode(file_get_contents("php://input"));
-  
+ 
   $user = new Usuario($data->datoDni,$data->datoCorreo,$data->datoTipoUsuario);
-  
+ 
+  $response->{"result"} = $user->toJson();
   try{
-
+    $user->setNombreC($data->datoNombre);
     $conexion = Conexion::establecer();
     $daoUsuario= new UsuarioDAO($conexion);
-    $daoUsuario->save($usuario);
+    $daoUsuario->save($user);
 }
 catch(PDOException $ex){
     $response->{"error"} = $ex->getMessage();
@@ -192,5 +193,41 @@ public function showSave($controller, $action, $data){
 
         
   require_once("../public/view/usuario/agregar.php");
+
 }
+public function update($controller, $action, $data){
+
+  $response = json_decode('{"result":[],"controller":"", "action":"","error":""}');
+  $response->{"controller"} = $controller;
+  $response->{"action"} = $action;
+  $data = json_decode(file_get_contents("php://input"));
+
+  $id= (int) $data->{"datoId"};
+  
+  try{
+   
+      $conexion = Conexion::establecer();
+      $dao = new UsuarioDAO($conexion);
+      $user= $dao->load($id);
+      $user->setNombreC($data->{"datoNombreC"});
+      $user->setNombre($data->{"datoCorreox"});
+      $user->setEstado($data->{"datoEstado"});
+     
+      $user->setDni($data->{"datoDni"});
+      $user->setTipoUsuario($data->{"datoTipoUsuario"});
+   
+     
+
+      $dao->update($user);
+      //Por ahora, si hubieran filtros, vendrían en $data
+      $response->{"result"} = $user->toJson();
+  }
+  catch(PDOException $ex){
+      $response->{"error"} = "Error en base de datos: " . $ex->getMessage();
+  }
+  catch(\Exception $ex){
+      $response->{"error"} = $ex->getMessage();
+  }
+
+  echo json_encode($response);  } 
 }
