@@ -8,7 +8,7 @@
            
           </button>
           <ul class="dropdown-menu dropdown-menu-dark">
-            <li><a class="dropdown-item" href="usuario/logout">Cerrar sesión</a></li>
+            <li><a class="dropdown-item" href="logout">Cerrar sesión</a></li>
             <li><a class="dropdown-item" href="usuario/logout">Gestionar tu cuenta</a></li>
             <li><a class="dropdown-item" href="usuario/logout">Configuración</a></li>
           

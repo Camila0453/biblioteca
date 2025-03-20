@@ -1,9 +1,13 @@
-console.log("hola soy login.js")
+console.log("ñajaaaa")
+function showIndex(){
+    window.location.href = "index";
+}
 function log1(){
+    
     let form=document.forms["formLogin"];
     let request = {};
-    let cuenta= form.datoCuenta.value;
-    request.datoCuenta= form.datoCuenta.value;
+  
+    request.datoCuenta= form.datoUsuario.value;
     request.datoClave= form.datoClave.value;
     if(form.reportValidity()==true){
    
@@ -14,11 +18,14 @@ function log1(){
               alert(data.error);
                return;
            }
-          /* if(data.perfil == "1"){
-               window.location.href = "usuario/admin";
+           console.log("ñao")
+           
+           if(data.perfil == 1){
+            
+            window.location.href = "usuario/indexadmin";
            };
-           if(data.perfil == "4"){
-               window.location.href = "cliente/index";
+           /*if(data.perfil == "4"){
+             
            };
             
            if(data.error == "Debe resetear su clave"){
@@ -31,7 +38,7 @@ function log1(){
        .catch(()=>{});
     }
    }
-function log(){
+/*function log(){
    
     let form=document.forms["formLogin"];
     let request = {};
@@ -57,9 +64,9 @@ function log(){
             
            window.location.href = "usuario/reseteoClave/"+cuenta;
             
-        };*/
+        };
 
     })
     .catch(()=>{});
- }
+ }*/
 

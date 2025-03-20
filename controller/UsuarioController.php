@@ -14,12 +14,20 @@ final class UsuarioController{
     /**
      * Página principal o de inicio del módulo CLIENTE
      */
+     public function login($controller, $action, $data){
+        echo"login";
+      require_once("../public/view/usuario/login.php");
+     }
+    
     public function index($controller, $action, $data){
-      //  $headTitle="Sistema";
-        require_once("../public/view/usuario/index.php");
-       
-
-    }
+      $headTitle="Sistema";
+      require_once("../public/view/usuario/index.php");}
+    public function indexAdmin($controller, $action, $data){
+        //  $headTitle="Sistema";
+          require_once("../public/view/usuario/indexAdmin.php");
+         
+  
+      }
     public function activar($controller,$action,$data){
     //  echo"SOY USUARIOCONTROLLER",var_dump($data);
       $response = json_decode('{"result":[],"controller":"", "action":"","error":""}');
@@ -75,13 +83,15 @@ final class UsuarioController{
         //  echo json_encode($response); 
       }
     public function autentication($controller,$action,$data){
-    
+
         //require_once("../public/view/usuario/login.php");
         $response = json_decode('{"controller":"", "action":"","error":"","perfil":""}');
         $response->{"controller"} = $controller;
         $response->{"action"} = $action;
         $data = json_decode(file_get_contents("php://input"));
-      $cuenta= $data->{"datoCuenta"};
+     
+     
+        $cuenta= $data->{"datoCuenta"};
       $clave= $data->{"datoClave"};
         try{
             $conexion = Conexion::establecer();
@@ -159,6 +169,12 @@ public function delete($controller, $action, $data){
   echo json_encode($response);
   //header("Location:biblioteca/public/view/usuario/index");
   //exit();
+}
+public function logout($controller, $action, $data){
+    session_unset();
+    session_destroy();
+    require_once("../public/view/usuario/logout.php");
+    header("refresh:6; login");
 }
 public function save($controller, $action, $data){
   $response = json_decode('{"result":{},"controller":"", "action":"","error":""}');

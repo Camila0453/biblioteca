@@ -165,17 +165,18 @@ public function loadCuenta($id){
     public static function login($conn, $cuenta, $clave): void{
         //agarro hora entrada hora de salida en el select
        
-        $sql="SELECT id, cuenta, clave FROM usuarios WHERE cuenta= :cuenta";
+        $sql="SELECT id, nombre, clave,estado,reseteoClave,nombreCompleto FROM usuarios WHERE nombre= :nombre";
         
         $stm = $conn->prepare($sql); //le pasamos conn xw es un metodo estatico
         
-        $stm->execute(array("cuenta" => $cuenta));
+        $stm->execute(array("nombre" => $cuenta));
 
       
         if($stm->rowCount() != 1){
             throw new \Exception("No existe la cuenta => " . $cuenta);
         }
         $result = $stm->fetch();
+        
         if(!password_verify($clave, $result->clave)){
             throw new \Exception("La cuenta o clave es incorrecta");
         }
@@ -186,13 +187,10 @@ public function loadCuenta($id){
          
             throw new \Exception("Debe resetear su clave");}
            // $_SESSION["id"]=$result->id;//USAR ID O NOMBRE
-            
-        
-        
-
       
  /*$_SESSION["estado"]=0;;//USAR ID O NOMBRE*
 //crear la info de estado de la session*/
+$_SESSION["nombre"]=$result->nombreCompleto;
 $_SESSION["clave_secreta"]="lab2023";
 $_SESSION["perfil"]=1;}
    

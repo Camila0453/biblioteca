@@ -1,9 +1,23 @@
+console.log("usuario")
 document.addEventListener("DOMContentLoaded",()=>{
    
    list()
   
          });
-         
+
+         const showIndex = ()=>{
+   
+          //window.location.href = "view/cliente/cliente_alta.php";
+          window.location.href = "index";
+      };  
+
+const showLibros=()=>{
+  window.location.href = "../libro/index";
+}
+      
+const showSocios =()=>{
+  window.location.href = "../socio/index";
+}
  const showSave = ()=>{
    
             //window.location.href = "view/cliente/cliente_alta.php";
@@ -12,9 +26,9 @@ document.addEventListener("DOMContentLoaded",()=>{
   function list(){
     let estado="Inactivo";
     
-
+    
      let cont=1;
-           fetch("list",{"method":"POST", "headers":{"Content-Type":"application/json"}, "body": JSON.stringify()})
+           fetch("list/usuario",{"method":"POST", "headers":{"Content-Type":"application/json"}, "body": JSON.stringify()})
            .then(response => response.json())
            .then(data => {
                if(data.error !== ""){
@@ -147,7 +161,7 @@ const sendNewUser = ()=>{
                 toastBootstrap1.hide()
                 let motivo= document.getElementById("inputMotivo").value;
                 if(motivo){
-                   fetch("delete",{
+                   fetch("delete/usuario",{
                    
                        method:'POST',
                        headers:{ 'Content-Type':'application/json'},
@@ -264,7 +278,7 @@ let form= document.getElementById("formAct")
    request.datoTipoUsuario= form.datoTipoUsuario.value;
    request.datoId= us.id;
 
-  fetch("update",
+  fetch("update/usuario",
     {
         method:'POST',
         headers:{ 'Content-Type':'application/json'},
