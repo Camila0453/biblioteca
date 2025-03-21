@@ -4,7 +4,7 @@ namespace model\entities;
 
 final class Libro{
     private $ISBN,$titulo,$edicion,$cantEjemplares,$editorial, $estado,$idAutor,$idDisciplina;
-    function __construct($idSocio){
+    function __construct(){
         $this->ISBN=0;
         $this->titulo="";
         $this->edicion=0;

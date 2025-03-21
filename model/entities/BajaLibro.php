@@ -2,15 +2,15 @@
 namespace model\entities;
 
 
-final class Prestamo{
-private $id,$idLibro,$fechaHora,$idUsuario,$obs;
+final class BajaLibro{
+private $id,$idLibro,$fechaHora,$idUsuario,$motivo;
 
 function __construct(){
     $this->id=0;
     $this->idLibro=0;
     $this->fechaHora="";
     $this->idUsuario=0;
-    $this->obs="";
+    $this->motivo="";
 }
 
 function getId():int{
@@ -25,20 +25,20 @@ function getFechaHora():string{
 function getIdUsuario():int{
     return $this->idUsuario;
 }
-function getObs():string{
-    return $this->obs;
+function getMotivo():string{
+    return $this->motivo;
 }
 function setFechaHora($fechaHora){
     $this->fechaHora=$fechaHora;
 }
 function setIdUsuario($idSocio){
-    $this->idSocio = (is_integer($idSocio) && ($idSocio > 0)) ? $idSocio : 0; 
+    $this->idUsuario = (is_integer($idSocio) && ($idSocio > 0)) ? $idSocio : 0; 
 }
 function setIdLibro($idLibro){
     $this->idLibro= $idLibro; //ES ISBN
 }
-function setObs($obs){
-    $this->obs= ((is_string($obs))&&(strlen(trim($obs)) <= 250)) ? trim($obs) : "";
+function setMotivo($obs){
+    $this->motivo= ((is_string($obs))&&(strlen(trim($obs)) <= 250)) ? trim($obs) : "";
    
 }
 public function toJson(): object{

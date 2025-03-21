@@ -191,6 +191,7 @@ public function loadCuenta($id){
  /*$_SESSION["estado"]=0;;//USAR ID O NOMBRE*
 //crear la info de estado de la session*/
 $_SESSION["nombre"]=$result->nombreCompleto;
+$_SESSION["idUsuario"]=$result->id;
 $_SESSION["clave_secreta"]="lab2023";
 $_SESSION["perfil"]=1;}
    
