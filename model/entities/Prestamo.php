@@ -1,18 +1,38 @@
 <?php
 namespace model\entities;
-
+use DateTime;
 
 final class Prestamo{
-private $id,$idSocio,$fechaInicio,$fechaVen,$tipo,$ejemplares;
+private $id,$idSocio,$fechaInicio,$fechaVen,$tipo,$estado;
 
 function __construct(){
     $this->id=0;
     $this->idSocio=0;
-    $this->fechaInicio="";
-    $this->fechaVen="";
+    $this->fechaInicio= date("y-m-d H:i:s");
+    $this->fechaVen= $this->calcfechaVen(7);
     $this->tipo=0;
+    $this->estado=1; //1 prestamo activo 0 prestamo devuleto 2 prestamo tardio
     $this->ejemplares= [];
 
+  }
+  function calcFechaVen($cantDias){
+   $fecha= new DateTime();
+   $fecha->setTime(18,0);
+   $contDias=0;
+
+   while($contDias<$cantDias){
+        $fecha->modify('+1 day');
+        if($fecha->format('N')<6){
+         $contDias++;
+        }
+        
+   }
+  // echo "ola fecha ven es",$fecha->format("y-m-d H:i:s");
+
+   return $fecha->format("y-m-d H:i:s");
+  }
+  function setId($id){
+$this->id=$id;
   }
   function getId():int{
     return $this->id;
@@ -32,6 +52,9 @@ function __construct(){
  function getEjemplares():array{
    return $this->ejemplares;
 }
+function getEstado():int{
+   return $this->estado;
+}
 function setEjemplares(int $idEjem):bool{
    if( (count($this->ejemplares)>=3) || $this->existeEjem($idEjem)){
       return false;  
@@ -41,7 +64,7 @@ function setEjemplares(int $idEjem):bool{
       array_push($this->ejemplares,$idEjem);
       return true;
 }
-private function existeEjem($ejem):bool{
+/*private function existeEjem($ejem):bool{
    $i=0;
    $encontrado=false;
 
@@ -52,10 +75,10 @@ private function existeEjem($ejem):bool{
         $i++;
    }
   return $encontrado;
-}
+}*/
 
  function setIdSocio($idSocio){
-    $this->idSocio = (is_integer($idSocio) && ($idSocio > 0)) ? $idSocio : 0;  
+    $this->idSocio = ($idSocio) && ($idSocio > 0) ? $idSocio : 0;  
  }
  function setFechaInicio($fecha){
     
@@ -78,12 +101,16 @@ private function existeEjem($ejem):bool{
 function setTipo($tipo){
     $this->tipo = (is_integer($tipo && ($tipo> 0)) ? $tipo : 0);  
  }
+ function setCodigo($tipo){
+   $this->tipo = (is_integer($tipo && ($tipo> 0)) ? $tipo : 0);  
+}
  public function toJson(): object{
     $json = json_decode('{}');
     $json->{"id"} = $this->getId();
     $json->{"idSocio"} = $this->getIdSocio();
     $json->{"fechaInicio"} = $this->getFechaInicio();
     $json->{"fechaVen"} = $this->getFechaVen();
+    $json->{"estado"} = $this->getEstado();
     $json->{"tipo"} = $this->getTipo();
     
     

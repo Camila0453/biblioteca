@@ -16,6 +16,7 @@ final class SocioDAO extends DAO implements InterfaceDAO{
     }
     public function load($id): Socio{
     //consultar para buscar el registro con el id=$id
+       // echo"ola soy loaddao si se encontro";
     $sql= "SELECT * FROM socios  WHERE dni= :id";
     //preparar la consulta
     $stm = $this->conn->prepare($sql);
@@ -23,9 +24,8 @@ final class SocioDAO extends DAO implements InterfaceDAO{
         "id"=> $id)
     );
     //cuando haga el select preguntar cuantos registros devolvió la consulta
-    if($stm->rowCount() != 1){
-        throw new \Exception("No se encontro el socio con lhlel id". $id );
-    }
+
+
     $result = $stm->fetch();
     $socio= new Socio();
     //hacer todos los setters 
@@ -43,7 +43,32 @@ final class SocioDAO extends DAO implements InterfaceDAO{
     $socio->setTipoSocio($result->tipoSocio);
     $socio->setFrenteDni($result->frenteDni);
     $socio->setDorsoDni($result->dorsoDni);
+
      return $socio;
+    //si es distinto de uno, excepcion("no se encontró el cliente con el id $x")
+    //si lo encontre le hago fetch saco los datos de la consulta
+    //crear una entidad nueva, setear los campos y devolver la entidad
+}
+public function loadx($id){
+   
+    $sql = "SELECT socios.nombre as nombreSocio, socios.apellido,socios.dni,socios.telefono,socios.correo,socios.domicilio,socios.localidad,socios.provincia,socios.usuario,socios.estado ,socios.dorsoDni,socios.frenteDni, DATE_FORMAT(fechaAlta,'%d-%m-%Y') as fechaAlta, tipossocio.nombre as tsn FROM socios INNER JOIN tipossocio ON socios.tipoSocio=tipossocio.id  WHERE dni= '$id'";
+    $stmt = $this->conn->prepare($sql);
+    if(!$stmt->execute()){
+        throw new \Exception("No se pudo ejecutar la consulta de buscar socio");
+    }
+    return $stmt->fetch(\PDO::FETCH_ASSOC);
+}
+public function loadd($id): bool{
+    //consultar para buscar el registro con el id=$id
+       // echo"ola soy loaddao si se encontro";
+    $sql= "SELECT * FROM socios  WHERE dni= :id";
+    //preparar la consulta
+    $stm = $this->conn->prepare($sql);
+    $stm->execute(array(
+        "id"=> $id)
+    );
+  //  var_dump("ola resultado", $stm->rowCount() === 1);
+     return $stm->rowCount() === 1;
     //si es distinto de uno, excepcion("no se encontró el cliente con el id $x")
     //si lo encontre le hago fetch saco los datos de la consulta
     //crear una entidad nueva, setear los campos y devolver la entidad

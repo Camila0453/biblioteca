@@ -13,6 +13,8 @@ use model\entities\Usuario;
 use model\entities\BajaSocio;
 require_once "../model/dao/SocioDAO.php";
 use model\dao\SocioDAO;
+require_once "../model/dao/PrestamoDAO.php";
+use model\dao\PrestamoDAO;
 require_once "../model/dao/BajaSocioDAO.php";
 use model\dao\BajaSocioDAO;
 require_once "../model/dao/UsuarioDAO.php";
@@ -44,15 +46,17 @@ final class SocioController{
        // require_once("../public/view/cliente/cliente_eliminar.php");
     }
     public function load($controller, $action, $data){
+        echo"ola soy load";
         $response = json_decode('{"result":[],"controller":"", "action":"","error":""}');
         $response->{"controller"} = $controller;
         $response->{"action"} = $action;
         $id=(int ) $data;
+        echo"ola el id hhhhhes",$id;
         try{
             $conexion = Conexion::establecer();
             $dao = new SocioDAO($conexion);
             $s= $dao->load($id);
-            $response->{"result"} = $c->toJson();
+            $response->{"result"} = $s->toJson();
             
         }
         catch(PDOException $ex){
@@ -65,6 +69,64 @@ final class SocioController{
 
      return $response;
     
+    }
+    public function socioCantPrestamo($controller, $action, $data):void {
+       
+        $response = json_decode('{"result":[],"controller":"", "action":"","error":""}');
+        $response->{"controller"} = $controller;
+        $response->{"action"} = $action;
+        $data = json_decode(file_get_contents("php://input"));
+        $id=(int ) $data->{"id"};
+        
+       try{
+
+        $conexion = Conexion::establecer();
+       $dao= new PrestamoDAO($conexion);
+      $cant= $dao->socioCantPres($id);
+
+    
+    if($cant==null){
+        $response->{"error"}= "no sepudo";
+        exit();
+
+    }
+    else{
+        $response->{"result"}=$cant;
+    }
+    
+}catch(PDOException $ex){
+    $response->{"error"} = "Error en base de datos: " . $ex->getMessage();
+    exit();
+}
+catch(\Exception $ex){
+    $response->{"error"} = $ex->getMessage();
+    exit();}
+
+    echo json_encode($response);
+   
+    }
+    public function loadd($controller, $action, $data){
+       // echo"ola soy load";
+        $response = json_decode('{"result":[],"controller":"", "action":"","error":""}');
+        $response->{"controller"} = $controller;
+        $response->{"action"} = $action;
+        $data = json_decode(file_get_contents("php://input"));
+        $id=(int ) $data->{"dni"};
+      
+        try{
+            $conexion = Conexion::establecer();
+            $dao = new SocioDAO($conexion);
+            //Por ahora, si hubieran filtros, vendrían en $data
+            $response->{"result"} = $dao->loadx($id);
+        }
+        catch(PDOException $ex){
+            $response->{"error"} = "Error en base de datos: " . $ex->getMessage();
+        }
+        catch(\Exception $ex){
+            $response->{"error"} = $ex->getMessage();
+        }
+    
+        echo json_encode($response);
     }
     public function save($controller, $action, $data){
       
@@ -243,6 +305,10 @@ if(isset($_POST["submit"])) {
         }
 
         echo json_encode($response);   
+    }
+
+    public function buscar($controller, $action, $data){
+
     }
     public function delete($controller, $action, $data){
    

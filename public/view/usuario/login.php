@@ -21,7 +21,7 @@
 </head>
 <header>
 <?php
-/*require_once "../includes/headerlogin.php";*/
+require_once "../public/view/includes/headerlogin.php";
       // require_once "../public/view/includes/headerlogin.php";
    ?>
     </header>
@@ -29,25 +29,29 @@
     <br>
     <br>
    <center> <h2>Autenticación</h2>
-   <form id="formLogin" name="formLogin" class="form-label"  method="POST" action="" enctype="multipart/form-data">
+  <div class="card" style="width: 27rem;">
+  <div class="card-body">
+  <form id="formLogin" name="formLogin" class="form-label"  method="POST" action="" enctype="multipart/form-data">
   <div class="form-group">
        <label for="colFormLabelSm" class="col-sm-4 col-form-label col-form-label-sm">Nombre</label>
-      <div class="col-sm-3">
+      <div class="col-sm-6">
       <input required type="text" maxlength="45" minlength="8" class="form-control form-control-sm" id="datoUsuario" name="datoUsuario" placeholder="">
       </div>
       <label for="colFormLabelSm" class="col-sm-4 col-form-label col-form-label-sm">Clave</label>
-      <div class="col-sm-3">
+      <div class="col-sm-6">
       <input class="form-control form-control-sm" required maxlength="8" minlength="8" type="password" name="datoClave" id="datoClave">
       </div>
   </div>
   <button id="btnLogin"  name="btnLogin" onclick="log1()" type="button" class="btn btn-success my-4"  >Ingresar </button>
   <button id="limp" type="button" class="btn btn-success my-4" onclick="limpiar(formAlta)" >Limpiar</button>
   </form>
+  </div>
+</div>
 </body>
 <footer>
 <?php
 
-/*require_once "../includes/footer.php";*/
+require_once "../public/view/includes/footer.php";
    ?>
 </footer>
 </html>

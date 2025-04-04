@@ -14,9 +14,15 @@ document.addEventListener("DOMContentLoaded",()=>{
 const showLibros=()=>{
   window.location.href = "../libro/index";
 }
+const showEjemplares=()=>{
+  window.location.href = "../ejemplar/index";
+}
       
 const showSocios =()=>{
   window.location.href = "../socio/index";
+}
+const showPrestamos =()=>{
+  window.location.href = "../prestamo/index";
 }
  const showSave = ()=>{
    

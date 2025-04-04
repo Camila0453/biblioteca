@@ -10,27 +10,15 @@ require_once "../model/entities/Prestamo.php";
 use model\entities\Libro;
 
 
-final class PrestamoDAO extends DAO implements InterfaceDAO{
+final class PrestamoEjemplarDAO extends DAO implements InterfaceDAO{
 
     public function __construct($conn){
         parent::__construct($conn);
     }
-public function socioCantPres($id): int{
-    $sql="SELECT COUNT(*) FROM PRESTAMOS WHERE socio='$id' and estado=1 and (fechaVen> NOW() or (fechaVen= CURDATE() and hour(fechaVen)>=18))";
-    $stmt = $this->conn->prepare($sql);
-    if(!$stmt->execute()){
-        throw new \Exception("No se pudo ejecutar la consulta de LISTAR");
-    }
-    return $stmt->fetchColumn();
-}
-
 public function list($filtros){
-    $sql = "SELECT  prestamos.id, prestamos.socio,prestamos.fechaInicio, prestamos.fechaVen,prestamos.tipo,prestamos.estado, socios.apellido as socioApellido,socios.nombre as socioNombre
-    , ejemplares.codigo as codigoEjemplar, libro.titulo as libro, ejemplarprestamo.fechaDev as fechaDev,ejemplarprestamo.cantRenovaciones as cantReno, ejemplarprestamo.obsDevolucion as obsDev from prestamos
-    INNER JOIN socios on socios.dni=prestamos.socio
-     INNER JOIN ejemplarprestamo on ejemplarprestamo.prestamo=prestamos.id
-    INNER JOIN ejemplares on ejemplares.codigo=ejemplarprestamo.ejemplar
-    INNER JOIN libro on libro.id=ejemplares.libro";
+    $sql = "SELECT  prestamos.id, prestamos.socio,prestamos.fechaInicio, prestamos.fechaVen,prestamos.tipo,prestamos.estado, socios.nombre as socio 
+    from prestamos
+    INNER JOIN socios on socios.dni=prestamos.socio";
    
       // $sql = "SELECT * FROM usuarios";
           $stmt = $this->conn->prepare($sql);
@@ -74,23 +62,22 @@ public function list($filtros){
          return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     
      }
-public function save($socio){
+public function save($ej){
   //  $this->validateLibro($libro);
   //echo"ola soy daosave el socio id es",$socio->getIdSocio();
-  //echo"fechaven es ",$socio->getFechaVen();
-    $sql = "INSERT INTO `prestamos` VALUES(DEFAULT, :socio, :fechaInicio,:fechaVen,:tipo,:estado )";
+ 
+    $sql = "INSERT INTO `ejemplarprestamo` VALUES(DEFAULT, :idPrestamo,:idEjemplar, :cantRenovaciones,:fechaDev,:obsDevolucion )";
     $stm = $this->conn->prepare($sql);
     $stm->execute(array(
-        "socio" => $socio->getIdSocio(),
-        "fechaInicio" => $socio->getFechaInicio(),
-       "fechaVen" => $socio->getFechaVen(),
-        "tipo"=>$socio->getTipo(),
-       "estado"=>$socio->getEstado()
+        "idPrestamo" => $ej->getIdPrestamo(),
+        "idEjemplar" => $ej->getIdEjemplar(),
+       "cantRenovaciones" => $ej->getCantidadRenovaciones(),
+        "fechaDev"=>$ej->getFechaDev(),
+       "obsDevolucion"=>$ej->getObsDev()
     ));
 
 
-$idPress=$this->conn->lastInsertId();
-$socio->setId($idPress);
+
 
 }
 public function load($id){

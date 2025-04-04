@@ -6,7 +6,7 @@
       
    ?>
    <link  rel="stylesheet"href="/biblioteca/public/view/socio/css/style.css"> 
-   <script defer type="text/javascript" src="../view/libro/js/libro.js"></script>  
+   <script defer type="text/javascript" src="../view/prestamo/js/prestamo.js"></script>  
       
 </head>
 <header>
@@ -26,13 +26,13 @@
     
   <form id="formAlta" class="form-label"  method="POST" action="" enctype="multipart/form-data">
   <div class="form-group row">
-       <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">ISBN</label>
+       <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">Socio</label>
       <div class="col-sm-4">
-      <input required type="text" maxlength="13" minlength="" class="form-control form-control-sm" id="datoISBN" name="datoISBN" placeholder="">
+      <input required type="text" maxlength="13" minlength="" class="form-control form-control-sm" id="datoSocio" name="datoSocio" placeholder="">
       </div>
-      <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">Título</label>
+      <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">Ejemplares</label>
       <div class="col-sm-4">
-      <input class="form-control form-control-sm" required maxlength="45" minlength="1" type="text" name="datoTitulo" id="datoTitulo">
+      <input class="form-control form-control-sm" required maxlength="45" minlength="1" type="text" name="datoEjemplares" id="datoEjemplares">
       </div>
       </div>
   </div>

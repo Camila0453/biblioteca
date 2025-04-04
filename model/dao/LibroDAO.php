@@ -16,7 +16,7 @@ final class LibroDAO extends DAO implements InterfaceDAO{
         parent::__construct($conn);
     }
 public function list($filtros){
-    $sql = "SELECT libro.ISBN,libro.titulo, libro.estado,libro.edicion, libro.cantEjemplares, autores.nombre as autor, editoriales.nombre as editorial, disciplinas.nombre as disciplina 
+    $sql = "SELECT  libro.id, libro.ISBN,libro.titulo, libro.estado,libro.edicion, libro.cantEjemplares, autores.nombre as autor, editoriales.nombre as editorial, disciplinas.nombre as disciplina 
     from libro 
     INNER JOIN autores on autores.id=libro.autor
     INNER JOIN editoriales on editoriales.id=libro.editorial
@@ -30,9 +30,9 @@ public function list($filtros){
       }
 
 
- public function delete($isbn){
+ public function delete($id){
         
-        $sql= "UPDATE libro SET estado=0 WHERE ISBN='$isbn'";
+        $sql= "UPDATE libro SET estado=0 WHERE id='$id'";
         $stmt = $this->conn->prepare($sql);
         if(!$stmt->execute()){
             throw new \Exception("No se pudo eliminar");
@@ -40,15 +40,51 @@ public function list($filtros){
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
     }
-public function update($libro){
+    public function update($libro){
+        $id= $libro->getId();
+        $ISBN= $libro->getISBN();
+        $titulo= $libro->getTitulo();
+        $edicion= $libro->getEdicion();
+        $editorial =$libro->getEditorial();
+        $autor=$libro->getIdAutor();
+        $disciplina= $libro->getIdDis();
 
-}
+        $NEjem=$libro->getCantEjemplares();
+        $estado= $libro->getEstado();
+        echo"hola estado es",$estado;
+      
+        $sql= "UPDATE libro SET  ISBN= $ISBN,titulo = '$titulo', edicion = '$edicion',  editorial = '$editorial',autor = '$autor',disciplina = '$disciplina',cantEjemplares = '$NEjem',estado = '$estado' WHERE id= '$id'";
+     
+         
+         $stmt = $this->conn->prepare($sql);
+         if(!$stmt->execute()){
+             throw new \Exception("No se pudo eliminar");
+         }
+         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    
+     }
 public function save($libro){
+  //  $this->validateLibro($libro);
+    $sql = "INSERT INTO `libro` VALUES(:titulo, :edicion, :editorial,:cantEjemplares,:estado,:autor,:disciplina,DEFAULT,:ISBN )";
+    $stm = $this->conn->prepare($sql);
+    $stm->execute(array(
+        "ISBN" => $libro->getISBN(),
+        "titulo" => $libro->getTitulo(),
+       "edicion" => $libro->getEdicion(),
+        "editorial"=>$libro->getEditorial(),
+        "cantEjemplares"=>$libro->getCantEjemplares(),
+       "estado"=>$libro->getEstado(),
+       "autor"=>$libro->getIdAutor(),
+       "disciplina"=>$libro->getIdDis(),
+    ));
+
+
+
 
 }
 public function load($id){
 
-    $sql= "SELECT * FROM libro WHERE ISBN = :id";
+    $sql= "SELECT * FROM libro WHERE id = :id";
     $stm = $this->conn->prepare($sql);
     $stm->execute(array(
       "id"=> $id)
@@ -60,7 +96,7 @@ public function load($id){
   }
       $result = $stm->fetch();
      $libro= new Libro();
-     $libro->setISBN($result->ISBN);
+     $libro->setId($result->id);
      $libro->setEstado($result->estado);       
  
      return $libro;

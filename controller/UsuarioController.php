@@ -15,8 +15,10 @@ final class UsuarioController{
      * Página principal o de inicio del módulo CLIENTE
      */
      public function login($controller, $action, $data){
-        echo"login";
       require_once("../public/view/usuario/login.php");
+     }
+     public function showPerfil($controller, $action, $data){
+      require_once("../public/view/usuario/perfil.php");
      }
     
     public function index($controller, $action, $data){
@@ -174,6 +176,7 @@ public function logout($controller, $action, $data){
     session_unset();
     session_destroy();
     require_once("../public/view/usuario/logout.php");
+    
     header("refresh:6; login");
 }
 public function save($controller, $action, $data){

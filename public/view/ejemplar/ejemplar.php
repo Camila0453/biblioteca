@@ -6,7 +6,7 @@
       
    ?>
    <link  rel="stylesheet"href="/biblioteca/public/view/socio/css/style.css"> 
-   <script defer type="text/javascript" src="../view/libro/js/libro.js"></script> 
+   <script defer type="text/javascript" src="../../view/ejemplar/js/ejemplar.js"></script> 
 </head>
 <header>
 <?php
@@ -18,12 +18,19 @@
     </header>
 <body>
     <br>
-    
-    <center> <h2>Gestión de  Libros</h2> 
+    <?php 
+    require_once "../model/dao/Conexion.php";
+    $conexion = Conexion::establecer();
+               $sql= "SELECT id,titulo FROM libro WHERE id= '$data=trim($data,*)'";
+               $stmt= $conexion->prepare($sql);
+               $stmt->execute();
+               $libro= $stmt->fetch(PDO::FETCH_ASSOC); ?>
+    <center> <h2>Ejemplares <?= $libro['titulo']?> </h2> 
    <!-- <p> bienvenido <?= $_SESSION["usuario"] ?></p>-->
     <br>
-    <div id="botones" >
-
+    <form class="form-label" id="formModificar" method="POST" action="">
+    <input    value="<?= $data=trim($data,"*")?>" type="hidden" name="x" id="x">
+    </form>
     
     <button type="button" class="btn btn-primary ms-3" onclick="showSave()">Agregar Libro </button>
     <br>
@@ -40,16 +47,11 @@
                         <thead>
                         <tr>
                             <th> #</th>    
-                            <th>ISBN </th>   
-                            <th>Título</th>             
-                           <th>Autor </th>  
-                           <th>Edición </th> 
-                           <th >Editorial</th> 
-                           <th >Disciplina</th> 
-                           <th >N° Ejemplares</th> 
-                           <th >Estado</th> 
+                            <th>Código </th>   
+                            <th>Obersvaciones</th>        
+                            <th>Estado</th>     
+                            <th>Libro</th>          
                            <th >Opcion</th> 
-                           <th ></th> 
                         </tr>
                     </thead>
                      <tbody id="tablaProductos">
@@ -109,48 +111,37 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Modificar libro</h5>
+        <h5 class="modal-title">Modificar Ejemplar</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
       <form id="formAct" class="form-label"  method="POST" action="" enctype="multipart/form-data">
-  <div class="form-group row">
-       <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">ISBN</label>
+      <div class="form-group row">
+       <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Código</label>
       <div class="col-sm-4">
-      <input required type="text" maxlength="45" minlength="8" class="form-control form-control-sm" id="datoISBN" name="datoISBN" placeholder="">
+      <input required type="text" maxlength="45" minlength="8" class="form-control form-control-sm" id="datoCodigo" name="datoCodigo" placeholder="">
       </div>
-      <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Título</label>
-      <div class="col-sm-4">
-      <input class="form-control form-control-sm" required maxlength="255"  type="mail" name="datoTitulo" id="datoTitulo">
-      </div>
-      <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">N° Ejemplares</label>
-      <div class="col-sm-4">
-      <input class="form-control form-control-sm" required maxlength="1" minlength="255" type="mail" name="datoNEjem" id="datoNEjem">
-      </div>
-  </div>
-  <div class="form-group row">
-  <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Edición</label>
-      <div class="col-sm-4">
-      <input class="form-control form-control-sm" required maxlength="255" minlength="1" type="text" name="datoEdicion" id="datoEdicion">
-      </div>
-      <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Autor</label>
+      <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Libro</label>
      <div class="col-sm-4">
-        <select required class="form-control" id="datoAutor" name="datoAutor"  >
-            <option value="">Seleccione el autor</option>
+        <select disable class="form-control" id="datoLibro" name="datoLibro"  >
+            <option value="">Seleccione el libro</option>
                 <?php
                
-                 $sql= "SELECT id,nombre FROM autores";
+                 $sql= "SELECT id,titulo FROM libro";
                  $stmt= $conexion->prepare($sql);
                  $stmt->execute();
-                 $autores= $stmt->fetchAll(PDO::FETCH_ASSOC);
-                 foreach ($autores as $autor): ?>
-                   <option value="<?= $autor['id']?>"><?= trim( $autor['nombre'])?>   </option>
+                 $libros= $stmt->fetchAll(PDO::FETCH_ASSOC);
+                 foreach ($libros as $lib): ?>
+                   <option value="<?= $lib['id']?>"><?= trim( $lib['titulo'])?>   </option>
                  <?php endforeach; ?>
           </select>
-    </div> 
-  </div>
-  <div class="form-group row">
-  <labe for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Estado</labe>
+    </div>
+
+      <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Observación</label>
+      <div class="col-sm-4">
+      <input required type="text" maxlength="45" minlength="8" class="form-control form-control-sm" id="datoObservacion" name="datoObservacion" placeholder="">
+      </div>
+      <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Estado</label>
       <div class="col-sm-4">
          <select required class="form-control col-sm-10" id="datoEstado" name="datoEstado">
          <option value="">Seleccione el estado</option>
@@ -158,37 +149,9 @@
                  <option value="0">Inactivo</option>
          </select>
       </div>
-      <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Editorial</label>
-     <div class="col-sm-4">
-        <select required class="form-control" id="datoEditorial" name="datoEditorial"  >
-            <option value="">Seleccione la editorial</option>
-                <?php
-               
-                 $sql= "SELECT id,nombre FROM editoriales";
-                 $stmt= $conexion->prepare($sql);
-                 $stmt->execute();
-                 $editoriales= $stmt->fetchAll(PDO::FETCH_ASSOC);
-                 foreach ($editoriales as $edi): ?>
-                   <option value="<?= $edi['id']?>"><?= trim( $edi['nombre'])?>   </option>
-                 <?php endforeach; ?>
-          </select>
-    </div> 
-    <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Disciplina</label>
-     <div class="col-sm-4">
-        <select required class="form-control" id="datoDisciplina" name="datoDisciplina"  >
-            <option value="">Seleccione la disciplina</option>
-                <?php
-               
-                 $sql= "SELECT id,nombre FROM disciplinas";
-                 $stmt= $conexion->prepare($sql);
-                 $stmt->execute();
-                 $disciplinas= $stmt->fetchAll(PDO::FETCH_ASSOC);
-                 foreach ($disciplinas as $dis): ?>
-                   <option value="<?= $dis['id']?>"><?= trim( $dis['nombre'])?>   </option>
-                 <?php endforeach; ?>
-          </select>
-    </div> 
-   </div>
+  </div>
+  <div class="form-group row">
+      
   </form>
       </div>
       <div class="modal-footer">
@@ -198,21 +161,3 @@
     </div>
   </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-</body>
-
-<footer>
-<?php
-       require_once ("../public/view/includes/footer.php");
-   ?>
-</footer>
-</html>

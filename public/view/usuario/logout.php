@@ -20,6 +20,9 @@
     <center>
     <h1>Se ha cerrado la sesión</h1>
     <h3>En 5 segundos será redireccionado automaticamente a la página de inicio.</h3>
+    <div class="spinner-border text-primary" role="status">
+  <span class="visually-hidden">Loading...</span>
+</div>
     <h3> O bien, haga click <a href="http://localhost/entregable_02/public/"> aquí</a></h3>
 
     </center>

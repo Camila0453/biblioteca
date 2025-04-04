@@ -2,7 +2,7 @@
 namespace model\entities;
 
 
-final class Ejemplar{
+final class BajaEjemplar{
 private $id,$idEjemplar,$fechaHora,$idUsuario,$motivo;
 
 function __construct(){
@@ -10,12 +10,16 @@ function __construct(){
     $this->idEjemplar=0;
     $this->fechaHora="";
     $this->idUsuario=0;
-    $this->obs="";
+    $this->motivo="";
 }
 
 function getId():int{
     return $this->id;
 }
+function setId($id){
+    $this->id = (is_integer($id) && ($id > 0)) ? $id : 0; 
+}
+
 function getIdEjemplar():int{
     return $this->idEjemplar;
 }
@@ -32,7 +36,7 @@ function setFechaHora($fechaHora){
     $this->fechaHora=$fechaHora;//VALIDAR
 }
 function setIdUsuario($idSocio){
-    $this->idSocio = (is_integer($idSocio) && ($idSocio > 0)) ? $idSocio : 0; 
+    $this->idUsuario = (is_integer($idSocio) && ($idSocio > 0)) ? $idSocio : 0; 
 }
 function setIdEjemplar($idEjemplar){
     $this->idEjemplar= $idEjemplar; //
@@ -51,5 +55,4 @@ public function toJson(): object{
 
     
     return $json;        
-}
-}
+}}

@@ -24,16 +24,22 @@
     </center>
     <center>
     <div id="botones" >
-    <button type="button" class="btn btn-primary ms-3" onclick="showIndex()">Administrar Usuarios</button>
+    <button type="button" class="btn btn-primary ms-3" onclick="showIndex()"> Usuarios</button>
        <br>
        <br>
-       <button type="button" class="btn btn-primary ms-3" onclick="showSocios()">Administrar Socios</button>
+       <button type="button" class="btn btn-primary ms-3" onclick="showSocios()"> Socios</button>
        <br>
        <br>
-    <button type="button" class="btn btn-primary ms-3" onclick="showLibros()">Administrar Libros</button>
+    <button type="button" class="btn btn-primary ms-3" onclick="showLibros()"> Libros</button>
    <br>
    <br>
-
+   <button type="button" class="btn btn-primary ms-3" onclick="showEjemplares()">Ejemplares</button>
+   <br>
+   <br>
+   <button type="button" class="btn btn-primary ms-3" onclick="showPrestamos()"> Préstamos</button>
+   <br>
+   <br>
+   <button type="button" class="btn btn-primary ms-3" onclick="showReservas()"> Reservas</button>
     </div>
     </center>
     <div>

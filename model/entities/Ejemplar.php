@@ -30,14 +30,17 @@ private $idLibro,$codigo,$observacion, $id,$estado; //estado es obs??
     }
     public function setEstado($estado){
   
-        $this->estado=($estado===0 || $estado===1)? trim($estado):0;
+        $this->estado=($estado==0 || $estado==1)? trim($estado):0;
       }
 
     public function setIdLibro($idLibro):void{
         $this->idLibro = $idLibro; //ES ISBN        
     }
+    public function setId($id):void{
+        $this->id = $id; //ES ISBN        
+    }
     public function setCodigo($codigo){
-        $this->codigo= (is_integer($codigo) && ($codigo >=1 && $codigo<=9999)) ? $codigo: 0;
+        $this->codigo= $codigo >=1 && $codigo<=9999 ? $codigo: 0;
     }
     public function setObs($obs): void{
 
