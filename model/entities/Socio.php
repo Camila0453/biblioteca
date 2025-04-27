@@ -99,7 +99,7 @@ final class Socio{ //TERMINADA
  }
  public function setEstado($estado){
   
-   $this->estado=($estado===0 || $estado===1)? trim($estado):0;
+   $this->estado=$estado;
  }
  public function getEstado():int{
     return $this->estado;
@@ -138,13 +138,14 @@ final class Socio{ //TERMINADA
     }
 
     public function setFrenteDni($frente): void{
-        $this->frenteDni = ( is_string($frente) && (strlen(trim($frente)) <=255)) ? trim($frente) : "";
+    
+        $this->frenteDni = $frente;
     }
     public function getDorsoDni():string{
         return $this->dorsoDni;
     }
     public function setDorsoDni($dorso): void{
-        $this->dorsoDni= ( is_string($dorso) && (strlen(trim($dorso)) <=255)) ? trim($dorso) : "";
+        $this->dorsoDni= $dorso;
     }
 
     public function getTipoSocio():int{

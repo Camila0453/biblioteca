@@ -7,6 +7,7 @@
    ?>
    <link  rel="stylesheet"href="/biblioteca/public/view/socio/css/style.css"> 
    <script defer type="text/javascript" src="../../view/ejemplar/js/ejemplar.js"></script> 
+   <link href="../view/css/general.css" rel="stylesheet" />
 </head>
 <header>
 <?php
@@ -25,16 +26,15 @@
                $stmt= $conexion->prepare($sql);
                $stmt->execute();
                $libro= $stmt->fetch(PDO::FETCH_ASSOC); ?>
-    <center> <h2>Ejemplares <?= $libro['titulo']?> </h2> 
+    <center> <h1>Ejemplares <?= $libro['titulo']?> </h1> 
    <!-- <p> bienvenido <?= $_SESSION["usuario"] ?></p>-->
-    <br>
+
     <form class="form-label" id="formModificar" method="POST" action="">
     <input    value="<?= $data=trim($data,"*")?>" type="hidden" name="x" id="x">
     </form>
     
     <button type="button" class="btn btn-primary ms-3" onclick="showSave()">Agregar Libro </button>
-    <br>
-    <br>
+   
     <?php  //if($_SESSION["perfil"] == 1){ echo '<a href="usuario/admin">Volver atrás </a>';}?>
     
     </div>
@@ -161,3 +161,23 @@
     </div>
   </div>
 </div>
+</div>
+<footer class="footer py-4" style="background-color: #2a5555; color:white;">
+            <div class="container">
+                <div class="row align-items-center" >
+                    <div class="col-lg-4 text-lg-start">Universidad Nacional de la Patagonia Austral</div>
+                    <div class="col-lg-4 my-3 my-lg-0 text-center">
+                        <a class="btn btn-dark btn-social mx-2" href="https://x.com/UNPA_C_Olivia" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a class="btn btn-dark btn-social mx-2" href="https://www.facebook.com/people/Unidad-Acad%C3%A9mica-Caleta-Olivia-UNPA/100064834562211/" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a class="btn btn-dark m-3" href="https://www.instagram.com/unpa_uaco/?hl=es-la"><i class="fab fa-instagram"></i></a>
+                    </div>
+                    
+                    <div class="col-lg-4 text-lg-end" >              
+                    <div >Unidad Académica Caleta Olivia</div>
+                </div>
+            </div>
+        </footer>
+</body>
+
+
+</html>

@@ -2,6 +2,7 @@
 
 document.addEventListener("DOMContentLoaded",()=>{
     list()
+    console.log("OLAAA")
 
 });
 
@@ -39,13 +40,24 @@ function list(){
                 
                 }
 
+                if(ej.estado==2){
+                  estado= "Prestado";
+                
+                }
+
+
+                if(ej.estado==3){
+                  estado= "Reservado";
+                
+                }
+
+
+
                    let html= '<tr  id= "'+ej.id+'" class="">';
                    html += '<td id="inden">' +  cont+ '</td>';
                    html += '<td id="">' +  ej.codigo+ '</td>';
                    html += '<td id="">' + ej.observación+ '</td>';
-                   html += '<td id="">' + ej.estado+ '</td>';
-                   html += '<td id=""><button  onclick="modificar('+JSON.stringify(ej).replace(/"/g,'&quot;')+')" type="button" class="btn btn-primary"  id="btnMod">Modificar</button></td>';
-                   html += '<td id=""><button '+botonEstado+' onclick="eliminar('+ej.id+')" type="button" class="btn btn-danger"  id="btnDesactivar">Desactivar</button></td>';
+                   html += '<td id="">' + estado+ '</td>';
                    html += '</tr>';
          
            document.getElementById("tablaProductos").insertAdjacentHTML("beforeend",html);
@@ -206,7 +218,7 @@ document.getElementById("btnAct").addEventListener("click",()=>{
 
 function sendNewEjem(){
   let form = document.forms["formAlta"];
-            
+            console.log("ola")
   if(form.reportValidity()){
    console.log("hola pase el rkkeport")
     let request = {};

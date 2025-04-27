@@ -1,4 +1,4 @@
-console.log("usuario")
+
 document.addEventListener("DOMContentLoaded",()=>{
    
    list()
@@ -14,8 +14,14 @@ document.addEventListener("DOMContentLoaded",()=>{
 const showLibros=()=>{
   window.location.href = "../libro/index";
 }
+const showReservas=()=>{
+  window.location.href = "../reserva/index";
+}
 const showEjemplares=()=>{
   window.location.href = "../ejemplar/index";
+}
+const showHistorial=()=>{
+  window.location.href = "../usuario/showHistorial";
 }
       
 const showSocios =()=>{
@@ -24,6 +30,28 @@ const showSocios =()=>{
 const showPrestamos =()=>{
   window.location.href = "../prestamo/index";
 }
+const misPrestamos =()=>{
+  window.location.href = "misPrestamos";
+}
+const misReservas =()=>{
+  window.location.href = "misReservas";
+}
+
+        
+function validar(input){
+   
+
+  if(input.reportValidity()){
+
+   input.style.border=" 2px solid green";
+  }
+  else{
+   input.style.border=" 2px solid red";
+  }
+
+ }  
+
+
  const showSave = ()=>{
    
             //window.location.href = "view/cliente/cliente_alta.php";
@@ -129,7 +157,7 @@ const sendNewUser = ()=>{
                   setTimeout(()=>{
                     window.location.href="index";
             
-                   },1000);
+                   },4000);
                  
               
             })
@@ -205,10 +233,13 @@ const sendNewUser = ()=>{
                             wrop.remove();
                            },3000);
             
+                           setTimeout(()=>{
+                            window.location.href="index";
+                    
+                           },4000);
                            
                            
-                           
-                          //window.location.reload();
+                        
                         
                        }}
                        )
@@ -317,7 +348,10 @@ let form= document.getElementById("formAct")
                 setTimeout(()=>{
                  wrop1.remove();
                 },1000);
-             
+                setTimeout(()=>{
+                  window.location.href="index";
+          
+                 },4000);
              // window.location.reload();
               
                 /*let user= document.getElementById(id);

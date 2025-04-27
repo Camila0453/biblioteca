@@ -28,7 +28,7 @@ final class UsuarioDAO extends DAO implements InterfaceDAO{
 
     }
         $result = $stm->fetch();
-       $usuario= new Usuario($result->clave,$result->nombre,$result->tipoUsuario);
+       $usuario= new Usuario($result->clave,$result->nombre,$result->tipoUsuario,$result->dni);
        $usuario->setId($result->id);
        $usuario->setEstado($result->estado);       
    
@@ -165,7 +165,7 @@ public function loadCuenta($id){
     public static function login($conn, $cuenta, $clave): void{
         //agarro hora entrada hora de salida en el select
        
-        $sql="SELECT id, nombre, clave,estado,reseteoClave,nombreCompleto FROM usuarios WHERE nombre= :nombre";
+        $sql="SELECT id, nombre, clave,estado,reseteoClave,nombreCompleto,tipoUsuario FROM usuarios WHERE nombre= :nombre";
         
         $stm = $conn->prepare($sql); //le pasamos conn xw es un metodo estatico
         
@@ -193,7 +193,7 @@ public function loadCuenta($id){
 $_SESSION["nombre"]=$result->nombreCompleto;
 $_SESSION["idUsuario"]=$result->id;
 $_SESSION["clave_secreta"]="lab2023";
-$_SESSION["perfil"]=1;}
+$_SESSION["perfil"]=$result->tipoUsuario;}
    
         
     public static function logout(): void{

@@ -3,7 +3,7 @@ namespace model\entities;
 use DateTime;
 
 final class Prestamo{
-private $id,$idSocio,$fechaInicio,$fechaVen,$tipo,$estado;
+private $id,$idSocio,$fechaInicio,$fechaVen,$tipo,$estado,$ejemplar;
 
 function __construct(){
     $this->id=0;
@@ -12,21 +12,29 @@ function __construct(){
     $this->fechaVen= $this->calcfechaVen(7);
     $this->tipo=0;
     $this->estado=1; //1 prestamo activo 0 prestamo devuleto 2 prestamo tardio
-    $this->ejemplares= [];
+    $this->ejemplar=0;
 
   }
-  function calcFechaVen($cantDias){
+ 
+  Private function calcFechaVen($cantDias){
    $fecha= new DateTime();
    $fecha->setTime(18,0);
    $contDias=0;
 
    while($contDias<$cantDias){
-        $fecha->modify('+1 day');
+       
         if($fecha->format('N')<6){
          $contDias++;
         }
-        
+        if($contDias<$cantDias){
+           $fecha->modify('+1 day');
+        }
+        //VER FERIADOS
    }
+  // echo "ola fecha ven es",$fecha->format("y-m-d H:i:s");
+
+
+  
   // echo "ola fecha ven es",$fecha->format("y-m-d H:i:s");
 
    return $fecha->format("y-m-d H:i:s");
@@ -49,57 +57,34 @@ $this->id=$id;
  function getTipo():int{
     return $this->tipo;
  }
- function getEjemplares():array{
-   return $this->ejemplares;
-}
+
 function getEstado():int{
    return $this->estado;
 }
-function setEjemplares(int $idEjem):bool{
-   if( (count($this->ejemplares)>=3) || $this->existeEjem($idEjem)){
-      return false;  
-   }
-  //VER QUE PASA SI ID ES 0 O MENOS
-      
-      array_push($this->ejemplares,$idEjem);
-      return true;
+function setEstado($estado){
+   $this->estado=$estado;
 }
-/*private function existeEjem($ejem):bool{
-   $i=0;
-   $encontrado=false;
-
-   while($i<count($this->ejemplares) && $encontrado==false){
-        if($ejem== $this->ejemplares[$i]){
-         $encontrado==true;
-        }
-        $i++;
-   }
-  return $encontrado;
-}*/
 
  function setIdSocio($idSocio){
-    $this->idSocio = ($idSocio) && ($idSocio > 0) ? $idSocio : 0;  
+    $this->idSocio = $idSocio;  
  }
  function setFechaInicio($fecha){
     
-        $this->fechaInicio = (
-            (is_string($fecha))
-            &&
-            (strlen(trim($fecha)) == 10)
-            ) ? trim($fecha) : "";
+        $this->fechaInicio = $fecha;
     
+ }
+ function setEjemplar($ejem){
+   $this->ejem= $ejem;
+ }
+ function getEjemplar():int {
+   return $this->ejemplar;
  }
  function setFechaVen($fecha){
     
-    $this->fechaVen = (
-        (is_string($fecha))
-        &&
-        (strlen(trim($fecha)) == 10)
-        ) ? trim($fecha) : "";
-
+ $this->fechaVen= $fecha;
 }
 function setTipo($tipo){
-    $this->tipo = (is_integer($tipo && ($tipo> 0)) ? $tipo : 0);  
+    $this->tipo = $tipo;  
  }
  function setCodigo($tipo){
    $this->tipo = (is_integer($tipo && ($tipo> 0)) ? $tipo : 0);  

@@ -19,8 +19,8 @@ final class Libro{
      function getId():int{
         return $this->id;
     }
-    function setId(int $id){
-        $this->id= ($id>=1) ? $id:0;
+    function setId( $id){
+        $this->id= $id;
     }
     function getISBN():int{
         return $this->ISBN;
@@ -60,7 +60,7 @@ final class Libro{
         $this->titulo= ((is_string($titulo))&&(strlen(trim($titulo)) <= 255)) ? trim($titulo) : "";
     }
     function setEdicion( int $edicion){
-        echo"hola edicion es",$edicion;
+    
         $this->edicion= ($edicion>=1) ? $edicion:0;
     }
     function setEditorial( int $editorial){
@@ -84,7 +84,7 @@ final class Libro{
         $json->{"estado"} = $this->getEstado();
         $json->{"disciplina"} = $this->getIdDis();
         $json->{"autor"} = $this->getIdAutor();
-        
+        $json->{"id"} = $this->getId();
         return $json;        
     }
     

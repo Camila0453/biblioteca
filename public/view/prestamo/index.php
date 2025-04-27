@@ -7,7 +7,10 @@
    ?>
    <link  rel="stylesheet"href="/biblioteca/public/view/socio/css/style.css"> 
    <script defer type="text/javascript" src="../view/prestamo/js/prestamo.js"></script> 
+   <link href="../view/css/general.css" rel="stylesheet" />
+
 </head>
+<body>
 <header>
 <?php
     require_once ("../public/view/includes/header.php");
@@ -15,33 +18,33 @@
     use model\dao\Conexion;
     $conexion = Conexion::establecer();
      ?>
-    </header>
-<body>
-    <br>
-    
-    <center> <h2>Gestión de  Prestamos</h2> 
-    <br>
+ </header>
+    <center> <h1>Gestión de  Prestamos</h1> 
+    <?php  if($_SESSION["perfil"] == 1){ echo '<a href="../usuario/indexAdmin">Volver atrás </a>';}?>
+       <?php  if($_SESSION["perfil"] == 2){ echo '<a href="../usuario/indexOp">Volver atrás </a>';}?>
+       <?php  if($_SESSION["perfil"] == 5){ echo '<a href="../usuario/indexSo">Volver atrás </a>';}?>
     <div id="botones" >
-
-    
-    <button type="button" class="btn btn-primary ms-3" onclick="modalAgg()">Registrar Prestamo </button>
-    <br>
-    <br>
-    <?php  //if($_SESSION["perfil"] == 1){ echo '<a href="usuario/admin">Volver atrás </a>';}?>
-    
+      <div><button type="button" class="btn btn-primary ms-3" onclick="showSave()">Registrar Prestamo </button></div>
+ 
+      <br>
+      <div><button type="button" class="btn btn-primary ms-3" onclick="presVencidos()">Prestamos vencidos</button></div>
+      <br>
+      <form class="form-label"">
+      <div class="col-sm-2">
+        <label>Buscar prestamos que vencen el día: </label>
+        <input onchange="presVencidosDIA()"class="form-control form-control-sm" type="date" id="ven" value="<?php echo date('Y-m-d'); ?>" >
+        </div>
+      </form>
+      <br><br> 
+       
     </div>
     </center>
-    <br>
-    <br>
     <div class="">
-
-    <table id= "tablaClientes" style="width: 60%; margin-left: auto; margin-right: auto;" class="table text-dark">
-                        <thead>
+    <table id= "tablaClientes" style="width: 60%; margin-left: auto; margin-right: auto;" class="table">
+                        <thead >
                         <tr>
                             <th> #</th>    
-                            <th>Socio</th>   
-                            <th>Cod. Ejemplar</th>   
-                            <th>Libro</th>    
+                            <th>Socio</th>     
                             <th>Fecha Inicio</th>        
                             <th>Fecha Fin</th>   
                             <th>Fecha Devolución</th>  
@@ -49,25 +52,25 @@
                             <th>Observaciones</th> 
                            <th>Tipo </th> 
                            <th >Estado</th> 
+                           <th >Ejemplares</th> 
                            <th >Opcion</th> 
                            <th ></th> 
                         </tr>
                     </thead>
-                     <tbody id="tablaProductos">
-                     
-                       
+                     <tbody id="tablaProductos">           
                    </tbody>
                     </table>
                     </div>
-                    <br>
-<br>
-<br>
-<br>
+              
 <div id="liveAlertPlaceholder" class="toast-container position-fixed bottom-0 end-0 p-3">
+</div>
+<div id="liveAlertPlaceholderNoHay" class="toast-container position-fixed bottom-0 end-0 p-3">
 </div>
 <div id="liveAlertPlaceholder1" class="toast-container position-fixed bottom-0 end-0 p-3">
 </div>
 <div id="liveAlertPlaceholder4" class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index:1052;">
+</div>
+<div id="liveAlertPlaceholderdev" class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index:1052;">
 </div>
 <div class="toast-container position-fixed bottom-0 end-0 p-3">
     <div id="toastElim" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
@@ -138,6 +141,25 @@ El socio tiene 3 libros prestados, no puede realizar más prestamos.
 </div>
 
 <div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="toastObsDev" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+
+       <strong class="me-auto">Bootstrap</strong>
+
+   </div>
+   <div class="toast-body">
+ <form>
+  <label> Ingrese observaciones de la devolución</label>
+  <input type=" text" required id="obsDev" name="obsDev">
+ </form>
+   <div class="mt-2 pt-2 border-top">
+     <button type="button" id="btnAceptar15" class="btn btn-primary btn-sm">Aceptar</button>
+  </div>
+ </div>
+</div>
+</div>
+
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
     <div id="toastEjemIncorrecto" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
     <div class="toast-header">
 
@@ -168,6 +190,7 @@ El socio tiene 3 libros prestados, no puede realizar más prestamos.
   </div>
  </div>
 </div>
+</div>
 
 <div class="toast-container position-fixed bottom-0 end-0 p-3">
     <div id="toastPrompt" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
@@ -193,72 +216,22 @@ El socio tiene 3 libros prestados, no puede realizar más prestamos.
 
 
 
-<div id="myModalAgg" class="modal" tabindex="-1">
-  <div class="modal-dialog " >
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Registrar Préstamo</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-      <form id="formAlta" class="form-label"  method="POST" action="" enctype="multipart/form-data">
-  <div class="form-group row">
-       <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">DNI Socio</label>
-      <div class="col-sm-4">
-      <input required  oninput="buscarSocio()"type="text" maxlength="45" minlength="8" class="form-control form-control-sm" id="datoSocio" name="datoSocio" placeholder="">
-      <small id="errSocio" class="form-text text-danger" style="display:none; font-size: 0.90rem;"></small>
-      </div>
-      <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Ejemplar 1</label>
-      <div class="col-sm-4">
-      <input required oninput="buscarEjems('datoEjems')" class="form-control form-control-sm"  maxlength="255" type="text" name="datoEjems" id="datoEjems">
-      <small id="datoEjems" class="form-text text-danger" style="display:none; font-size: 0.90rem;"></small>
-      </div>
-      <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Ejemplar 2</label>
-      <div class="col-sm-4">
-      <input  oninput="buscarEjems('datoEjems1')" class="form-control form-control-sm" maxlength="255"type="text"name="datoEjems1" id="datoEjems1">
-      <small id="datoEjems1" class="form-text text-danger" style="display:none; font-size: 0.90rem;"></small>
-      </div>
-      <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Ejemplar 3</label>
-      <div class="col-sm-4">
-      <input  oninput="buscarEjems('datoEjems2')" class="form-control form-control-sm" maxlength="255" type="text" name="datoEjems2" id="datoEjems2">
-      <small id="datoEjems2" class="form-text text-danger" style="display:none; font-size: 0.90rem;"></small>
-      </div>
-  </div>
-  <div class="form-group row">
-  <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Tipo</label>
-      <div class="col-sm-4">
-         <select required class="form-control col-sm-10" id="datoTipo" name="datoTipo">
-         <option value="">Seleccione el tipo de prestamo</option>
-                 <option value="1"> A domicilio </option>
-                 <option value="0">En sala</option>
-         </select>
-      </div>
-      
-    </div> 
-   </div>
-  </form>
-     
-      <div class="modal-footer">
-      <button id="btnGuardar"  name="btnGuardar" onclick="sendNewPres()" type="button" class="btn btn-success my-4"  >Registrar </button>
-      <button id="limp" type="button" class="btn btn-success my-4" onclick="" >Limpiar</button>
-      </div>
-      </div>
-    </div>
-  </div>
 
+  <footer class="footer py-4" style="background-color: #2a5555; color:white">
+            <div class="container">
+                <div class="row align-items-center" >
+                    <div class="col-lg-4 text-lg-start">Universidad Nacional de la Patagonia Austral</div>
+                    <div class="col-lg-4 my-3 my-lg-0 text-center">
+                        <a class="btn btn-dark btn-social mx-2" href="https://x.com/UNPA_C_Olivia" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a class="btn btn-dark btn-social mx-2" href="https://www.facebook.com/people/Unidad-Acad%C3%A9mica-Caleta-Olivia-UNPA/100064834562211/" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a class="btn btn-dark m-3" href="https://www.instagram.com/unpa_uaco/?hl=es-la"><i class="fab fa-instagram"></i></a>
+                    </div>
+                    <div class="col-lg-4 text-lg-end" >              
+                    <div >Unidad Académica Caleta Olivia</div>
+                </div>
+            </div>
+            </div>
+        </footer>
+  </body>
 
-
-
-
-
-
-
-
-</body>
-
-<footer>
-<?php
-       require_once ("../public/view/includes/footer.php");
-   ?>
-</footer>
 </html>

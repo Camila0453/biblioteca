@@ -50,7 +50,7 @@ public function list($filtros){
 
         $NEjem=$libro->getCantEjemplares();
         $estado= $libro->getEstado();
-        echo"hola estado es",$estado;
+    
       
         $sql= "UPDATE libro SET  ISBN= $ISBN,titulo = '$titulo', edicion = '$edicion',  editorial = '$editorial',autor = '$autor',disciplina = '$disciplina',cantEjemplares = '$NEjem',estado = '$estado' WHERE id= '$id'";
      
@@ -77,6 +77,52 @@ public function save($ej){
     ));
 
 
+}
+
+ public function socioCantPres($socio): int{
+    
+        $sql="SELECT COUNT(*) FROM ejemplarprestamo ep JOIN prestamos p on ep.prestamo=p.id WHERE p.socio='$socio' and p.estado=1 ";
+        $stmt = $this->conn->prepare($sql);
+        if(!$stmt->execute()){
+            throw new \Exception("No se pudo ejecutar la consulta de LISTAR");
+        }
+        return $stmt->fetchColumn();
+    
+}
+public function registrarDevolucion($id,$obs){
+   $sql= "UPDATE ejemplarprestamo SET  fechaDev= NOW(),obsDevolucion= :obs WHERE ejemplar= :id ";
+   $stmt = $this->conn->prepare($sql);
+   $stmt->execute(array(
+    "id"=> $id,
+    "obs"=>$obs));
+    return true;
+
+}
+
+public function buscarEjemXLibroISBN($titulo): bool{
+    //consultar para buscar el registro con el id=$id
+       // echo"ola soy loaddao si se encontro";
+    $sql= "SELECT ep.* ROM ejemplarprestamo ep
+            JOIN prestamo p ON ep.id_prestamo = p.id_prestamo
+            JOIN ejemplar e ON ep.id_ejemplar = e.id_ejemplar
+            JOIN libros l ON e.libro = l.isbn
+            WHERE l.titulo = :titulo AND p.estado = 1";
+    //preparar la consulta
+    $stm = $this->conn->prepare($sql);
+    $stm->execute(array(
+        "titulo"=> $titulo)
+    );
+  //  var_dump("ola resultado", $stm->rowCount() === 1);
+     return $stm->rowCount() === 1;
+}
+
+public function socioTieneEjem($socio,$ejem){
+    $sql="SELECT * from ejemplarprestamo JOIN prestamos ON ejemplarprestamo.prestamo=prestamos.id WHERE prestamos.socio= '$socio' AND ejemplarprestamo.ejemplar='$ejem' AND ejemplarprestamo.fechadev='' ";
+    $stmt = $this->conn->prepare($sql);
+    if(!$stmt->execute()){
+        throw new \Exception("No se pudo ejecutar la consulta de LISTAR");
+    }
+    return $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
 
 }
@@ -103,5 +149,30 @@ public function load($id){
   //si es distinto de uno, excepcion("no se encontró el cliente con el id $x")
   //si lo encontre le hago fetch saco los datos de la consulta
   //crear una entidad nueva, setear los campos y devolver la entidad
+}
+public function buscarEjemsPres($id){    
+    $sql = "SELECT 
+                ejemplarprestamo.*, 
+                ejemplares.codigo, 
+                ejemplares.estado, 
+                   ejemplares.observación, 
+                libro.titulo AS libro
+            FROM ejemplarprestamo
+            INNER JOIN ejemplares ON ejemplarprestamo.ejemplar = ejemplares.codigo
+            INNER JOIN libro ON ejemplares.libro = libro.id
+            WHERE ejemplarprestamo.prestamo = :idPrestamo";
+          $stmt = $this->conn->prepare($sql);
+          $stmt->execute(array(
+            "idPrestamo"=> $id));
+          return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+}
+
+public function renovar($pres){
+    $sql= "UPDATE ejemplarprestamo SET cantRenovaciones= 1 WHERE prestamo= :pres";
+    $stmt = $this->conn->prepare($sql);
+   $stmt->execute(array(
+    "pres"=> $pres));
+    return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
 }
 }

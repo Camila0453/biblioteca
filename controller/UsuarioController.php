@@ -4,9 +4,20 @@ namespace controller;
 
 require_once "../model/entities/Usuario.php";
 use Exception;
+use model\dao\SocioDAO;
+use model\dao\ReservaDAO;
+use model\dao\EjemplarDAO;
+use model\entities\Prestamo;
 use model\entities\Usuario;
 require_once "../model/dao/UsuarioDAO.php";
+require_once "../model/dao/EjemplarDAO.php";
+require_once "../model/dao/ReservaDAO.php";
+require_once "../model/dao/PrestamoDAO.php";
 use model\dao\UsuarioDAO;
+
+require_once "../model/dao/SocioDAO.php";
+
+use model\dao\PrestamoDAO;
 require_once "../model/dao/Conexion.php";
 use model\dao\Conexion;
 
@@ -20,6 +31,124 @@ final class UsuarioController{
      public function showPerfil($controller, $action, $data){
       require_once("../public/view/usuario/perfil.php");
      }
+     public function indexSocio($controller, $action, $data){
+      require_once("../public/view/usuario/indexSocio.php");
+     }
+
+     public function misPrestamos($controller, $action, $data){
+      require_once("../public/view/prestamo/prestamosSocio.php");
+     }
+     public function misReservas($controller, $action, $data){
+      require_once("../public/view/reserva/reservasSocio.php");
+     }
+
+public function pres($controller,$action,$data){
+  
+  $response = json_decode('{"result":[],"controller":"", "action":"","error":""}');
+  $response->{"controller"} = $controller;
+  $response->{"action"} = $action;
+$id= $_SESSION['idUsuario'];
+
+
+  try{
+
+      $conexion = Conexion::establecer();
+      $dao = new PrestamoDAO($conexion);
+      $daoUser= new UsuarioDAO($conexion);
+      $daoSocio= new SocioDAO($conexion);
+
+
+      $correo= $daoUser->load($id)->getNombre();
+  
+      $dni= $daoSocio->loadxMail($correo)->getDni();
+
+//var_dump($dni);
+      //Por ahora, si hubieran filtros, vendrían en $data
+      $response->{"result"} = $dao->prestamosSocio($dni);
+  }
+  catch(\PDOException $ex){
+      $response->{"error"} = "Error en base de datosssss: " . $ex->getMessage();
+  }
+  catch(\Exception $ex){
+      $response->{"error"} = $ex->getMessage();
+  }
+
+  echo json_encode($response);
+
+
+}
+public function res($controller,$action,$data){
+  
+  $response = json_decode('{"result":[],"controller":"", "action":"","error":""}');
+  $response->{"controller"} = $controller;
+  $response->{"action"} = $action;
+$id= $_SESSION['idUsuario'];
+
+
+  try{
+
+      $conexion = Conexion::establecer();
+      $dao = new ReservaDAO($conexion);
+      $daoUser= new UsuarioDAO($conexion);
+      $daoSocio= new SocioDAO($conexion);
+
+
+      $correo= $daoUser->load($id)->getNombre();
+  
+      $dni= $daoSocio->loadxMail($correo)->getDni();
+
+//var_dump($dni);reservasSocio
+      //Por ahora, si hubieran filtros, vendrían en $data
+      $response->{"result"} = $dao->reservasSocio($dni);
+  }
+  catch(\PDOException $ex){
+      $response->{"error"} = "Error en base de datosssss: " . $ex->getMessage();
+  }
+  catch(\Exception $ex){
+      $response->{"error"} = $ex->getMessage();
+  }
+
+  echo json_encode($response);
+
+
+}
+
+
+
+  public function  ejemplaresPrestamoSocio($controller,$action,$data){
+        require_once"../public/view/prestamo/ejemplaresPrestamoSocio.php";
+     }
+    
+     public function  ejemplaresReservaSocio($controller,$action,$data){
+      require_once"../public/view/reserva/ejemplaresReservaSocio.php";
+   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     public function showHistorial($controller, $action, $data){
+      require_once("../public/view/usuario/historial.php");
+     }
+
+     public function prohibido($controller, $action, $data){
+      require_once("../public/view/usuario/prohibido.php");
+     }
     
     public function index($controller, $action, $data){
       $headTitle="Sistema";
@@ -27,6 +156,12 @@ final class UsuarioController{
     public function indexAdmin($controller, $action, $data){
         //  $headTitle="Sistema";
           require_once("../public/view/usuario/indexAdmin.php");
+         
+  
+      }
+      public function indexOp($controller, $action, $data){
+        //  $headTitle="Sistema";
+          require_once("../public/view/usuario/indexOp.php");
          
   
       }
@@ -84,6 +219,8 @@ final class UsuarioController{
           }
         //  echo json_encode($response); 
       }
+    
+    
     public function autentication($controller,$action,$data){
 
         //require_once("../public/view/usuario/login.php");
@@ -133,6 +270,75 @@ final class UsuarioController{
     echo json_encode($response);
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+public function listBajas($controller, $action, $data){
+  $response = json_decode('{"result":[],"controller":"", "action":"","error":""}');
+  $response->{"controller"} = $controller;
+  $response->{"action"} = $action;
+
+  try{
+      $conexion = Conexion::establecer();
+      $dao = new UsuarioDAO($conexion);
+      //Por ahora, si hubieran filtros, vendrían en $data
+      $response->{"result"} = $dao->list($data);
+  }
+  catch(\PDOException $ex){
+      $response->{"error"} = "Error en base de datosssss: " . $ex->getMessage();
+  }
+  catch(\Exception $ex){
+      $response->{"error"} = $ex->getMessage();
+  }
+
+  echo json_encode($response);
+}
+
 public function delete($controller, $action, $data){
 
   $response = json_decode('{"result":[],"controller":"", "action":"","error":""}');
@@ -177,7 +383,7 @@ public function logout($controller, $action, $data){
     session_destroy();
     require_once("../public/view/usuario/logout.php");
     
-    header("refresh:6; login");
+    header("refresh:6; URL=http://localhost/biblioteca/public/ ");
 }
 public function save($controller, $action, $data){
   $response = json_decode('{"result":{},"controller":"", "action":"","error":""}');
@@ -185,8 +391,10 @@ public function save($controller, $action, $data){
   $response->{"action"} = $action;
 
   $data = json_decode(file_get_contents("php://input"));
+
+  $hashdni= password_hash($data->datoDni,PASSWORD_BCRYPT);
  
-  $user = new Usuario($data->datoDni,$data->datoCorreo,$data->datoTipoUsuario);
+  $user = new Usuario($hashdni,$data->datoCorreo,$data->datoTipoUsuario,$data->datoDni);
  
   $response->{"result"} = $user->toJson();
   try{

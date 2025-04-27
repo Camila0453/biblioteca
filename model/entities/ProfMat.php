@@ -11,8 +11,8 @@ final class ProfMat{
      * Constructor de la clase
      */
     function __construct($idSocio,$idMateria){
-      $this->idSocio= (is_numeric($idSocio) && (int)$idSocio > 0) ? (int)$idSocio :0 ;
-      $this->idMateria= is_integer($idMateria)? $idMateria : 0;
+      $this->idSocio= $idSocio;
+      $this->idMateria= $idMateria;
 
     }
 

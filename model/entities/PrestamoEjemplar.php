@@ -12,7 +12,7 @@ function __construct(){
     $this->fechaDev= "";
     $this->cantRenovaciones=0;
     $this->obsDevolucion=0;
-    $this->ejemplares= [];
+  //  $this->ejemplares= [];
 
   }
   function setfechaDev($fecha){

@@ -39,6 +39,7 @@ final class SocioDAO extends DAO implements InterfaceDAO{
     $socio->setCorreo($result->correo);
     $socio->setFechaAlta($result->fechaAlta);
     $socio->setEstado($result->estado);
+    //var_dump($result->estado);
     $socio->setIdUsuario($result->usuario);
     $socio->setTipoSocio($result->tipoSocio);
     $socio->setFrenteDni($result->frenteDni);
@@ -48,6 +49,53 @@ final class SocioDAO extends DAO implements InterfaceDAO{
     //si es distinto de uno, excepcion("no se encontró el cliente con el id $x")
     //si lo encontre le hago fetch saco los datos de la consulta
     //crear una entidad nueva, setear los campos y devolver la entidad
+}
+public function loadxMail($id): Socio{
+    //consultar para buscar el registro con el id=$id
+       // echo"ola soy loaddao si se encontro";
+$correo= strval($id) ;
+$correo= trim($correo);
+    $sql= "SELECT * FROM socios  WHERE correo= :mail";
+    //preparar la consulta
+    $stm = $this->conn->prepare($sql);
+    $stm->execute(array(
+        "mail"=> $correo)
+    );
+    //cuando haga el select preguntar cuantos registros devolvió la consulta
+
+
+    $result = $stm->fetch();
+    $socio= new Socio();
+    //hacer todos los setters 
+    $socio->setApellido($result->apellido);
+    $socio->setNombres($result->nombre);
+    $socio->setDni($result->dni);// tiene que coincidir
+    $socio->setDomicilio($result->domicilio);
+    $socio->setLocalidad($result->localidad);
+    $socio->setProvincia($result->provincia);
+    $socio->setTelefono($result->telefono);
+    $socio->setCorreo($result->correo);
+    $socio->setFechaAlta($result->fechaAlta);
+    $socio->setEstado($result->estado);
+    //var_dump($result->estado);
+    $socio->setIdUsuario($result->usuario);
+    $socio->setTipoSocio($result->tipoSocio);
+    $socio->setFrenteDni($result->frenteDni);
+    $socio->setDorsoDni($result->dorsoDni);
+
+     return $socio;
+    //si es distinto de uno, excepcion("no se encontró el cliente con el id $x")
+    //si lo encontre le hago fetch saco los datos de la consulta
+    //crear una entidad nueva, setear los campos y devolver la entidad
+}
+public function sancionar($socio){
+
+    $sql= "UPDATE socios SET estado= 3 WHERE dni= $socio";
+    $stmt = $this->conn->prepare($sql);
+    if(!$stmt->execute()){
+        throw new \Exception("No se pudo sancionar");
+    }
+    return $stmt->fetchAll(\PDO::FETCH_ASSOC);
 }
 public function loadx($id){
    
@@ -75,11 +123,12 @@ public function loadd($id): bool{
 }
     public function save($socio):void{
    
-        $this->validate($socio);
+       /* $this->validate($socio);
         $this->validateDNI($socio);
         $this->validateCorreo($socio);
         $this->validateTelefono($socio);
-        $this->validateDorsoFrente($socio);
+        $this->validateDorsoFrente($socio);*/
+       
         $sql = "INSERT INTO socios VALUES( :dni,:nomb, :apell,  :dom,:loc, :prov,  :tel, :correo,:frenteDni,:dorsoDni, NOW(),:estado,:tipoSocio,:idUsuario)";
         $stm = $this->conn->prepare($sql);
         $stm->execute(array(
@@ -99,6 +148,28 @@ public function loadd($id): bool{
         ));
      
     }
+
+    public function buscarDni($dni){
+        $sql= "SELECT * FROM socios where dni= :dni";
+        $stm = $this->conn->prepare($sql);
+        $stm->execute(array(
+            "dni"=>$dni));
+
+            return $stm->fetchAll(\PDO::FETCH_ASSOC);
+
+    }
+    
+    public function buscarNom($nom){
+      
+        $sql= "SELECT * FROM socios where nombre= :nombre or apellido= :nombre";
+        $stm = $this->conn->prepare($sql);
+        $stm->execute(array(
+            "nombre"=>$nom));
+
+            return $stm->fetchAll(\PDO::FETCH_ASSOC);
+
+    }
+
     public function reactivar($id){
         $sql= "UPDATE socios SET estado=1 WHERE dni='$id'";
         $stmt = $this->conn->prepare($sql);
@@ -232,7 +303,7 @@ public function loadd($id): bool{
        $prov= $socio->getProvincia();
        $tel=$socio->getTelefono();
        $correo=$socio->getCorreo();
-       $id=$socio->getId();
+     
        //$fechaAlta=$socio->getFechaAlta();
        $estado=$socio->getEstado();
        $frenteDni=$socio->getFrenteDni();
@@ -241,22 +312,98 @@ public function loadd($id): bool{
        $idUsuario=$socio->getIdUsuario();
 
 
-        $sql= "UPDATE `clientes` SET `frenteDni`='$frenteDni',`dorsoDni`='$dorsoDni',`tipoSocio`='$tipoSocio',`usuario`='$idUsuario,`apellido` = '$ap', `nombres` = '$nom',  `dni` = '$dni',`domicilio` = '$dom',`localidad` = '$localidad',`provincia` = '$prov',`telefono` = '$tel',`correo` = '$correo',`estado`='$estado' WHERE `clientes`.`id` = '$id'";
+        $sql= "UPDATE `socios` SET `frenteDni`='$frenteDni',`dorsoDni`='$dorsoDni',`tipoSocio`='$tipoSocio',`usuario`='$idUsuario',`apellido` = '$ap', `nombre` = '$nom',  `dni` = '$dni',`domicilio` = '$dom',`localidad` = '$localidad',`provincia` = '$prov',`telefono` = '$tel',`correo` = '$correo',`estado`='$estado' WHERE `socios`.`dni` = '$dni'";
         $stmt = $this->conn->prepare($sql);
         if(!$stmt->execute()){
             throw new \Exception("No se pudo eliminar");
         }
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
+
+
+
+
+
     }
+
+
+
+
+function socioTienePres($socio){
+ $sql="SELECT * FROM PRESTAMOS WHERE socio= :socio";
+ $stmt = $this->conn->prepare($sql);
+ $stmt->execute(array(
+    "socio" => $socio));
+
+    return $stmt->rowCount() >0 ;   
+}
     public function list($filtros){
       
-        $sql = "SELECT socios.nombre as nombreSocio, socios.apellido,socios.dni,socios.telefono,socios.correo,socios.domicilio,socios.localidad,socios.provincia,socios.usuario,socios.estado ,socios.dorsoDni,socios.frenteDni, DATE_FORMAT(fechaAlta,'%d-%m-%Y') as fechaAlta, tipossocio.nombre as tsn FROM socios INNER JOIN tipossocio ON socios.tipoSocio=tipossocio.id ORDER BY socios.apellido ASC, socios.nombre ASC";
+        $sql = "SELECT socios.nombre as nombreSocio, socios.apellido,socios.dni,socios.telefono,socios.correo,socios.domicilio,socios.localidad,socios.provincia,socios.usuario,socios.estado ,socios.dorsoDni, socios.frenteDni, DATE_FORMAT(fechaAlta,'%d-%m-%Y') as fechaAlta, tipossocio.nombre as tsn FROM socios INNER JOIN tipossocio ON socios.tipoSocio=tipossocio.id ORDER BY socios.apellido ASC, socios.nombre ASC";
         $stmt = $this->conn->prepare($sql);
         if(!$stmt->execute()){
             throw new \Exception("No se pudo ejecutar la consulta de LISTAR");
         }
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
+   
+    public function listCarsAlum($alum){
+      
+        $sql = "SELECT m.nombre AS carrera
+            FROM alumcar ac 
+            INNER JOIN carreras m ON ac.carrera = m.codigo 
+            WHERE ac.alumno = $alum";
+        $stmt = $this->conn->prepare($sql);
+        if(!$stmt->execute()){
+            throw new \Exception("No se pudo ejecutar la consulta de LISTAR");
+        }
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+    public function  listMatsProfs($alum){
+      
+        $sql = "SELECT m.nombre AS materia
+            FROM profmat ac 
+            INNER JOIN materias m ON ac.materia= m.codigo 
+            WHERE ac.profesor= $alum";
+        $stmt = $this->conn->prepare($sql);
+        if(!$stmt->execute()){
+            throw new \Exception("No se pudo ejecutar la consulta de LISTAR");
+        }
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+
+    public function listBajas($filtros){
+        $sql= "SELECT 
+        b.motivo,
+        b.fechaHora,
+        b.usuario AS usuarioBaja,
+        socios.nombre AS nombreSocio, 
+        socios.apellido, 
+        socios.dni, 
+        socios.telefono, 
+        socios.correo,
+        socios.domicilio, 
+        socios.localidad, 
+        socios.provincia,
+        socios.usuario, 
+        socios.estado,
+        socios.dorsoDni, 
+        socios.frenteDni, 
+        DATE_FORMAT(socios.fechaAlta,'%d-%m-%Y') AS fechaAlta, 
+        tipossocio.nombre AS tsn 
+    FROM bajassocios b 
+    INNER JOIN socios ON b.socioBaja = socios.dni 
+    INNER JOIN tipossocio ON socios.tipoSocio = tipossocio.id 
+
+    ORDER BY socios.apellido ASC, socios.nombre ASC;";
+        $stmt = $this->conn->prepare($sql);
+        if(!$stmt->execute()){
+            throw new \Exception("No se pudo ejecutar la consulta de LISTAR");
+        }
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+
     
-}
+} 

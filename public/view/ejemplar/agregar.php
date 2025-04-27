@@ -7,8 +7,10 @@
    ?>
    <link  rel="stylesheet"href="/biblioteca/public/view/socio/css/style.css"> 
    <script defer type="text/javascript" src="../../view/ejemplar/js/ejemplar.js"></script>  
+   <link href="../view/css/general.css" rel="stylesheet" />
       
 </head>
+<body>
 <header>
 <?php
     require_once ("../public/view/includes/header.php");
@@ -17,7 +19,7 @@
     $conexion = Conexion::establecer();
      ?>
     </header>
-<body>
+
 <?php 
     require_once "../model/dao/Conexion.php";
     $conexion = Conexion::establecer();
@@ -25,7 +27,7 @@
                $stmt= $conexion->prepare($sql);
                $stmt->execute();
                $libro= $stmt->fetch(PDO::FETCH_ASSOC); ?>
-    <br>
+    
     <center> 
 
      <h1>Alta de Ejemplares <?= $libro['titulo']?></h1>
@@ -35,10 +37,10 @@
       <div class="form-group row">
        <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Código</label>
       <div class="col-sm-4">
-      <input required type="text" maxlength="45" minlength="1" class="form-control form-control-sm" id="datoCodigo" name="datoCodigo" placeholder="">
+      <input required type="text" maxlength="45" minlength="1" class="form-control form-control-sm" id="datoCodigo" name="datoCodigo" placeholder="1234">
       </div>
-    <!-- <div class="col-sm-4">
-        <select disable class="form-control" id="datoLibro" name="datoLibro"  >
+     <div class="col-sm-4">
+        <select class="form-control" id="datoLibro" name="datoLibro"  >
             <option value="">Seleccione el libro</option>
                 <?php
                
@@ -50,7 +52,7 @@
                    <option value="<?= $lib['id']?>"><?= trim( $lib['titulo'])?>   </option>
                  <?php endforeach; ?>
           </select>
-    </div>-->
+    </div>
 
       <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Observación</label>
       <div class="col-sm-4">
@@ -75,11 +77,23 @@
   </center>
   <div id="liveAlertPlaceholder2" class="toast-container position-fixed bottom-0 end-0 p-3">
 </div>
+<br><br><br><br>
+<footer class="footer py-4" style="background-color: #2a5555; color:white;">
+            <div class="container">
+                <div class="row align-items-center" >
+                    <div class="col-lg-4 text-lg-start">Universidad Nacional de la Patagonia Austral</div>
+                    <div class="col-lg-4 my-3 my-lg-0 text-center">
+                        <a class="btn btn-dark btn-social mx-2" href="https://x.com/UNPA_C_Olivia" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a class="btn btn-dark btn-social mx-2" href="https://www.facebook.com/people/Unidad-Acad%C3%A9mica-Caleta-Olivia-UNPA/100064834562211/" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a class="btn btn-dark m-3" href="https://www.instagram.com/unpa_uaco/?hl=es-la"><i class="fab fa-instagram"></i></a>
+                    </div>
+                    
+                    <div class="col-lg-4 text-lg-end" >              
+                    <div >Unidad Académica Caleta Olivia</div>
+                </div>
+            </div>
+        </footer>
 </body>
-<footer>
-<?php
 
-       require_once "../public/view/includes/footer.php";
-   ?>
-</footer>
+
 </html>

@@ -4,14 +4,14 @@ namespace model\entities;
 
 final class Usuario{
     private $id,$nombre,$clave,$idTipoUsuario,$estado,$dni,$reseteo,$nombreC;
-    function __construct($clave,$usuario,$tipo){
+    function __construct($clave,$usuario,$tipo,$dni){
         $this->id=0;
         $this->nombre=$usuario;
         $this->nombreC="";
         $this->clave=$clave;
         $this->idTipoUsuario=$tipo;
         $this->estado=1;
-        $this->dni=$clave;
+        $this->dni=$dni;
         $this->reseteo=0;
   
       }

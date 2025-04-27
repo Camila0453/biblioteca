@@ -1,4 +1,20 @@
 
+
+
+
+function validar(input){
+   
+
+  if(input.reportValidity()){
+
+   input.style.border=" 2px solid green";
+  }
+  else{
+   input.style.border=" 2px solid red";
+  }
+
+ } 
+
 document.addEventListener("DOMContentLoaded",()=>{
    list()
    
@@ -18,11 +34,55 @@ function list(){
            .then(response => response.json())
            .then(data => {
                if(data.error !== ""){
-                   alert("ocurrió un error: " + data.error);
-                   return;
+                 
+                let ph2= document.getElementById("liveAlertPlaceholder2");
+                const appendAlert12= (message,type)=>{
+                  const wrap12= document.createElement("div")
+                  wrap12.innerHTML=[
+                   `<div class="alert alert-${type} alert-dismissible" role="alert">`,
+                 `   <div>${message}</div>`,
+                
+                   '</div>'
+                 ].join('')
+        
+                 ph2.append(wrap12)
+                return wrap12
+                  };
+                  const wrop12= appendAlert12(data.error, 'danger')
+                 
+                  setTimeout(()=>{
+                   wrop12.remove();
+                  },4000);
+                  setTimeout(()=>{
+                    window.location.href="index";
+            
+                   },4000);
+                   return
                }
                if(data.result == ''){
-                   alert("No hay clientes para mostrar")
+                let ph2= document.getElementById("liveAlertPlaceholder2");
+                const appendAlert12= (message,type)=>{
+                  const wrap12= document.createElement("div")
+                  wrap12.innerHTML=[
+                   `<div class="alert alert-${type} alert-dismissible" role="alert">`,
+                 `   <div>${message}</div>`,
+                
+                   '</div>'
+                 ].join('')
+        
+                 ph2.append(wrap12)
+                return wrap12
+                  };
+                  const wrop12= appendAlert12('No hay libros para mostrar', 'danger')
+                 
+                  setTimeout(()=>{
+                   wrop12.remove();
+                  },4000);
+                  setTimeout(()=>{
+                    window.location.href="index";
+            
+                   },4000);
+                   return
                }
                //procesar data.result en una tabla (mostrar los clientes)
                
@@ -101,8 +161,28 @@ function eliminar(id){
         
                     
                        if(data.error !== ""){
-                           alert("ocurrió un error: " + data.error);
-                           return;
+                        let ph= document.getElementById("liveAlertPlaceholder");
+                        if(ph.querySelector('.alert')){
+                            return;
+                        }
+                       const appendAlert= (message,type)=>{
+                       const wrap= document.createElement("div")
+                       wrap.innerHTML=[
+                        `<div class="alert alert-${type} alert-dismissible" role="alert">`,
+                      `   <div>${message}</div>`,
+                     
+                        '</div>'
+                      ].join('')
+        
+                      ph.append(wrap)
+                     return wrap
+                       };
+                       const wrop= appendAlert(data.error, 'danger')
+                      
+                       setTimeout(()=>{
+                        wrop.remove();
+                       },4000);
+                       window.location.href="index";
                        }
                        else{
                         
@@ -126,12 +206,12 @@ function eliminar(id){
                       
                        setTimeout(()=>{
                         wrop.remove();
-                       },3000);
+                       },4000);
         
                        
+                       window.location.href="index";
                        
-                       
-                      //window.location.reload();
+                     // window.location.reload();
                     
                    }}
                    )
@@ -169,8 +249,29 @@ function sendNewBook(){
     .then(response => response.json())
     .then(data => {
         if(data.error !== ""){
-           alert(data.error);
-            return;
+            let ph2= document.getElementById("liveAlertPlaceholder2");
+        const appendAlert12= (message,type)=>{
+          const wrap12= document.createElement("div")
+          wrap12.innerHTML=[
+           `<div class="alert alert-${type} alert-dismissible" role="alert">`,
+         `   <div>${message}</div>`,
+        
+           '</div>'
+         ].join('')
+
+         ph2.append(wrap12)
+        return wrap12
+          };
+          const wrop12= appendAlert12(data.error, 'danger')
+         
+          setTimeout(()=>{
+           wrop12.remove();
+          },4000);
+          setTimeout(()=>{
+            window.location.href="index";
+    
+           },4000);
+           return
         }
         
        
@@ -191,13 +292,13 @@ function sendNewBook(){
          
           setTimeout(()=>{
            wrop12.remove();
-          },3000);
+          },4000);
           setTimeout(()=>{
             window.location.href="index";
     
-           },1000);
+           },4000);
          
-      
+           window.location.href="index";
     })
     .catch(()=>{});
 
@@ -274,8 +375,26 @@ let form= document.getElementById("formAct")
         .then(response => response.json())
         .then(data => {
             if(data.error !== ""){
-                alert("ocurrió un error: " + data.error);
-                return;
+             
+                myModal.hide()
+                let ph= document.getElementById("liveAlertPlaceholder");
+                const appendAlert1= (message,type)=>{
+                  const wrap1= document.createElement("div")
+                  wrap1.innerHTML=[
+                   `<div class="alert alert-${type} alert-dismissible" role="alert">`,
+                 `   <div>${message}</div>`,
+                
+                   '</div>'
+                 ].join('')
+   
+                 ph.append(wrap1)
+                return wrap1
+                  };
+                  const wrop1= appendAlert1(data.error, 'danger')
+                 
+                  setTimeout(()=>{
+                   wrop1.remove();
+                  },4000);
             }
             else{
               
@@ -293,13 +412,14 @@ let form= document.getElementById("formAct")
                ph.append(wrap1)
               return wrap1
                 };
-                const wrop1= appendAlert1('El usuario se actualizó exitosamente', 'success')
+                const wrop1= appendAlert1('El libro se actualizó exitosamente', 'success')
                
                 setTimeout(()=>{
                  wrop1.remove();
-                },1000);
+                },4000);
              
              //window.location.reload();
+             window.location.href="index";
               
                 /*let user= document.getElementById(id);
                 user.querySelector("#btnMod").removeAttribute("disabled");
@@ -310,4 +430,94 @@ let form= document.getElementById("formAct")
 })
  })
 
+}
+function buscarLibro() {
+  let cont=0;
+  let formBus= document.getElementById("formBus");
+  let datoLibro= document.getElementById("datoBus")
+  let libroBus= document.getElementById("datoBus").value
+
+ 
+  // Si el ISBN está vacío, ocultamos los resultados
+  if (libroBus === '') {
+    
+    return;
+  }
+
+  // Realizamos la solicitud al backend (PHP) para buscar el libro
+  fetch("../libro/buscar", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ dato: libroBus  })
+  })
+  .then(response => response.json())
+  .then(data => {  
+   
+      // Si encontramos libros, mostramos los resultados
+   
+     
+      if(data.result==""){
+        //alert("no se encontró el socio");
+         datoBus.style.border= "solid red"
+         errSocio.style.display='block'
+         errSocio.textContent='Libro no encontrado'
+         setTimeout(()=>{
+        errSocio.style.display='none';
+  
+         },3000)
+        
+        
+         
+     }else{
+    //  toast.hide()
+    
+    datoLibro.style.border= "solid green"
+    errSocio.style.display='none';
+    let tab= document.getElementById("tablaClientes");
+    let bodyx= tab.querySelector("tbody")
+     bodyx.innerHTML="";
+
+    
+      let libros = data.result;
+      console.log("libros es "+libros)
+      libros.forEach((lib)=>{
+        let estado="Inactivo";
+       let botonEstado= 'disabled';
+    
+        if(lib.estado==1){
+          estado= "Activo";
+          botonEstado='';
+        
+        }
+
+           let html= '<tr  id= "'+lib.id+'" class="">';
+           html += '<td id="inden">' +  cont+ '</td>';
+           html += '<td id="">' +  lib.ISBN+ '</td>';
+           html += '<td id="">' + lib.titulo+ '</td>';
+           html += '<td id="">' +  lib.autor+ '</td>';
+           html += '<td id="">' + lib.edicion + '</td>';
+           html += '<td>'+ lib.editorial + '</td>';
+           html += '<td id="">' + lib.disciplina+ '</td>';
+           html += '<td id="">' + lib.cantEjemplares+ '</td>';
+           html += '<td id="">' + estado+ '</td>';
+           html += '<td id=""><button  onclick="modificar('+JSON.stringify(lib).replace(/"/g,'&quot;')+')" type="button" class="btn btn-primary"  id="btnMod">Modificar</button></td>';
+           html += '<td id=""><button '+botonEstado+' onclick="eliminar('+lib.id+')" type="button" class="btn btn-danger"  id="btnDesactivar">Desactivar</button></td>';
+           html += '<td id=""><a href="../ejemplar/ejemplar/'+ lib.id +'">Ejemplares</a></td>';
+           html += '</tr>';
+ 
+   document.getElementById("tablaProductos").insertAdjacentHTML("beforeend",html);
+cont= cont+1;
+})}
+
+
+  }
+)   
+              
+        
+  .catch();
+  /*if(comparar()== true){
+    alert("Los libros deben ser diferentes")
+  }*/
 }

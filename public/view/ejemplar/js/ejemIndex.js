@@ -1,8 +1,19 @@
 
 
+function validar(input){
+   
+
+  if(input.reportValidity()){
+
+   input.style.border=" 2px solid green";
+  }
+  else{
+   input.style.border=" 2px solid red";
+  }
+
+ } 
 document.addEventListener("DOMContentLoaded",()=>{
-  console.log("ola soy ejemindex")
-  /*  list()*/
+   list()
 
 });
 function showSave(){
@@ -14,8 +25,9 @@ function sendNewEjem(){
   if(form.reportValidity()){
     let request = {};
     request.datoCodigo= form.datoCodigo.value;
-    request.datoLibro=form.datoLibro.value;
-    console.log("dato libro ekks", form.datoLibro)
+    request.datoLibro= document.getElementById('datoLibro').value;
+    console.log("ola dato libro fes" +  request.datoLibro)
+
     request.datoObservacion=form.datoObservacion.value;
     
 
@@ -23,8 +35,27 @@ function sendNewEjem(){
     .then(response => response.json())
     .then(data => {
         if(data.error !== ""){
-           alert(data.error);
-            return;
+          myModal.hide()
+          let ph= document.getElementById("liveAlertPlaceholder");
+          const appendAlert1= (message,type)=>{
+            const wrap1= document.createElement("div")
+            wrap1.innerHTML=[
+             `<div class="alert alert-${type} alert-dismissible" role="alert">`,
+           `   <div>${message}</div>`,
+          
+             '</div>'
+           ].join('')
+
+           ph.append(wrap1)
+          return wrap1
+            };
+            const wrop1= appendAlert1(data.error, 'danger')
+           
+            setTimeout(()=>{
+             wrop1.remove();
+            },3000);
+            window.location.href="index";
+          
         }
         
        
@@ -41,7 +72,7 @@ function sendNewEjem(){
          ph2.append(wrap12)
         return wrap12
           };
-          const wrop12= appendAlert12('El libro se registró exitosamente', 'success')
+          const wrop12= appendAlert12('El ejemplar se registró exitosamente', 'success')
          
           setTimeout(()=>{
            wrop12.remove();
@@ -49,7 +80,7 @@ function sendNewEjem(){
           setTimeout(()=>{
             window.location.href="index";
     
-           },1000);
+           },4000);
          
       
     })
@@ -68,11 +99,52 @@ function list(){
            .then(response => response.json())
            .then(data => {
                if(data.error !== ""){
-                   alert("ocurrió un error: " + data.error);
-                   return;
+                myModal.hide()
+                let ph= document.getElementById("liveAlertPlaceholder");
+                const appendAlert1= (message,type)=>{
+                  const wrap1= document.createElement("div")
+                  wrap1.innerHTML=[
+                   `<div class="alert alert-${type} alert-dismissible" role="alert">`,
+                 `   <div>${message}</div>`,
+                
+                   '</div>'
+                 ].join('')
+   
+                 ph.append(wrap1)
+                return wrap1
+                  };
+                  const wrop1= appendAlert1(data.error, 'danger')
+                 
+                  setTimeout(()=>{
+                   wrop1.remove();
+                  },3000);
+               
+                  window.location.href="index";
+                
                }
                if(data.result == ''){
-                   alert("No hay ejemplares para mostrar")
+                myModal.hide()
+                               let ph= document.getElementById("liveAlertPlaceholder");
+                               const appendAlert1= (message,type)=>{
+                                 const wrap1= document.createElement("div")
+                                 wrap1.innerHTML=[
+                                  `<div class="alert alert-${type} alert-dismissible" role="alert">`,
+                                `   <div>${message}</div>`,
+                               
+                                  '</div>'
+                                ].join('')
+                  
+                                ph.append(wrap1)
+                               return wrap1
+                                 };
+                                 const wrop1= appendAlert1(data.error, 'danger')
+                                
+                                 setTimeout(()=>{
+                                  wrop1.remove();
+                                 },3000);
+                              
+                                 window.location.href="index";
+                               
                }
                //procesar data.result en una tabla (mostrar los clientes)
                
@@ -86,6 +158,20 @@ function list(){
                   botonEstado='';
                 
                 }
+
+
+                if(ej.estado==2){
+                  estado= "Prestado";
+                
+                }
+                if(ej.estado==3){
+                  estado= "Reservado";
+                
+                }
+
+
+
+
                    let html= '<tr  id= "'+ej.id+'" class="">';
                    html += '<td id="inden">' +  cont+ '</td>';
                    html += '<td id="">' +  ej.codigo+ '</td>';
@@ -128,8 +214,28 @@ function eliminar(id){
                   
                               
                                  if(data.error !== ""){
-                                     alert("ocurrió un error: " + data.error);
-                                     return;
+                                  myModal.hide()
+                                  let ph= document.getElementById("liveAlertPlaceholder");
+                                  const appendAlert1= (message,type)=>{
+                                    const wrap1= document.createElement("div")
+                                    wrap1.innerHTML=[
+                                     `<div class="alert alert-${type} alert-dismissible" role="alert">`,
+                                   `   <div>${message}</div>`,
+                                  
+                                     '</div>'
+                                   ].join('')
+                     
+                                   ph.append(wrap1)
+                                  return wrap1
+                                    };
+                                    const wrop1= appendAlert1(data.error, 'danger')
+                                   
+                                    setTimeout(()=>{
+                                     wrop1.remove();
+                                    },3000);
+                                 
+                                    window.location.href="index";
+                                  
                                  }
                                  else{
                                   
@@ -157,8 +263,7 @@ function eliminar(id){
                   
                                  
                                  
-                                 
-                                //window.location.reload();
+                                 window.location.href="index";
                               
                              }}
                              )
@@ -194,9 +299,7 @@ function eliminar(id){
                        }
                    })
                    
-                   let selectEstado= document.getElementById("datoEstado")
                   
-                    selectEstado.value=ejem.estado
                   
                    const myModal = new bootstrap.Modal(document.getElementById('myModal'))
                    myModal.show();
@@ -209,7 +312,7 @@ function eliminar(id){
                     request.datoCodigo=form.datoCodigo.value;
                     request.datoObservacion= form.datoObservacion.value;
                     request.datoLibro=form.datoLibro.value;
-                    request.datoEstado= form.datoEstado.value;
+                  
                   
                    fetch("update",
                      {
@@ -220,8 +323,28 @@ function eliminar(id){
                          .then(response => response.json())
                          .then(data => {
                              if(data.error !== ""){
-                                 alert("ocurrió un error: " + data.error);
-                                 return;
+                              myModal.hide()
+                              let ph= document.getElementById("liveAlertPlaceholder");
+                              const appendAlert1= (message,type)=>{
+                                const wrap1= document.createElement("div")
+                                wrap1.innerHTML=[
+                                 `<div class="alert alert-${type} alert-dismissible" role="alert">`,
+                               `   <div>${message}</div>`,
+                              
+                                 '</div>'
+                               ].join('')
+                 
+                               ph.append(wrap1)
+                              return wrap1
+                                };
+                                const wrop1= appendAlert1(data.error, 'danger')
+                               
+                                setTimeout(()=>{
+                                 wrop1.remove();
+                                },3000);
+                             
+                                window.location.href="index";
+                              
                              }
                              else{
                                
@@ -239,13 +362,13 @@ function eliminar(id){
                                 ph.append(wrap1)
                                return wrap1
                                  };
-                                 const wrop1= appendAlert1('El usuario se actualizó exitosamente', 'success')
+                                 const wrop1= appendAlert1('El ejemplar se actualizó exitosamente', 'success')
                                 
                                  setTimeout(()=>{
                                   wrop1.remove();
-                                 },1000);
+                                 },3000);
                               
-                              //window.location.reload();
+                                 window.location.href="index";
                                
                                  /*let user= document.getElementById(id);
                                  user.querySelector("#btnMod").removeAttribute("disabled");

@@ -7,6 +7,7 @@
    ?>
    <link  rel="stylesheet"href="/biblioteca/public/view/socio/css/style.css"> 
    <script defer type="text/javascript" src="../view/libro/js/libro.js"></script> 
+   <link href="../view/css/general.css" rel="stylesheet" />
 </head>
 <header>
 <?php
@@ -17,25 +18,25 @@
      ?>
     </header>
 <body>
-    <br>
-    
-    <center> <h2>Gestión de  Libros</h2> 
-   <!-- <p> bienvenido <?= $_SESSION["usuario"] ?></p>-->
-    <br>
-    <div id="botones" >
-
-    
-    <button type="button" class="btn btn-primary ms-3" onclick="showSave()">Agregar Libro </button>
-    <br>
-    <br>
-    <?php  //if($_SESSION["perfil"] == 1){ echo '<a href="usuario/admin">Volver atrás </a>';}?>
-    
+   
+<center> <h1>Gestión de Libros</h1> 
+     <button type="button" class="btn btn-primary ms-3" onclick="showSave()">Agregar Libro</button>
+     
+     <?php  //if($_SESSION["perfil"] == 1){ echo '<a href="usuario/admin">Volver atrás </a>';}?>
+     <br>
+    <div class="row" class="col-md-4" style="margin-bottom: 20px;margin-bottom: 20px;">
+        <br>
+    <a href="../">Volver a la página de inicio</a> 
     </div>
-    </center>
-    <br>
-    <br>
-    <div class="">
+    <div  id="buscador" class="col-md-4"style="margin-bottom: 20px;margin-bottom: 20px;">
+    <form  id="formBus" class="d-flex mt-3" role="search" >
+          <input oninput="buscarLibro()"class="form-control me-2" type="search" id="datoBus" placeholder="Buscar por ISBN, Título o Autor" aria-label="Search">
+        
+        </form>
+        <small id="errSocio" class="form-text text-danger" style="display:none; font-size: 0.90rem;">kh</small>
+    </div>
 
+    <div class="">
     <table id= "tablaClientes" style="width: 60%; margin-left: auto; margin-right: auto;" class="table text-dark">
                         <thead>
                         <tr>
@@ -59,9 +60,10 @@
                     </table>
                     </div>
                     <br>
-<br>
-<br>
-<br>
+                    <br>
+                    <center><a href="showHistorico">  Historial de bajas </a> </center>
+                    <br>
+
 <div id="liveAlertPlaceholder" class="toast-container position-fixed bottom-0 end-0 p-3">
 </div>
 <div class="toast-container position-fixed bottom-0 end-0 p-3">
@@ -117,21 +119,21 @@
   <div class="form-group row">
        <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">ISBN</label>
       <div class="col-sm-4">
-      <input required type="text" maxlength="45" minlength="8" class="form-control form-control-sm" id="datoISBN" name="datoISBN" placeholder="">
+      <input oninput="validar(this)" pattern="^\d{13}$" required type="text" maxlength="45" minlength="8" class="form-control form-control-sm" id="datoISBN" name="datoISBN" placeholder="">
       </div>
       <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Título</label>
       <div class="col-sm-4">
-      <input class="form-control form-control-sm" required maxlength="255"  type="mail" name="datoTitulo" id="datoTitulo">
+      <input oninput="validar(this)" class="form-control form-control-sm" required maxlength="255"  type="mail" name="datoTitulo" id="datoTitulo">
       </div>
       <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">N° Ejemplares</label>
       <div class="col-sm-4">
-      <input class="form-control form-control-sm" required maxlength="1" minlength="255" type="mail" name="datoNEjem" id="datoNEjem">
+      <input oninput="validar(this)" class="form-control form-control-sm" required maxlength="1" minlength="255" type="mail" name="datoNEjem" id="datoNEjem">
       </div>
   </div>
   <div class="form-group row">
   <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Edición</label>
       <div class="col-sm-4">
-      <input class="form-control form-control-sm" required maxlength="255" minlength="1" type="text" name="datoEdicion" id="datoEdicion">
+      <input oninput="validar(this)" pattern="^[1-9]\d*$" class="form-control form-control-sm" required maxlength="255" minlength="1" type="text" name="datoEdicion" id="datoEdicion">
       </div>
       <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Autor</label>
      <div class="col-sm-4">
@@ -199,20 +201,21 @@
   </div>
 </div>
 
-
-
-
-
-
-
-
-
-
 </body>
 
-<footer>
-<?php
-       require_once ("../public/view/includes/footer.php");
-   ?>
-</footer>
+<footer class="footer py-4" style="background-color: #2a5555; color:white;">
+            <div class="container">
+                <div class="row align-items-center" >
+                    <div class="col-lg-4 text-lg-start">Universidad Nacional de la Patagonia Austral</div>
+                    <div class="col-lg-4 my-3 my-lg-0 text-center">
+                        <a class="btn btn-dark btn-social mx-2" href="https://x.com/UNPA_C_Olivia" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a class="btn btn-dark btn-social mx-2" href="https://www.facebook.com/people/Unidad-Acad%C3%A9mica-Caleta-Olivia-UNPA/100064834562211/" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a class="btn btn-dark m-3" href="https://www.instagram.com/unpa_uaco/?hl=es-la"><i class="fab fa-instagram"></i></a>
+                    </div>
+                    
+                    <div class="col-lg-4 text-lg-end" >              
+                    <div >Unidad Académica Caleta Olivia</div>
+                </div>
+            </div>
+        </footer>
 </html>
