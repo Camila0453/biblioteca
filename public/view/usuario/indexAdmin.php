@@ -30,12 +30,17 @@
                  $resultado1= $stmt->fetch(PDO::FETCH_ASSOC);
                  $socios= $resultado1['totalS'];
 
-                 $sql= "SELECT COUNT(*) as totalP FROM socios WHERE estado= 1";
+                 $sql= "SELECT COUNT(*) as totalP FROM prestamos WHERE estado= 1";
                  $stmt= $conexion->prepare($sql);
                  $stmt->execute();
                  $resultado2= $stmt->fetch(PDO::FETCH_ASSOC);
                  $prestamos= $resultado2['totalP'];
-            
+
+                 $sql= "SELECT COUNT(*) as totalR FROM reservas WHERE estado= 1";
+                 $stmt= $conexion->prepare($sql);
+                 $stmt->execute();
+                 $resultado3= $stmt->fetch(PDO::FETCH_ASSOC);
+                 $reservas= $resultado3['totalR'];
      ?>
     </header>
 <body>
@@ -87,7 +92,7 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1"> Reservas Pendientes</div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $prestamos?> </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $reservas?> </div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-calendar fa-2x text-gray-300"></i>

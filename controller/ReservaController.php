@@ -743,7 +743,7 @@ public function retirar($controller,$action,$data){
             $PresEjem->setIdPrestamo($prestamo->getId());
             //var_dump($prestamo->getId());
             $PrestamoEjemplarDao->save($PresEjem);
-            $EjemplarDao->dejarloComoReservado($ejem);
+            $EjemplarDao->dejarloDisponible($ejem);
 
         
         }}

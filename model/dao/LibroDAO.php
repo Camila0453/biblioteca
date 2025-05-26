@@ -80,7 +80,6 @@ $sql= "SELECT  libro.id, libro.ISBN,libro.titulo, libro.estado,libro.edicion, li
 }
 public function buscarIsbnAntiguo($isbn){
 
-
     $sql= "SELECT  libro.id, libro.ISBN,libro.titulo, libro.estado,libro.edicion, libro.cantEjemplares, autores.nombre as autor, editoriales.nombre as editorial, disciplinas.nombre as disciplina 
         from libro 
         INNER JOIN autores on autores.id=libro.autor
@@ -126,11 +125,16 @@ public function buscarTituloAntiguo($titulo){
     $stm = $this->conn->prepare($sql);
     $stm->execute(array(
       "titulo"=> $titulo));
+      if($stm->rowCount() < 1){
+      throw new \Exception("No se encontro el libro con el título ingresado.");
+
+  }
   $result = $stm->fetch();
      $libro= new Libro();
      $libro->setId($result->id);
      $libro->setEstado($result->estado);       
  
+    
      return $libro;
 
   

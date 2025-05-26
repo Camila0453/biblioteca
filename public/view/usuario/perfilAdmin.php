@@ -16,20 +16,96 @@
     require_once "../model/dao/Conexion.php";
     use model\dao\Conexion;
     $conexion = Conexion::establecer();
+$id=  $_SESSION["idUsuario"];              
+                $sql= "SELECT  * from usuarios where id= :idUsuario  ";
+                $stmt= $conexion->prepare($sql);
+                $stmt->bindParam(':idUsuario',$id,PDO::PARAM_INT);
+                $stmt->execute();
+                $resultado= $stmt->fetch(PDO::FETCH_ASSOC);
+
+$tipoU=$resultado['tipoUsuario'];
+if($resultado['tipoUsuario'] ==1){
+  $tipoU='Administrador';
+}
+
+if($resultado['tipoUsuario'] ==2){
+  $tipoU='Operador';
+}
+if($resultado['tipoUsuario'] ==5){
+  $tipoU='Socio';
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
      ?>
     </header>
 <body>
-<br><br><br>
-  <div class="row">
-    <div class="col-sm-4">
+<center><h1>Mi Perfil</h1></center>
+  <div class="container mt-5">
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-7">
+            <div class="card p-3 py-4">
+                <div class="text-center">
+                    <img src="https://definicion.de/wp-content/uploads/2019/07/perfil-de-usuario.png" width="100" class="rounded-circle">
+                </div>
+                
+                <div class="text-center mt-3">
+               
+                  
+                    <h5 class="mt-2 mb-0"><i><?= $resultado['nombreCompleto']?> </i></h5>
+                    <br>
+                    
+                    <span class="bg-secondary p-1 px-4 rounded text-white"><?= $tipoU ?></span>
+                    <br>
+                    <br>
+                    <span><strong>Nombre Completo: </strong> <?= $resultado['nombre']  ?></span>
+                    <br>
+                    <span><strong>DNI:  </strong><?= $resultado['dni']  ?></span>
+        
+               
+                    
+                    
+                </div>
+                
+               
+                
+                
+            </div>
+            
+        </div>
+        
+    </div>
     
-    </div>
-    <div class="col-sm-8">
-  <h1><?= $_SESSION["nombre"] ?></h1>
-    </div>
-  </div>
 </div>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+<br><br><br> <br>
 <footer class="footer py-4" style="background-color: #2a5555; color:white">
             <div class="container">
                 <div class="row align-items-center" >

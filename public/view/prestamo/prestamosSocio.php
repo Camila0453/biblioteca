@@ -210,6 +210,7 @@ El socio tiene 3 libros prestados, no puede realizar más prestamos.
  </div>
 </div>
 </div>
+<br><br><br><br><br><br> <br> <br> <br> 
   <footer class="footer py-4" style="background-color: #2a5555; color:white">
             <div class="container">
                 <div class="row align-items-center" >

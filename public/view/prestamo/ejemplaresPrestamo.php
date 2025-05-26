@@ -7,9 +7,9 @@
    ?>
    <link  rel="stylesheet"href="/biblioteca/public/view/socio/css/style.css"> 
    <script defer type="text/javascript" src="../../view/prestamo/js/prestamoEjem.js"></script> 
-   <link href="../view/css/general.css" rel="stylesheet" />
+   <link href="../../view/css/general.css" rel="stylesheet" />
 </head>
-<body>
+<div>
 <header>
 <?php
     require_once ("../public/view/includes/header.php");
@@ -30,19 +30,18 @@
 
 
 
-<br> <br> <br> <br>
+
     <center> <h1>Ejemplares prestámo #<?= $pres['id']?> </h1> 
    <!-- <p> bienvenido <?= $_SESSION["usuario"] ?></p>-->
     <br>
    <a href="../index">Volver a la página de inicio</a>
-    <br>
+    
     <form class="form-label" id="formEjems" method="POST" action="">
     <input    value="<?= $data=trim($data,"*")?>" type="hidden" name="x" id="x">
     </form>
     
     <button type="button" class="btn btn-primary ms-3" onclick="showSave()">Agregar Libro </button>
-    <br>
-    <br>
+  
     <?php  //if($_SESSION["perfil"] == 1){ echo '<a href="usuario/admin">Volver atrás </a>';}?>
     
     </div>
@@ -56,8 +55,7 @@
                         <tr>
                             <th> #</th>    
                             <th>Código </th>   
-                            <th>Obersvaciones</th>        
-                            <th>Estado</th>     
+                            <th>Obersvaciones</th>          
                             <th>Libro</th>          
                         
                         </tr>
@@ -169,9 +167,8 @@
     </div>
   </div>
 </div>
-
-</body>
-
+                 </div>
+                 <br><br><br><br>
 <footer class="footer py-4" style="background-color: #2a5555; color:white;">
             <div class="container">
                 <div class="row align-items-center" >
@@ -187,4 +184,7 @@
                 </div>
             </div>
         </footer>
+</body>
+
+
 </html>

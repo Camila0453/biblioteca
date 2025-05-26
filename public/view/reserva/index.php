@@ -22,16 +22,20 @@
    
     <center> <h1>Gestión de Reservas</h1> 
     <div id="botones" >
-
+   
     
-    <button type="button" class="btn btn-primary ms-3" onclick="resAct()">Reservas activas de hoy</button>
+    <button type="button" class="btn btn-primary ms-3" onclick="resAct()">Reservas activas de hoy</button><br>
+    
+    <a href="../../public/view/reserva/reservaGenPDF.php">Generar Pdf</a>
     <br>
     <br>
     <button type="button" class="btn btn-primary ms-3" onclick="showSave()">Registrar Reserva </button>
     <br>
     <?php  //if($_SESSION["perfil"] == 1){ echo '<a href="usuario/admin">Volver atrás </a>';}?>
     <br>
-    <a href="../usuario/indexAdmin">Volver a la página de inicio</a>
+    <?php  if($_SESSION["perfil"] == 1){ echo '<a href="../usuario/indexAdmin">Volver atrás </a>';}?>
+       <?php  if($_SESSION["perfil"] == 2){ echo '<a href="../usuario/indexOp">Volver atrás </a>';}?>
+       <?php  if($_SESSION["perfil"] == 5){ echo '<a href="../usuario/indexSo">Volver atrás </a>';}?>
     </div>
     </center>
    
@@ -81,7 +85,7 @@
     <div id="toastElim" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
     <div class="toast-header">
 
-       <strong class="me-auto">Bootstrap</strong>
+       <strong class="me-auto">BiblioUni</strong>
        <small>11 mins ago</small>
        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
    </div>
@@ -99,7 +103,7 @@
     <div id="toastSancion" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
     <div class="toast-header">
 
-       <strong class="me-auto">Bootstrap</strong>
+       <strong class="me-auto">BiblioUni</strong>
 
    </div>
    <div class="toast-body">
@@ -115,7 +119,7 @@ El socio se encuentra sancionado no puede realizar prestamos hasta nuevo aviso.
     <div id="toastSocioNotFound" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
     <div class="toast-header">
 
-       <strong class="me-auto">Bootstrap</strong>
+       <strong class="me-auto">BiblioUni</strong>
 
    </div>
    <div class="toast-body">
@@ -133,7 +137,7 @@ El socio se encuentra sancionado no puede realizar prestamos hasta nuevo aviso.
     <div id="toastTiene3" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
     <div class="toast-header">
 
-       <strong class="me-auto">Bootstrap</strong>
+       <strong class="me-auto">BiblioUni</strong>
 
    </div>
    <div class="toast-body">
@@ -149,7 +153,7 @@ El socio tiene 3 libros prestados, no puede realizar más prestamos.
     <div id="toastObsDev" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
     <div class="toast-header">
 
-       <strong class="me-auto">Bootstrap</strong>
+       <strong class="me-auto">BiblioUni</strong>
 
    </div>
    <div class="toast-body">
@@ -168,7 +172,7 @@ El socio tiene 3 libros prestados, no puede realizar más prestamos.
     <div id="toastEjemIncorrecto" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
     <div class="toast-header">
 
-       <strong class="me-auto">Bootstrap</strong>
+       <strong class="me-auto">BiblioUni</strong>
        <small>11 mins ago</small>
        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
    </div>
@@ -184,7 +188,7 @@ El socio tiene 3 libros prestados, no puede realizar más prestamos.
     <div id="toastRepetido" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
     <div class="toast-header">
 
-       <strong class="me-auto">Bootstrap</strong>
+       <strong class="me-auto">BiblioUni</strong>
        <small>11 mins ago</small>
        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
    </div>
@@ -200,7 +204,7 @@ El socio tiene 3 libros prestados, no puede realizar más prestamos.
     <div id="toastPrompt" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
     <div class="toast-header">
 
-       <strong class="me-auto">Bootstrap</strong>
+       <strong class="me-auto">BiblioUni</strong>
        <small>11 mins ago</small>
        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
    </div>

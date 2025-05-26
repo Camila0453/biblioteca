@@ -54,7 +54,6 @@ function list(){
                      html += '<td id="inden">' +  cont+ '</td>';
                      html += '<td id="">' +  ej.codigo+ '</td>';
                      html += '<td id="">' + ej.observación+ '</td>';
-                     html += '<td id="">' + ej.estado+ '</td>';
                      html += '<td id="">' + ej.libro+ '</td>';
                    html += '</tr>';
          

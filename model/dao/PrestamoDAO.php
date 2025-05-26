@@ -90,14 +90,14 @@ public function listVens(){
 
 
 public function listVensDia($diaven){
-    echo"ola diaven es", $diaven;
+    
     $sql = "SELECT  prestamos.id as idPres, prestamos.socio,prestamos.fechaInicio, prestamos.fechaVen,prestamos.tipo,prestamos.estado, socios.apellido as socioApellido,socios.nombre as socioNombre
     , ejemplares.codigo as codigoEjemplar, libro.titulo as libro, ejemplarprestamo.fechaDev as fechaDev,ejemplarprestamo.cantRenovaciones as cantReno, ejemplarprestamo.obsDevolucion as obsDev from prestamos
     INNER JOIN socios on socios.dni=prestamos.socio
      INNER JOIN ejemplarprestamo on ejemplarprestamo.prestamo=prestamos.id
     INNER JOIN ejemplares on ejemplares.codigo=ejemplarprestamo.ejemplar
     INNER JOIN libro on libro.id=ejemplares.libro
-    where prestamos.fechaVen= $diaven and prestamos.estado<>0";
+    where DATE(prestamos.fechaVen)= '$diaven' and (prestamos.estado=1 or prestamos.estado=4)";
    
       // $sql = "SELECT * FROM usuarios";
           $stmt = $this->conn->prepare($sql);
@@ -118,7 +118,7 @@ public function elSocioTieneyaElLibro($socio,$libro){
     INNER JOIN ejemplarprestamo ON ejemplarprestamo.prestamo=prestamos.id
     INNER JOIN ejemplares ON ejemplares.codigo= ejemplarprestamo.ejemplar
     INNER JOIN libro ON libro.id= ejemplares.libro
-    WHERE prestamos.socio= :socio AND ejemplares.libro= :libro AND prestamos.estado= 1";
+    WHERE prestamos.socio= :socio AND ejemplares.libro= :libro ";
         //preparar la consulta
         $stm = $this->conn->prepare($sql);
         $stm->execute(array(

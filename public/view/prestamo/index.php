@@ -28,11 +28,13 @@
  
       <br>
       <div><button type="button" class="btn btn-primary ms-3" onclick="presVencidos()">Prestamos vencidos</button></div>
+      <a href="../../public/view/prestamo/prestamosVen.php" >Generar PDF</a>
       <br>
       <form class="form-label"">
       <div class="col-sm-2">
         <label>Buscar prestamos que vencen el día: </label>
-        <input onchange="presVencidosDIA()"class="form-control form-control-sm" type="date" id="ven" value="<?php echo date('Y-m-d'); ?>" >
+        <input onchange="presVencidosDIA()"class="form-control form-control-sm" type="date" id="ven" value="" >
+        <a href="#" onclick="PDF()" >Generar PDF</a>
         </div>
       </form>
       <br><br> 
@@ -76,7 +78,7 @@
     <div id="toastElim" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
     <div class="toast-header">
 
-       <strong class="me-auto">Bootstrap</strong>
+       <strong class="me-auto">BiblioUni</strong>
        <small>11 mins ago</small>
        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
    </div>
@@ -94,7 +96,7 @@
     <div id="toastSancion" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
     <div class="toast-header">
 
-       <strong class="me-auto">Bootstrap</strong>
+       <strong class="me-auto">BibliUni</strong>
 
    </div>
    <div class="toast-body">
@@ -110,7 +112,7 @@ El socio se encuentra sancionado no puede realizar prestamos hasta nuevo aviso.
     <div id="toastSocioNotFound" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
     <div class="toast-header">
 
-       <strong class="me-auto">Bootstrap</strong>
+       <strong class="me-auto">BiblioUni</strong>
 
    </div>
    <div class="toast-body">
@@ -128,7 +130,7 @@ El socio se encuentra sancionado no puede realizar prestamos hasta nuevo aviso.
     <div id="toastTiene3" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
     <div class="toast-header">
 
-       <strong class="me-auto">Bootstrap</strong>
+       <strong class="me-auto">BiblioUni</strong>
 
    </div>
    <div class="toast-body">
@@ -144,7 +146,7 @@ El socio tiene 3 libros prestados, no puede realizar más prestamos.
     <div id="toastObsDev" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
     <div class="toast-header">
 
-       <strong class="me-auto">Bootstrap</strong>
+       <strong class="me-auto">BiblioUni</strong>
 
    </div>
    <div class="toast-body">
@@ -163,7 +165,7 @@ El socio tiene 3 libros prestados, no puede realizar más prestamos.
     <div id="toastEjemIncorrecto" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
     <div class="toast-header">
 
-       <strong class="me-auto">Bootstrap</strong>
+       <strong class="me-auto">BiblioUni</strong>
        <small>11 mins ago</small>
        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
    </div>
@@ -179,7 +181,7 @@ El socio tiene 3 libros prestados, no puede realizar más prestamos.
     <div id="toastRepetido" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
     <div class="toast-header">
 
-       <strong class="me-auto">Bootstrap</strong>
+       <strong class="me-auto">BiblioUni</strong>
        <small>11 mins ago</small>
        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
    </div>
@@ -196,7 +198,7 @@ El socio tiene 3 libros prestados, no puede realizar más prestamos.
     <div id="toastPrompt" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
     <div class="toast-header">
 
-       <strong class="me-auto">Bootstrap</strong>
+       <strong class="me-auto">BiblioUni</strong>
        <small>11 mins ago</small>
        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
    </div>

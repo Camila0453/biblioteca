@@ -56,9 +56,11 @@ public function buscar($controller,$action,$data){
     $response = json_decode('{"result":[],"controller":"", "action":"","error":""}');
     $response->{"controller"} = $controller;
     $response->{"action"} = $action;
+  
     $data = json_decode(file_get_contents("php://input"));
+    $isbnOTitulo= $data->{"libro"};
+  
 
-    $isbnOTitulo= $data->{'dato'};
     try{
         $conexion = Conexion::establecer();
         $dao = new EjemplarDAO($conexion);

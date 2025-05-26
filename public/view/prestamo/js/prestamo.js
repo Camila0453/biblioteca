@@ -10,8 +10,20 @@ const showSave = ()=>{
         };
  
 
-function presVencidos(){
-  console.log("ola soy presvencidos")
+
+function PDF(){
+  let fecha= document.getElementById("ven").value;
+  if(fecha){
+    window.location.href="../../public/view/prestamo/prestamosVenDia.php?fecha="+fecha;
+  }
+  else{
+    alert("Seleccione una fecha.")
+  }
+}
+
+
+        function presVencidos(){
+ 
   let cont=1;
   fetch("../prestamo/Vens", {
     method: "POST",
@@ -24,12 +36,35 @@ function presVencidos(){
   .then(data => {
    
     
-    if (data.error!='') {
-return;
+    if (data.result=='') {
+      let ph2= document.getElementById("liveAlertPlaceholder1");
+      const appendAlert12= (message,type)=>{
+        let wrap12= document.createElement("div")
+        wrap12.innerHTML=[
+         `<div class="alert alert-${type} alert-dismissible" role="alert">`,
+       `   <div>${message}</div>`,
+      
+         '</div>'
+       ].join('')
+
+       ph2.append(wrap12)
+      return wrap12
+        };
+        const wrop12= appendAlert12("No se han encontrado prestamos vencidos", 'danger')
+       
+        setTimeout(()=>{
+         wrop12.remove();
+        },3000);
+        setTimeout(()=>{
+          //window.location.href="index";
+  
+         },3000);
+       
+       return;
     }
     let tab= document.getElementById("tablaClientes");
     let bodyx= tab.querySelector("tbody")
-     bodyx.innerHTML="";
+     bodyx.innerHTML=" ";
      let prestamos = data.result;
      prestamos.forEach((pres)=>{
        let estado="Inactivo";
@@ -104,24 +139,48 @@ cont= cont+1;
 }
 
 function presVencidosDIA(){
+  let fecha= document.getElementById("ven").value;
   let cont=1;
-  fetch("../prestamo/Vens", {
+  fetch("../prestamo/vensDias", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({  })
+    body: JSON.stringify({fecha})
   })
   .then(response => response.json())
   .then(data => {
-   
+    if(data.result == ''){
+      let ph2= document.getElementById("liveAlertPlaceholder1");
+      const appendAlert12= (message,type)=>{
+        let wrap12= document.createElement("div")
+        wrap12.innerHTML=[
+         `<div class="alert alert-${type} alert-dismissible" role="alert">`,
+       `   <div>${message}</div>`,
+      
+         '</div>'
+       ].join('')
+
+       ph2.append(wrap12)
+      return wrap12
+        };
+        const wrop12= appendAlert12("No se han encontrado prestamos que vencen el día "+fecha+"", 'danger')
+       
+        setTimeout(()=>{
+         wrop12.remove();
+        },3000);
+        setTimeout(()=>{
+          //window.location.href="index";
+  
+         },3000);
+       
+       return;
+   }
     
-    if (data.error!='') {
-return;
-    }
+  
     let tab= document.getElementById("tablaClientes");
     let bodyx= tab.querySelector("tbody")
-     bodyx.innerHTML="";
+     bodyx.innerHTML=' ';
      let prestamos = data.result;
      prestamos.forEach((pres)=>{
        let estado="Inactivo";
@@ -199,29 +258,27 @@ cont= cont+1;
           let libro = document.getElementById(input).value.trim();
           let inputLibro= document.getElementById(input);
          console.log("hola libro es "+libro)
-          // Si el ISBN está vacío, ocultamos los resultados
+   
           if (libro === '') {
             document.getElementById('resultadoBusqueda').style.display = 'none';
             return;
           }
         
-          // Realizamos la solicitud al backend (PHP) para buscar el libro
+        
           fetch("../ejemplar/buscar", {
             method: "POST",
             headers: {
               "Content-Type": "application/json"
             },
-            body: JSON.stringify({ dato: libro  })
-          })
+            body: JSON.stringify({ libro: libro  })})
           .then(response => response.json())
           .then(data => {
             const listaLibros = document.getElementById('listaLibros'+num)
             listaLibros.innerHTML = ''; // Limpiamos los resultados anteriores
             
             if (data.error=='') {
-              // Si encontramos libros, mostramos los resultados
-           
-             let libros = Array.isArray(data.result) ? data.result : [data.result]; // Si no es array, lo convertimos en uno
+          
+             let libros = Array.isArray(data.result) ? data.result : [data.result]; 
              // let libros= data.result;
             
               libros.forEach(libro => {
@@ -330,7 +387,8 @@ function buscarSocio(){
           if(dni===""){
             return
           }
-          fetch("../socio/loadd",{"method":"POST", "headers":{"Content-Type":"application/json"}, "body": JSON.stringify({dni:dni})})
+          fetch("../socio/loadd",{"method":"POST", "headers":{"Content-Type":"application/json"}, "body": JSON.stringify({dni:dni})}
+        )
           .then(response => response.json())
           .then(data => {
             

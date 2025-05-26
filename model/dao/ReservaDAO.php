@@ -51,7 +51,7 @@ public function elSocioTieneyaElLibro($socio,$libro){
     INNER JOIN ejemplarreserva ON ejemplarreserva.reserva=reservas.id
     INNER JOIN ejemplares ON ejemplares.codigo= ejemplarreserva.ejemplar
     INNER JOIN libro ON libro.id= ejemplares.libro
-    WHERE reservas.socio= :socio AND ejemplares.libro= :libro AND reservas.estado= 1";
+    WHERE reservas.socio= :socio AND ejemplares.libro= :libro AND (reservas.estado= 1 or reservas.estado=4)";
         //preparar la consulta
         $stm = $this->conn->prepare($sql);
         $stm->execute(array(

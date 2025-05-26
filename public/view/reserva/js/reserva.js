@@ -23,7 +23,30 @@ function resAct(){
           return;
       }
       if(data.result == ''){
-          alert("No hay clientes para mostrar")
+        let ph2= document.getElementById("liveAlertPlaceholder1");
+        const appendAlert12= (message,type)=>{
+          let wrap12= document.createElement("div")
+          wrap12.innerHTML=[
+           `<div class="alert alert-${type} alert-dismissible" role="alert">`,
+         `   <div>${message}</div>`,
+        
+           '</div>'
+         ].join('')
+
+         ph2.append(wrap12)
+        return wrap12
+          };
+          const wrop12= appendAlert12("No hay reservas para mostrar", 'danger')
+         
+          setTimeout(()=>{
+           wrop12.remove();
+          },3000);
+          setTimeout(()=>{
+            //window.location.href="index";
+    
+           },3000);
+         
+         return;
       }
       //procesar data.result en una tabla (mostrar los clientes)
       let tab= document.getElementById("tablaClientes");
@@ -81,13 +104,35 @@ function list(){
                    fetch("list/reserva",{"method":"POST", "headers":{"Content-Type":"application/json"}, "body": JSON.stringify()})
                    .then(response => response.json())
                    .then(data => {
-                       if(data.error !== ""){
-                           alert("ocurrió un error: " + data.error);
-                           return;
-                       }
                        if(data.result == ''){
-                           alert("No hay clientes para mostrar")
-                       }
+                        let ph2= document.getElementById("liveAlertPlaceholder1");
+                       const appendAlert12= (message,type)=>{
+                         let wrap12= document.createElement("div")
+                         wrap12.innerHTML=[
+                          `<div class="alert alert-${type} alert-dismissible" role="alert">`,
+                        `   <div>${message}</div>`,
+                       
+                          '</div>'
+                        ].join('')
+               
+                        ph2.append(wrap12)
+                       return wrap12
+                         };
+                         const wrop12= appendAlert12("No hay reservas para mostrar", 'danger')
+                        
+                         setTimeout(()=>{
+                          wrop12.remove();
+                         },3000);
+                         setTimeout(()=>{
+                           //window.location.href="index";
+                   
+                          },3000);
+                        
+                        return;
+                
+                        }
+                       
+                      
                        //procesar data.result en una tabla (mostrar los clientes)
                        
                        let reservas = data.result;
@@ -125,11 +170,12 @@ function list(){
                cont= cont+1;
                        });
                    
-                   });
+                   ;
                    
                    
                
-               };
+              
+});}
                function buscarLibro(input,resul,num) {
   
                 let libro = document.getElementById(input).value.trim();
@@ -147,7 +193,7 @@ function list(){
                   headers: {
                     "Content-Type": "application/json"
                   },
-                  body: JSON.stringify({ dato: libro  })
+                  body: JSON.stringify({ libro: libro  })
                 })
                 .then(response => response.json())
                 .then(data => {

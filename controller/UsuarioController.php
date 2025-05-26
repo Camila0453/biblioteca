@@ -28,8 +28,14 @@ final class UsuarioController{
      public function login($controller, $action, $data){
       require_once("../public/view/usuario/login.php");
      }
-     public function showPerfil($controller, $action, $data){
-      require_once("../public/view/usuario/perfil.php");
+     public function showPerfilOp($controller, $action, $data){
+      require_once("../public/view/usuario/perfilOp.php");
+     }
+     public function showPerfilSo($controller, $action, $data){
+      require_once("../public/view/usuario/perfilSo.php");
+     }
+     public function showPerfilAdmin($controller, $action, $data){
+      require_once("../public/view/usuario/perfilAdmin.php");
      }
      public function indexSocio($controller, $action, $data){
       require_once("../public/view/usuario/indexSocio.php");

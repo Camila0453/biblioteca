@@ -178,6 +178,7 @@ catch(\Exception $ex){
       
 $hashedDni= password_hash($socio->getDni(),PASSWORD_BCRYPT);
         $usuario= new Usuario($hashedDni,$socio->getCorreo(),5,$socio->getDni());
+        $usuario->setNombreC($_POST["datoApellido"]." ".$_POST["datoNombre"]);
     
         try{
 

@@ -438,13 +438,12 @@ function buscarLibro() {
   let libroBus= document.getElementById("datoBus").value
 
  
-  // Si el ISBN está vacío, ocultamos los resultados
+
   if (libroBus === '') {
     
     return;
   }
 
-  // Realizamos la solicitud al backend (PHP) para buscar el libro
   fetch("../libro/buscar", {
     method: "POST",
     headers: {
@@ -455,7 +454,6 @@ function buscarLibro() {
   .then(response => response.json())
   .then(data => {  
    
-      // Si encontramos libros, mostramos los resultados
    
      
       if(data.result==""){

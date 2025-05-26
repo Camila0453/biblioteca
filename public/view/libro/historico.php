@@ -19,7 +19,7 @@
 <body>
     <br>
     <br><br><br><br>
-    <center> <h2>Histórico Socios</h2> 
+    <center> <h2>Bajas Ejemplares</h2> 
    <!-- <p> bienvenido <?= $_SESSION["usuario"] ?></p>-->
     <br>
     <div id="botones" >
@@ -97,8 +97,6 @@
  </div>
 </div>
 </div>
-
-</body>
 <footer class="footer py-4" style="background-color: #2a5555; color:white;">
             <div class="container">
                 <div class="row align-items-center" >
@@ -114,4 +112,7 @@
                 </div>
             </div>
         </footer>
+        <br><br><br><br>
+</body>
+
 </html>

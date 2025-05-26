@@ -182,7 +182,11 @@ function vensDias($controller,$action,$data){
     $response = json_decode('{"result":[],"controller":"", "action":"","error":""}');
     $response->{"controller"} = $controller;
     $response->{"action"} = $action;
-    $diaVen= $data;
+    $data = json_decode(file_get_contents("php://input"));
+    
+   
+    $diaVen= $data->fecha;
+   
 
     try{
         $conexion = Conexion::establecer();
@@ -317,7 +321,7 @@ public function save($controller, $action, $data){
             $prestamo->setFechaVen($data->{'datofechaInicio'});
         }
  
-        
+      
         $prestamo->setEstado(1);
         $prestamo->setTipo($data->{'datoTipo'});
 
@@ -398,7 +402,12 @@ public function save($controller, $action, $data){
                     throw new Exception("El socio ya tiene el libro". $ejem);
                 }
 
-
+ //EL SOCIO LO TIENE AL EJEM?
+ $tieneElLibro= $PrestamoDao->elSocioTieneyaElLibro($data->{'datoSocio'},$ejem);
+ //EL SOCIO LO TIENE AL EJEM?
+ if($tieneElLibro==true){
+    throw new Exception("El socio ya tiene el libro". $ejem);
+}
                 //ELSOCIO TIENE UN EJEM DE ESE LIBRO?
 
           
@@ -616,10 +625,14 @@ public function renovar($controller, $action, $data){
         $conexion = Conexion::establecer();
         $dao = new PrestamoDAO($conexion);
         $sociodao= new SocioDAO($conexion);
-       
+        $prestamoDao= new PrestamoDAO($conexion);
         $sociox= $sociodao->load($socio);
         $prestamo= $dao->load($pres);
-        
+    
+        $tipo= $prestamo->getTipo();
+        if($tipo!=1){
+            throw new Exception("No se puede renovar un prestamo en sala, se deberá solicitar un nuevo prestamo a domicilio");
+        }
 
         if($prestamo->getEstado()==2){
             throw new Exception("No se puede renovar, el prestamo ha sido devuelto");

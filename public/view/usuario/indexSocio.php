@@ -39,11 +39,11 @@
      ?>
     </header>
 <body>
-  
+<br> <br> <br> <br> 
     <center> <h1>Bienvenido,<i><?= $_SESSION["nombre"]?> </i> </h1> 
     <br>
     
-    <br>  <br>  <br>  <br>  <br> 
+    
     <div id="botones" >
     <button type="button" class="btn btn-primary ms-3" style= "width:150px; height: 50px;" onclick="misPrestamos()"> Mis prestamos </button>
        <button type="button" class="btn btn-primary ms-3" style= "width:150px; height: 50px;" onclick="misReservas()"> Mis reservas</button>
@@ -62,7 +62,7 @@
     </div>
     
     
-    <br> <br> <br> <br> <br> <br> <br> <br> <br><br> <br> 
+    <br> <br> <br> <br> <br> <br> <br> <br> <br><br> <br> <br> <br> 
     <footer class="footer py-4" style="background-color: #2a5555; color:white">
             <div class="container">
                 <div class="row align-items-center" >

@@ -23,7 +23,7 @@
 
     session_start();
 
-   $sociosAcc=['misPrestamos','misReservas','logout','showPerfil','indexSocio','pres','res','ejemplaresPrestamoSocio','showEjemplaresPres','showEjemplaresRes','ejemplaresPres','ejemplaresReservaSocio'];
+   $sociosAcc=['misPrestamos','misReservas','logout','showPerfilSo','indexSocio','pres','res','ejemplaresPrestamoSocio','showEjemplaresPres','showEjemplaresRes','ejemplaresPres','ejemplaresReservaSocio'];
    $opNoPuede=['delete','save','load','update','index','indexAdmin','indexSocio','pres','res','ejemplaresPrestamoSocio','showEjemplaresPres','showEjemplaresRes','ejemplaresPres','ejemplaresReservaSocio'];
     //Guardamos una copia del controller
 

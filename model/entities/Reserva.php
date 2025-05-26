@@ -4,7 +4,7 @@ namespace model\entities;
 
 
 final class Reserva{
-private $id,$idSocio,$fechaInicio,$fechaFin,$fechaRetiro,$estado;
+private $id,$idSocio,$fechaInicio,$fechaVen,$fechaRetiro,$estado;
 
 
 function __construct(){
